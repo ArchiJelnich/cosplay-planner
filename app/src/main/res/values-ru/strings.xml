@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">cosplay-planner</string>
+    <string name="str_My_Cosplays">Мой косплей</string>
+    <string name="str_text_p">В процессе</string>
+    <string name="str_text_f">Закоченные</string>
+    <string name="str_text_h">Отложенные</string>
+
+</resources>

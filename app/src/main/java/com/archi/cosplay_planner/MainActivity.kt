@@ -1,24 +1,41 @@
 package com.archi.cosplay_planner
 
+import android.app.Activity
+import android.content.Context
+import android.opengl.Visibility
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.provider.Settings.Global.getString
+import android.util.Log
+import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
+import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
+import androidx.databinding.DataBindingUtil.setContentView
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.archi.cosplay_planner.databinding.LMainScreenBinding
-import android.content.Context
-import android.util.Log
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.parcelize.Parcelize
+
 
 
 class MainActivity : ComponentActivity() {
     private lateinit var db: AppDatabase
+    private val handlers = Handler()
+
+    class Handler {
+        fun onClickFilterIcon(view: View) {
+            Log.v("MYDEBUG", "Clicked")
+            val t_p = (view.rootView as View).findViewById<View>(R.id.text_p)
+            val t_h = (view.rootView as View).findViewById<View>(R.id.text_h)
+            val t_f = (view.rootView as View).findViewById<View>(R.id.text_f)
+            t_p.visibility = if (t_p.visibility == View.VISIBLE) View.INVISIBLE else View.VISIBLE
+            t_h.visibility = if (t_h.visibility == View.VISIBLE) View.INVISIBLE else View.VISIBLE
+            t_f.visibility = if (t_f.visibility == View.VISIBLE) View.INVISIBLE else View.VISIBLE
+
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
 
@@ -34,12 +51,25 @@ class MainActivity : ComponentActivity() {
         //val binding: LMainScreenBinding = LMainScreenBinding.bind(R.layout.l_main_screen)
 
 
-        var binding = LMainScreenBinding.inflate(layoutInflater)
+        val binding = LMainScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.viewModel = MyViewModel("Hi!")
 
-       // val binding: MyViewModel = MyViewModel.bind(R.layout.l_main_screen)
+        var current_vm = MyViewModel(getString(R.string.str_My_Cosplays), getString(R.string.str_text_p), getString(R.string.str_text_f), getString(R.string.str_text_h))
+
+
+
+
+
+        binding.viewModel = current_vm
+        binding.handlers = handlers
+
+
+
+
+
+
+           // val binding: MyViewModel = MyViewModel.bind(R.layout.l_main_screen)
        //
 
        //
@@ -77,13 +107,17 @@ class MainActivity : ComponentActivity() {
 
 
 
+
+
+
+
+
         }
 
 
 
 
-
-    }
+}
 
 
 
@@ -108,6 +142,6 @@ class MainActivity : ComponentActivity() {
 
 
 
-data class MyViewModel(val header: String)
-
+class MyViewModel(var header: String, var progress: String, var finished: String, var hold: String) : ViewModel() {
+}
 

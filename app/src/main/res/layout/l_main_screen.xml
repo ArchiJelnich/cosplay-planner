@@ -5,6 +5,10 @@
         <variable
             name="ViewModel"
             type="com.archi.cosplay_planner.MyViewModel" />
+
+        <variable
+            name="handlers"
+            type="com.archi.cosplay_planner.MainActivity.Handler"/>
     </data>
 
 <LinearLayout
@@ -33,6 +37,53 @@
             android:layout_width="match_parent"
             android:gravity="center"
             android:text="@{ViewModel.header}" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="50dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/text_p"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:paddingRight="5dp"
+                    android:visibility="visible"
+                    android:text="@{ViewModel.progress}"/>`
+
+                <TextView
+                    android:id="@+id/text_f"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:paddingRight="5dp"
+                    android:text="@{ViewModel.finished}" />
+
+                <TextView
+                    android:id="@+id/text_h"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:paddingRight="5dp"
+                    android:text="@{ViewModel.hold}" />
+
+            </LinearLayout>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="end"
+                    android:gravity="end"
+                    android:onClick="@{handlers::onClickFilterIcon}"
+                    android:src="@android:drawable/ic_menu_zoom" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -75,10 +126,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingEnd="10dp"
-                android:src="@android:drawable/btn_star_big_on"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:src="@android:drawable/btn_star_big_on"/>
         </LinearLayout>
 

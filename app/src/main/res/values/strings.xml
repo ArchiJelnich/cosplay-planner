@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">cosplay-planner</string>
     <string name="str_My_Cosplays">My cosplays</string>
+    <string name="str_text_p">In progress</string>
+    <string name="str_text_f">Finished</string>
+    <string name="str_text_h">Hold</string>
 
 
 
