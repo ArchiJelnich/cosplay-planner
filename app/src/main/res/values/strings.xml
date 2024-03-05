@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">cosplay-planner</string>
+    <string name="str_My_Cosplays">My cosplays</string>
+
+
+
 </resources>
