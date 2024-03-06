@@ -9,12 +9,20 @@ import android.util.Log
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.databinding.DataBindingUtil.setContentView
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.archi.cosplay_planner.databinding.LMainScreenBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.parcelize.Parcelize
 
 
@@ -69,6 +77,26 @@ class MainActivity : ComponentActivity() {
 
 
 
+
+        val CostumeDao = db.CostumeDao()
+        val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        lifecycleScope.launch {
+            Log.v("MYDEBUG", "Corrrr")
+            var repos  =  Repos(CostumeDao)
+            recyclerView.adapter = MainRV(repos.allCosplay)
+
+        }
+
+
+
+
+
+
+
+
+
            // val binding: MyViewModel = MyViewModel.bind(R.layout.l_main_screen)
        //
 
@@ -103,16 +131,38 @@ class MainActivity : ComponentActivity() {
 
         }
 
+
+
+
+
+
+
 */
+/*
+    val CostumeDao = db.CostumeDao()
+    val costumeToAdd = Costume(
+        costumeID = 0,
+        fandom = "HH",
+        character = "AngelDust",
+        status = 1,
+        progress = 75
+)
+
+
+lifecycleScope.launch {
+    val costumes = withContext(Dispatchers.IO) {
+        CostumeDao.insertAll(costumeToAdd)
+        Log.v("MYDEBUG", "DB:" + CostumeDao.getAll());
+    }
+
+}*/
 
 
 
 
 
 
-
-
-        }
+}
 
 
 
@@ -126,14 +176,14 @@ class MainActivity : ComponentActivity() {
 
 
 
-    //val users: List<Events> = userDao.getAll()
+//val users: List<Events> = userDao.getAll()
 
 
-        //val users: List<User> = userDao.getAll()
+//val users: List<User> = userDao.getAll()
 
 
-       // val userDao = getDatabase.userDao()
-       // val users: List<User> = userDao.getAll()
+// val userDao = getDatabase.userDao()
+// val users: List<User> = userDao.getAll()
 
 
 
