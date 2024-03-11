@@ -5,5 +5,8 @@
     <string name="str_text_p">В процессе</string>
     <string name="str_text_f">Закоченные</string>
     <string name="str_text_h">Отложенные</string>
-
+    <string name="str_New_Cosplay">Новый косплей</string>
+    <string name="str_New_fandom">Фандом</string>
+    <string name="str_New_Char">Персонаж</string>
+    <string name="str_to_long">Слишком длинное имя!</string>
 </resources>

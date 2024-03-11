@@ -2,36 +2,51 @@ package com.archi.cosplay_planner
 
 import android.app.Activity
 import android.content.Context
-import android.opengl.Visibility
+import android.content.Intent
 import android.os.Bundle
-import android.provider.Settings.Global.getString
 import android.util.Log
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
-import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.databinding.DataBindingUtil.setContentView
-import androidx.lifecycle.MutableLiveData
+import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.Composable
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
+import androidx.navigation.NavHostController
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.Navigator
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.archi.cosplay_planner.databinding.LMainScreenBinding
-import kotlinx.coroutines.Dispatchers
+import com.google.android.material.internal.ContextUtils.getActivity
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import kotlinx.parcelize.Parcelize
 
 
-
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity()  {
     private lateinit var db: AppDatabase
-    private val handlers = Handler()
+    private val handlers = Handler(this)
 
-    class Handler {
+
+
+    //val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+    //val navController = navHostFragment.navController
+
+    //val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+    //val navController = navHostFragment.navController
+    //val navInflater = navController.navInflater
+    //val navGraph = navInflater.inflate(R.navigation.nav_graf)
+    //navController.graph = navGraph
+
+
+
+    class Handler (private val context: Context) {
         fun onClickFilterIcon(view: View) {
             Log.v("MYDEBUG", "Clicked")
             val t_p = (view.rootView as View).findViewById<View>(R.id.text_p)
@@ -42,13 +57,23 @@ class MainActivity : ComponentActivity() {
             t_f.visibility = if (t_f.visibility == View.VISIBLE) View.INVISIBLE else View.VISIBLE
 
         }
+
+        fun onClickNewCosplay(view: View) {
+            // val navController = findNavController(Activity(), R.id.nav_graf)
+           // navController.navigate(
+            val intent = Intent(context, NewCosplayActivity::class.java)
+            context.startActivity(intent)
+
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
 
+
         super.onCreate(savedInstanceState)
         db = AppDatabase.getInstance(applicationContext)
+
 
 
         //setContentView(R.layout.l_main_screen)
@@ -75,6 +100,8 @@ class MainActivity : ComponentActivity() {
 
 
 
+       // val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+       // val navController = navHostFragment.navController
 
 
 
@@ -162,9 +189,13 @@ lifecycleScope.launch {
 
 
 
+
+
 }
 
-
+   // override fun onSupportNavigateUp(): Boolean {
+   //     return navController.navigateUp() || super.onSupportNavigateUp()
+  //  }
 
 
 }
