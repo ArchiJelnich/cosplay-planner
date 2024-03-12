@@ -9,10 +9,16 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
 
-class Repos (private val CostumeDao: CostumeDao) {
+class Repos (private val CostumeDao: CostumeDao, val filter: Int) {
 
 
       var allCosplay: List<Costume> = CostumeDao.getAll()
+      var filteredCosplay_p: List<Costume> = CostumeDao.getP()
+      var filteredCosplay_f: List<Costume> = CostumeDao.getF()
+      var filteredCosplay_h: List<Costume> = CostumeDao.getH()
+
+
+
 
 /*
       suspend fun getAllCostumes(): List<Costume> {

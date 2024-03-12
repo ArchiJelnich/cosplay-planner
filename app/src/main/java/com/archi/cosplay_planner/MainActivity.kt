@@ -1,37 +1,29 @@
 package com.archi.cosplay_planner
 
-import android.app.Activity
+import android.R.attr.data
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.util.Log
 import android.view.View
-import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.runtime.Composable
-import androidx.core.content.ContextCompat.startActivity
+import androidx.compose.ui.node.getOrAddAdapter
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavController
-import androidx.navigation.NavDestination
-import androidx.navigation.NavHostController
-import androidx.navigation.Navigation.findNavController
-import androidx.navigation.Navigator
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.archi.cosplay_planner.databinding.LMainScreenBinding
-import com.google.android.material.internal.ContextUtils.getActivity
 import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity()  {
+
+
     private lateinit var db: AppDatabase
     private val handlers = Handler(this)
+
 
 
 
@@ -47,6 +39,9 @@ class MainActivity : AppCompatActivity()  {
 
 
     class Handler (private val context: Context) {
+
+
+
         fun onClickFilterIcon(view: View) {
             Log.v("MYDEBUG", "Clicked")
             val t_p = (view.rootView as View).findViewById<View>(R.id.text_p)
@@ -55,19 +50,100 @@ class MainActivity : AppCompatActivity()  {
             t_p.visibility = if (t_p.visibility == View.VISIBLE) View.INVISIBLE else View.VISIBLE
             t_h.visibility = if (t_h.visibility == View.VISIBLE) View.INVISIBLE else View.VISIBLE
             t_f.visibility = if (t_f.visibility == View.VISIBLE) View.INVISIBLE else View.VISIBLE
-
         }
 
         fun onClickNewCosplay(view: View) {
+
+
+
             // val navController = findNavController(Activity(), R.id.nav_graf)
            // navController.navigate(
             val intent = Intent(context, NewCosplayActivity::class.java)
             context.startActivity(intent)
 
         }
+
+        @SuppressLint("CommitPrefEdits", "ResourceAsColor")
+        fun onClickFilter(view: View) {
+
+            val sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(context)
+            var editor = sharedPreferences.edit()
+
+
+
+
+           // var sharedPref = getPreferences(Context.MODE_PRIVATE)
+           // var editor = sharedPref.edit()
+            var filter = sharedPreferences.getInt("filter", -1)
+            val t_p = (view.rootView as View).findViewById<View>(R.id.text_p)
+            val t_f = (view.rootView as View).findViewById<View>(R.id.text_f)
+            val t_h = (view.rootView as View).findViewById<View>(R.id.text_h)
+            val recyclerView = (view.rootView as View).findViewById<View>(R.id.recyclerView)
+
+
+
+
+            when (view.id) {
+
+                R.id.text_p -> {
+                    if (filter==0) {editor.putInt("filter", -1)
+                        t_p.setBackgroundColor(0);
+                    }
+                    else {editor.putInt("filter",0)
+                        t_p.setBackgroundColor(R.color.purple_500);
+                    }
+                    t_h.setBackgroundColor(0)
+                    t_f.setBackgroundColor(0)
+                }
+
+                R.id.text_f -> {
+                    if (filter==1) {editor.putInt("filter", -1)
+                        t_f.setBackgroundColor(0);}
+                    else {editor.putInt("filter",1)
+                        t_f.setBackgroundColor(R.color.purple_500);
+                    }
+                    t_h.setBackgroundColor(0)
+                    t_p.setBackgroundColor(0)
+                }
+
+                R.id.text_h -> {
+                    if (filter==2) {editor.putInt("filter", -1)
+                        t_h.setBackgroundColor(0);}
+                    else {editor.putInt("filter",2)
+                        t_h.setBackgroundColor(R.color.purple_500);
+                    }
+                    t_p.setBackgroundColor(0)
+                    t_f.setBackgroundColor(0)
+                }
+
+                else -> { // Note the block
+                    Log.v("MyDebug", "Hm")
+                }
+
+
+            }
+            editor.apply()
+            Log.v("MyDebug", "Hm " + sharedPreferences.getInt("filter", -1))
+           // com.archi.cosplay_planner.MainActivity.rv()
+
+
+
+
+
+        }
+
     }
 
+    @SuppressLint("CommitPrefEdits")
     override fun onCreate(savedInstanceState: Bundle?) {
+
+
+        //var sharedPref = getPreferences(Context.MODE_WORLD_READABLE)
+       // var editor = sharedPref.edit()
+        //editor.putInt("filter",-1)
+       // editor.apply()
+
 
 
 
@@ -105,18 +181,7 @@ class MainActivity : AppCompatActivity()  {
 
 
 
-        val CostumeDao = db.CostumeDao()
-        val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-
-        lifecycleScope.launch {
-            Log.v("MYDEBUG", "Corrrr")
-            var repos  =  Repos(CostumeDao)
-            recyclerView.adapter = MainRV(repos.allCosplay)
-
-        }
-
-
+        rv()
 
 
 
@@ -198,7 +263,32 @@ lifecycleScope.launch {
   //  }
 
 
-}
+
+
+    fun rv () {
+
+        val CostumeDao = db.CostumeDao()
+        val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        var sharedPref = getPreferences(Context.MODE_PRIVATE)
+        var editor = sharedPref.edit()
+        var filter = sharedPref.getInt("filter", -1)
+        //Log.v("MYDEBUG", "Filter in main" + filter)
+
+        lifecycleScope.launch {
+            //Log.v("MYDEBUG", "Corrrr")
+
+            var repos = Repos(CostumeDao, filter)
+            recyclerView.adapter = MainRV(repos.allCosplay, repos.filteredCosplay_f, repos.filteredCosplay_p, repos.filteredCosplay_h, filter)
+
+            }
+        }
+    }
+
+
+
+
+
 
 
 

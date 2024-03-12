@@ -11,6 +11,16 @@ import kotlinx.coroutines.flow.Flow
 interface CostumeDao {
     @Query("SELECT * FROM Costume")
     fun getAll():  List<Costume>
+
+    @Query("SELECT * FROM Costume WHERE status = 0")
+    fun getP():  List<Costume>
+
+    @Query("SELECT * FROM Costume WHERE status = 1")
+    fun getF():  List<Costume>
+
+    @Query("SELECT * FROM Costume WHERE status = 2")
+    fun getH():  List<Costume>
+
     @Insert
     fun insertAll(vararg users: Costume)
     @Delete
