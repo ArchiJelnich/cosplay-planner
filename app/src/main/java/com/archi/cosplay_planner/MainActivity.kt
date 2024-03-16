@@ -63,6 +63,11 @@ class MainActivity : AppCompatActivity()  {
 
         }
 
+        fun onClickToEvents(view: View) {
+            val intent = Intent(context, EventActivity::class.java)
+            context.startActivity(intent)
+        }
+
         @SuppressLint("CommitPrefEdits", "ResourceAsColor")
         fun onClickFilter(view: View) {
 

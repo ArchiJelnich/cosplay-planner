@@ -5,11 +5,10 @@
     <data>
         <variable
             name="ViewModel"
-            type="com.archi.cosplay_planner.MyViewModel" />
-
+            type="com.archi.cosplay_planner.EventViewModel" />
         <variable
             name="handlers"
-            type="com.archi.cosplay_planner.MainActivity.Handler"/>
+            type="com.archi.cosplay_planner.EventActivity.Handler"/>
     </data>
 
 
@@ -38,57 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:gravity="center"
-            android:text="@{ViewModel.header}" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingTop="50dp"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/text_p"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:paddingRight="5dp"
-                    android:visibility="visible"
-                    android:onClick="@{handlers::onClickFilter}"
-                    android:text="@{ViewModel.progress}"/>`
-
-                <TextView
-                    android:id="@+id/text_f"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:paddingRight="5dp"
-                    android:onClick="@{handlers::onClickFilter}"
-                    android:text="@{ViewModel.finished}" />
-
-                <TextView
-                    android:id="@+id/text_h"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:paddingRight="5dp"
-                    android:onClick="@{handlers::onClickFilter}"
-                    android:text="@{ViewModel.hold}" />
-
-            </LinearLayout>
-
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="end"
-                    android:gravity="end"
-                    android:onClick="@{handlers::onClickFilterIcon}"
-                    android:src="@android:drawable/ic_menu_zoom" />
-
-            </LinearLayout>
+            android:text="@string/str_Events"/>
 
         </LinearLayout>
 
@@ -98,7 +47,7 @@
             android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+            android:id="@+id/recyclerViewEvent"
             android:paddingTop="50dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -109,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:src="@android:drawable/ic_input_add"
-                android:onClick="@{handlers::onClickNewCosplay}"/>
+                android:onClick="@{handlers::onClickNewEvent}"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -123,13 +72,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingEnd="10dp"
-                android:src="@android:drawable/btn_star_big_on" />
+                android:src="@android:drawable/btn_star_big_on"
+                android:onClick="@{handlers::onClickToCosplay}"/>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingEnd="10dp"
-                android:src="@android:drawable/btn_star_big_on"
-                android:onClick="@{handlers::onClickToEvents}"/>
+                android:src="@android:drawable/btn_star_big_on"/>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

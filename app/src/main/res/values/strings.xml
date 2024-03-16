@@ -8,5 +8,18 @@
     <string name="str_New_fandom">Fandom</string>
     <string name="str_New_Char">Character</string>
     <string name="str_to_long">Too long name!</string>
+    <string name="str_Events">Events</string>
+    <string name="str_New_Event">New event</string>
+    <string name="str_Event_name">Event name</string>
+    <string name="str_Event_type">Event type</string>
+    <string name="str_Event_date">Event date</string>
+    <string name="str_Event_place">Place</string>
+
+
+    <string-array name="Ev_Types">
+        <item>Convention</item>
+        <item>Party</item>
+        <item>Photoshoot</item>
+    </string-array>
 
 </resources>

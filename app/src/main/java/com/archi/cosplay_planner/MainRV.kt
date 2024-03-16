@@ -65,3 +65,7 @@ class MainRV(private val costumes_a: List<Costume>, private val costumes_f: List
 
 
 
+
+
+
+

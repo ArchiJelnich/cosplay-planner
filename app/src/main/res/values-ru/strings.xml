@@ -9,4 +9,17 @@
     <string name="str_New_fandom">Фандом</string>
     <string name="str_New_Char">Персонаж</string>
     <string name="str_to_long">Слишком длинное имя!</string>
+    <string name="str_Events">События</string>
+    <string name="str_New_Event">Новое событие</string>
+    <string name="str_Event_name">Название</string>
+    <string name="str_Event_type">Тип</string>
+    <string name="str_Event_date">Дата</string>
+    <string name="str_Event_place">Место</string>
+
+    <string-array name="Ev_Types">
+        <item>Фестиваль</item>
+        <item>Тусовка</item>
+        <item>Фотосессия</item>
+    </string-array>
+
 </resources>

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="ViewModel"
+            type="com.archi.cosplay_planner.NewEViewModel" />
+
+        <variable
+            name="ne_handlers"
+            type="com.archi.cosplay_planner.NewEventActivity.Handlers"/>
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/l_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:onClick="@{ne_handlers::HideKeyboard}">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="50dp"
+            android:paddingLeft="50dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="50dp"
+            android:orientation="vertical">
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:text="@string/str_New_Event" />
+            </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="50dp"
+            android:paddingLeft="50dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="50dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:text="@string/str_Event_name" />
+            <EditText
+                android:id="@+id/e_n"
+                android:layout_height="wrap_content"
+                android:inputType="textNoSuggestions"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:hint="@string/str_Event_name"
+                android:text="@{ViewModel.event_name}"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="50dp"
+            android:paddingLeft="50dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="50dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:text="@string/str_Event_type" />
+            <Spinner
+                android:id="@+id/e_t"
+                android:layout_height="wrap_content"
+                android:inputType="textNoSuggestions"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:hint="@string/str_Event_type"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="50dp"
+            android:paddingLeft="50dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="50dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:text="@string/str_Event_date" />
+            <DatePicker
+                android:id="@+id/datePicker1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:datePickerMode="spinner"
+                android:calendarViewShown="false"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="50dp"
+            android:paddingLeft="50dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="50dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:text="@string/str_Event_place" />
+            <EditText
+                android:id="@+id/e_p"
+                android:layout_height="wrap_content"
+                android:inputType="textNoSuggestions"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:hint="@string/str_Event_place"
+                android:text="@{ViewModel.event_place}"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_gravity="bottom"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="end"
+                android:src="@android:drawable/ic_input_add"
+                android:onClick="@{ne_handlers::onClickAdd}"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</layout>

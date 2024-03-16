@@ -36,3 +36,23 @@ class Repos (private val CostumeDao: CostumeDao, val filter: Int) {
    // }
 }
 
+class ReposEvent (private val EventsDao: EventsDao, val filter: Int) {
+
+
+      var allEvents: List<Events> = EventsDao.getAll()
+
+      /*
+            suspend fun getAllCostumes(): List<Costume> {
+                  return CostumeDao.getAll()
+            }
+
+
+            */
+
+
+      // @Suppress("RedundantSuspendModifier")
+      // @WorkerThread
+      // suspend fun getAll() {
+      //     CostumeDao.getAll()
+      // }
+}
