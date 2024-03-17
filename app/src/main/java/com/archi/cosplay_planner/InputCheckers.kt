@@ -5,6 +5,8 @@ package com.archi.cosplay_planner
         var new_string = string
         val regex = Regex("\n\\s*\n")
         new_string = string.replace(regex, " ")
+        new_string = new_string.replace("*", "")
+
 
         if (new_string.length>20) {
             status = 1
@@ -13,8 +15,10 @@ package com.archi.cosplay_planner
 
         if (new_string.length==0) {
             status = 1
-            new_string = "Null string!"
+            new_string = "Wrong string!"
         }
+
+
 
         return Pair(new_string, status)
     }

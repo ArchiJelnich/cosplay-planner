@@ -1,6 +1,5 @@
 package com.archi.cosplay_planner
 
-import android.R.attr.data
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -9,7 +8,6 @@ import android.preference.PreferenceManager
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.ui.node.getOrAddAdapter
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager

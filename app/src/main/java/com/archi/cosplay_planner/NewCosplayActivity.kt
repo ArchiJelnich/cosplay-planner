@@ -1,22 +1,15 @@
 package com.archi.cosplay_planner
 
-import android.app.Activity
-import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
-import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.getString
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.lifecycleScope
 import com.archi.cosplay_planner.databinding.LNewCosplayScreenBinding
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

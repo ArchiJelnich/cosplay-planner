@@ -3,7 +3,6 @@ package com.archi.cosplay_planner
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverter
 
 
 
