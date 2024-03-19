@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface CostumeDao {
@@ -33,6 +34,9 @@ interface EventsDao {
     fun insertAll(vararg event: Events)
     @Delete
     fun delete(event: Events)
+    @Update
+    fun updateEvent(event: Events)
+
 }
 
 @Dao

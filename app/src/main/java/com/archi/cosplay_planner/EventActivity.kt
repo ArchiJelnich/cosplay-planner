@@ -3,7 +3,9 @@ package com.archi.cosplay_planner
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
@@ -43,29 +45,32 @@ class EventActivity : AppCompatActivity() {
 
 
 
-        rv()
-
-
-
-
-    }
-
-    fun rv () {
-
         val EventDao = db.EventsDao()
         val recyclerView: RecyclerView = findViewById(R.id.recyclerViewEvent)
         recyclerView.layoutManager = LinearLayoutManager(this)
+
+
+
 
         lifecycleScope.launch {
             //Log.v("MYDEBUG", "Corrrr")
 
             var repos = ReposEvent(EventDao, 0)
-            recyclerView.adapter = EventRV(repos.allEvents, 0)
+            //recyclerView.adapter = EventRV(repos.allEvents, 0)
+            var adapter = EventRV(repos.allEvents, 0)
+            adapter.onEventClickListener = { position ->
+                Log.v("MyLog", "clicked" + position)
+            }
+            recyclerView.adapter = adapter
+
 
         }
+
+
     }
 
 }
 
 class EventViewModel() : ViewModel() {
 }
+

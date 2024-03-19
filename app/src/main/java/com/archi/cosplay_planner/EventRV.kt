@@ -1,21 +1,30 @@
 package com.archi.cosplay_planner
 
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 
 
-class EventRV(private val events: List<Events>, val filter: Int): RecyclerView.Adapter<EventRV.EventViewHolder>() {
-    class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+class EventRV(private val events: List<Events>, val filter: Int,): RecyclerView.Adapter<EventRV.EventViewHolder>() {
+
+    var onEventClickListener: ((position: Int) -> Unit)? = null
+
+    inner class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val name: TextView = itemView.findViewById(R.id.event_name)
         val type: TextView = itemView.findViewById(R.id.event_type)
         val date: TextView = itemView.findViewById(R.id.event_date)
         val image: ImageView = itemView.findViewById(R.id.imageView)
+
+
     }
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
 
@@ -30,6 +39,10 @@ class EventRV(private val events: List<Events>, val filter: Int): RecyclerView.A
         holder.type.text = events[position].type.toString()
         holder.date.text = events[position].date
 
+        holder.itemView.setOnClickListener {
+                onEventClickListener?.invoke(holder.adapterPosition)
+
+        }
 
     }
 

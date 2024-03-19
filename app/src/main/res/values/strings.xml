@@ -14,6 +14,8 @@
     <string name="str_Event_type">Event type</string>
     <string name="str_Event_date">Event date</string>
     <string name="str_Event_place">Place</string>
+    <string name="str_Event_costume">Costume</string>
+    <string name="str_Event_steps">Steps</string>
 
 
     <string-array name="Ev_Types">
