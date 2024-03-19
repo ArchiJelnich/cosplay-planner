@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.archi.cosplay_planner.P_ROOM.Costume
 
 
 class MainRV(private val costumes_a: List<Costume>, private val costumes_f: List<Costume>, private val costumes_p: List<Costume>, private val costumes_h: List<Costume>, val filter: Int): RecyclerView.Adapter<MainRV.MyViewHolder>() {

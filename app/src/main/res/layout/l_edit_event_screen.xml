@@ -125,7 +125,7 @@
                 android:layout_width="wrap_content"
                 android:gravity="center"
                 android:hint="@string/str_Event_costume"
-                android:text="@{ViewModel.event_costume}"/>
+                android:text="@{String.valueOf(ViewModel.event_costume)}"/>
         </LinearLayout>
 
         <LinearLayout
@@ -157,6 +157,15 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:gravity="center">
+
+            <EditText
+                android:id="@+id/e_id"
+                android:layout_height="0sp"
+                android:inputType="textNoSuggestions"
+                android:layout_width="0sp"
+                android:gravity="center"
+                android:visibility="gone"
+                android:text="@{String.valueOf(ViewModel.event_id)}"/>
 
             <ImageView
                 android:layout_width="100dp"

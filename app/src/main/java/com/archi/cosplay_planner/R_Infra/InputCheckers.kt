@@ -1,4 +1,4 @@
-package com.archi.cosplay_planner
+package com.archi.cosplay_planner.R_Infra
 
     fun InputCheckerText(string: String): Pair<String, Int> {
         var status = 0

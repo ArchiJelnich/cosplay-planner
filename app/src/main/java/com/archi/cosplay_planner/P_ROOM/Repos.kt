@@ -1,4 +1,4 @@
-package com.archi.cosplay_planner
+package com.archi.cosplay_planner.P_ROOM
 
 class Repos (private val CostumeDao: CostumeDao, val filter: Int) {
 
@@ -30,7 +30,8 @@ class Repos (private val CostumeDao: CostumeDao, val filter: Int) {
 class ReposEvent (private val EventsDao: EventsDao, val filter: Int) {
 
 
-      var allEvents: List<Events> = EventsDao.getAll()
+      var allEvents: List<Events> = EventsDao.getAll().sortedBy { it.date?.first() }
+// NEED NORMAL SORTER
 
       /*
             suspend fun getAllCostumes(): List<Costume> {

@@ -1,10 +1,9 @@
-package com.archi.cosplay_planner
+package com.archi.cosplay_planner.P_ROOM
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-
-
+import java.io.Serializable
 
 
 @Entity
@@ -32,7 +31,7 @@ data class Events(
     @ColumnInfo(name = "date", defaultValue = "Mystery") val date: String?,
     @ColumnInfo(name = "costumeID", defaultValue = "0") val costumeID: Int?,
     @ColumnInfo(name = "steps", defaultValue = "All done!") val steps: String?,
-)
+) : Serializable
 
 @Entity
 data class Detail(

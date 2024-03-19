@@ -14,6 +14,9 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
+import com.archi.cosplay_planner.P_ROOM.AppDatabase
+import com.archi.cosplay_planner.P_ROOM.Events
+import com.archi.cosplay_planner.R_Infra.InputCheckerText
 import com.archi.cosplay_planner.databinding.LNewEventScreenBinding
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -79,7 +82,7 @@ class NewEventActivity : AppCompatActivity() {
                val EventDao = db.EventsDao()
                val costumeID = -1
                val steps = ""
-               val date = e_d.getDayOfMonth().toString()+"."+e_d.getMonth().toString()+"."+e_d.getYear().toString()
+               val date = e_d.getDayOfMonth().toString()+"."+(e_d.getMonth()+1).toString()+"."+e_d.getYear().toString()
 
 
 

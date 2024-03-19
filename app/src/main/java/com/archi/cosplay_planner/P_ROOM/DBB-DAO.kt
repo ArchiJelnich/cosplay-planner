@@ -1,4 +1,4 @@
-package com.archi.cosplay_planner
+package com.archi.cosplay_planner.P_ROOM
 
 import androidx.room.Dao
 import androidx.room.Delete

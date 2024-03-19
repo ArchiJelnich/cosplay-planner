@@ -1,4 +1,4 @@
-package com.archi.cosplay_planner
+package com.archi.cosplay_planner.P_ROOM
 
 import android.content.Context
 import androidx.room.Database
@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(
-    entities = [Costume::class,Events::class,Detail::class,Materials::class,MaterialsStock::class,MaterialsPlanned::class],version = 1)
+    entities = [Costume::class, Events::class, Detail::class, Materials::class, MaterialsStock::class, MaterialsPlanned::class],version = 1)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun CostumeDao(): CostumeDao
     abstract fun EventsDao(): EventsDao
