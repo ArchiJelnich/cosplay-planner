@@ -63,7 +63,7 @@ fun sort_value_from_date(string: String): Int {
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
-fun check_if_in_future(string: String): Boolean {
+fun check_if_in_future(string: String): Int {
     val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
     val current_string = LocalDateTime.now().format(formatter).toString()
     val arr_s: List<String> = string.split(".")
@@ -73,17 +73,21 @@ fun check_if_in_future(string: String): Boolean {
 
     if (current_obj.year<date_obj.year)
     {
-        return true
+        return 2
     }
     if (current_obj.year==date_obj.year && current_obj.month<date_obj.month)
     {
-        return true
+        return 2
     }
     if (current_obj.year==date_obj.year && current_obj.month==date_obj.month && current_obj.day<date_obj.day)
     {
-        return true
+        return 2
     }
 
+    if (current_obj.year==date_obj.year && current_obj.month==date_obj.month && current_obj.day==date_obj.day)
+    {
+        return 1
+    }
 
-    return false
+    return 0
 }

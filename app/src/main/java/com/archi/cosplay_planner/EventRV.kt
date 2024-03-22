@@ -50,9 +50,14 @@ class EventRV(private val events: List<Events>, val filter: Int): RecyclerView.A
         val ob_date = string_to_data(date)
         date = fulldata_to_string(ob_date)
         holder.date.text = date
-        if (check_if_in_future(date)){
-            holder.image.setBackgroundColor(R.color.white);
+
+        when (check_if_in_future(date))
+        {
+            2 -> holder.name.setBackgroundResource(R.color.white_t)
+            1 -> holder.name.setBackgroundResource(R.color.red_t)
+
         }
+
 
 
         holder.itemView.setOnClickListener {
