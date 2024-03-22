@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.archi.cosplay_planner.P_ROOM.Costume
 
 
-class MainRV(private val costumes_a: List<Costume>, private val costumes_f: List<Costume>, private val costumes_p: List<Costume>, private val costumes_h: List<Costume>, val filter: Int): RecyclerView.Adapter<MainRV.MyViewHolder>() {
+class MainRV(private val costumes_a: List<Costume>, private val costumes_f: List<Costume>, private val costumes_p: List<Costume>, private val costumes_h: List<Costume>, private val filter: Int): RecyclerView.Adapter<MainRV.MyViewHolder>() {
         class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
             val fandom: TextView = itemView.findViewById(R.id.textView)
             val character: TextView = itemView.findViewById(R.id.textView2)
@@ -19,19 +19,18 @@ class MainRV(private val costumes_a: List<Costume>, private val costumes_f: List
             val status: TextView = itemView.findViewById(R.id.textView4)
         }
 
-    var costumes = filtering()
+    private var costumes = filtering()
 
 
 
-    fun filtering() : List<Costume>
+    private fun filtering() : List<Costume>
     {
         Log.v("MYDEBUG", "Filter " + filter)
-        when (filter)
-        {
-            -1 -> return  costumes_a
-            0 -> return costumes_p
-            1 -> return costumes_f
-            else -> return costumes_h
+        return when (filter) {
+            -1 -> costumes_a
+            0 -> costumes_p
+            1 -> costumes_f
+            else -> costumes_h
         }
 
 

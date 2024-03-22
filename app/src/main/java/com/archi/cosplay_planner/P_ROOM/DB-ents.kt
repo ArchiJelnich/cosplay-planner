@@ -29,6 +29,7 @@ data class Events(
     // 2 - Photoshoot
     @ColumnInfo(name = "place", defaultValue = "Mystery") val place: String?,
     @ColumnInfo(name = "date", defaultValue = "Mystery") val date: String?,
+    @ColumnInfo(name = "date_sorted", defaultValue = "Mystery") val date_sorted: Int?,
     @ColumnInfo(name = "costumeID", defaultValue = "0") val costumeID: Int?,
     @ColumnInfo(name = "steps", defaultValue = "All done!") val steps: String?,
 ) : Serializable

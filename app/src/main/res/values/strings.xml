@@ -17,6 +17,11 @@
     <string name="str_Event_costume">Costume</string>
     <string name="str_Event_steps">Steps</string>
 
+    <string name="str_yes">Yes</string>
+    <string name="str_no">No</string>
+    <string name="str_delete_event">Delete event?</string>
+    <string name="str_delete_event_message">Are you sure what you want to delete this event?</string>
+
 
     <string-array name="Ev_Types">
         <item>Convention</item>

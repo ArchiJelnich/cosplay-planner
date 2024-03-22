@@ -27,11 +27,11 @@ class NewCosplayActivity : AppCompatActivity() {
           val e_f = (view.rootView as View).findViewById<View>(R.id.e_f) as EditText
           val e_c = (view.rootView as View).findViewById<View>(R.id.e_c) as EditText
 
-          if (e_f.text.length==0) {
+          if (e_f.text.isEmpty()) {
               e_f.setText(R.string.str_New_fandom)
           }
 
-            if (e_c.text.length==0) {
+            if (e_c.text.isEmpty()) {
                 e_c.setText(R.string.str_New_Char)
             }
 
@@ -53,9 +53,8 @@ class NewCosplayActivity : AppCompatActivity() {
             {
                 //Toast.makeText(context, "Nice" + InputCheckerText(e_f.text.toString()).first.toString() + " " + InputCheckerText(e_c.text.toString()).first.toString(), Toast.LENGTH_SHORT).show()
 
-                var db: AppDatabase
-                db = AppDatabase.getInstance(context)
-                val CostumeDao = db.CostumeDao()
+                val db: AppDatabase = AppDatabase.getInstance(context)
+                val costumeDao = db.CostumeDao()
 
                 Log.v("MYDEBUG", "Before corut")
 
@@ -69,7 +68,7 @@ class NewCosplayActivity : AppCompatActivity() {
                         status = 0,
                         progress = 0
                     )
-                    CostumeDao.insertAll(CostumeToAdd)
+                    costumeDao.insertAll(CostumeToAdd)
 
                     val intent = Intent(context, MainActivity::class.java)
                     context.startActivity(intent)
@@ -84,7 +83,7 @@ class NewCosplayActivity : AppCompatActivity() {
 
 
 
-        fun HideKeyboard(view: View) {
+        fun hideKeyboard(view: View) {
 
             val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             inputManager.hideSoftInputFromWindow(view.windowToken, 0)
@@ -101,9 +100,9 @@ class NewCosplayActivity : AppCompatActivity() {
         val binding = LNewCosplayScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        var current_vm = NewCViewModel("","")
+        val currentVm = NewCViewModel("","")
 
-        binding.viewModel = current_vm
+        binding.viewModel = currentVm
         binding.ncHandlers = handlers
 
 

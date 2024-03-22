@@ -16,8 +16,9 @@ import androidx.lifecycle.ViewModel
 import com.archi.cosplay_planner.P_ROOM.AppDatabase
 import com.archi.cosplay_planner.P_ROOM.Events
 import com.archi.cosplay_planner.R_Infra.InputCheckerText
+import com.archi.cosplay_planner.R_Infra.sort_value_from_date
 import com.archi.cosplay_planner.R_Infra.string_to_data
-import com.archi.cosplay_planner.databinding.LEditEventScreenBinding
+import com.archi.cosplay_planner.databinding.LEventsEditScreenBinding
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -55,11 +56,11 @@ class EditEventActivity : AppCompatActivity() {
             }
 
 
-            if (e_n.text.length==0) {
+            if (e_n.text.isEmpty()) {
                 e_n.setText(R.string.str_Event_name)
             }
 
-            if (e_p.text.length==0) {
+            if (e_p.text.isEmpty()) {
                 e_p.setText(R.string.str_Event_place)
             }
 
@@ -78,11 +79,10 @@ class EditEventActivity : AppCompatActivity() {
             if ((InputCheckerText(e_p.text.toString()).second == 0) && (InputCheckerText(e_n.text.toString()).second)==0) {
                 //Toast.makeText(context, "Nice" + InputCheckerText(e_f.text.toString()).first.toString() + " " + InputCheckerText(e_c.text.toString()).first.toString(), Toast.LENGTH_SHORT).show()
 
-                var db: AppDatabase
-                db = AppDatabase.getInstance(context)
-                val EventDao = db.EventsDao()
+                val db: AppDatabase = AppDatabase.getInstance(context)
+                val eventDao = db.EventsDao()
 
-                val date = e_d.getDayOfMonth().toString()+"."+(e_d.getMonth()+1).toString()+"."+e_d.getYear().toString()
+                val date = e_d.dayOfMonth.toString()+"."+(e_d.month +1).toString()+"."+e_d.year.toString()
                 val cosplay_id = e_c.text.toString()
                 val event_id = e_id.text.toString()
 
@@ -98,9 +98,10 @@ class EditEventActivity : AppCompatActivity() {
                         date = date,
                         costumeID = cosplay_id.toInt(),
                         type = type,
-                        steps = e_s.text.toString()
+                        steps = e_s.text.toString(),
+                        date_sorted = sort_value_from_date(date)
                     )
-                    EventDao.updateEvent(EventToUpdate)
+                    eventDao.updateEvent(EventToUpdate)
 
                     val intent = Intent(context, EventActivity::class.java)
                     context.startActivity(intent)
@@ -121,7 +122,7 @@ class EditEventActivity : AppCompatActivity() {
                 }
 
 
-        fun HideKeyboard(view: View) {
+        fun hideKeyboard(view: View) {
 
             val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             inputManager.hideSoftInputFromWindow(view.windowToken, 0)
@@ -133,31 +134,31 @@ class EditEventActivity : AppCompatActivity() {
 
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.l_edit_event_screen)
+        setContentView(R.layout.l_events_edit_screen)
 
         val event = intent.extras?.get("event") as Events
         //val event_id = event.eventID
 
-        var event_id = 0
+        /*var event_id = 0
         var event_type = 0
         var event_name = " "
         var event_date = " "
         var event_place = " "
         var event_steps = " "
         var event_costume = 0
+*/
+
+        val event_id = event.eventID
+        val event_type = event.type!!
+        val event_name = event.event!!
+        val event_date = event.date!!
+        val event_place = event.place!!
+        val event_steps = event.steps!!
+        val event_costume = event.costumeID!!
+        val event_date_sortes = event.date_sorted!!
 
 
-        event_id = event.eventID!!
-        event_type = event.type!!
-        event_name = event.event!!
-        event_date = event.date!!
-        event_place = event.place!!
-        event_steps = event.steps!!
-        event_costume = event.costumeID!!
-
-
-
-        val binding = LEditEventScreenBinding.inflate(layoutInflater)
+        val binding = LEventsEditScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         var current_vm = EditEViewModel(event_type, event_name, event_place, event_date, event_costume, event_steps, event_id)
@@ -186,7 +187,7 @@ class EditEventActivity : AppCompatActivity() {
 
         val datePicker: DatePicker = findViewById(R.id.datePicker1)
         Log.v("MyLog", "string " + event_date)
-        var event_date_obj = string_to_data(event_date)
+        val event_date_obj = string_to_data(event_date)
         Log.v("MyLog", "object " + event_date_obj)
         datePicker.updateDate(event_date_obj.year, event_date_obj.month, event_date_obj.day)
 

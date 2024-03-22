@@ -1,18 +1,26 @@
 package com.archi.cosplay_planner
 
 
+import android.annotation.SuppressLint
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
+import androidx.collection.intFloatMapOf
 import androidx.recyclerview.widget.RecyclerView
 import com.archi.cosplay_planner.P_ROOM.Events
+import com.archi.cosplay_planner.R_Infra.check_if_in_future
+import com.archi.cosplay_planner.R_Infra.fulldata_to_string
+import com.archi.cosplay_planner.R_Infra.string_to_data
 
 
-class EventRV(private val events: List<Events>, val filter: Int,): RecyclerView.Adapter<EventRV.EventViewHolder>() {
+class EventRV(private val events: List<Events>, val filter: Int): RecyclerView.Adapter<EventRV.EventViewHolder>() {
 
     var onEventClickListener: ((position: Int, event : Events) -> Unit)? = null
+    var onEventLongClickListener: ((position: Int, event: Events) -> Boolean)? = null
 
     inner class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val name: TextView = itemView.findViewById(R.id.event_name)
@@ -33,14 +41,26 @@ class EventRV(private val events: List<Events>, val filter: Int,): RecyclerView.
         return EventViewHolder(itemView)
     }
 
+    @SuppressLint("ResourceAsColor")
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
         holder.name.text = events[position].event
         holder.type.text = events[position].type.toString()
-        holder.date.text = events[position].date
+        var date = events[position].date.toString()
+        val ob_date = string_to_data(date)
+        date = fulldata_to_string(ob_date)
+        holder.date.text = date
+        if (check_if_in_future(date)){
+            holder.image.setBackgroundColor(R.color.white);
+        }
+
 
         holder.itemView.setOnClickListener {
                 onEventClickListener?.invoke(holder.adapterPosition, events[position])
 
+        }
+        holder.itemView.setOnLongClickListener{
+            onEventLongClickListener?.invoke(position, events[position]) ?: false
         }
 
     }

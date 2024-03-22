@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModel
 import com.archi.cosplay_planner.P_ROOM.AppDatabase
 import com.archi.cosplay_planner.P_ROOM.Events
 import com.archi.cosplay_planner.R_Infra.InputCheckerText
+import com.archi.cosplay_planner.R_Infra.sort_value_from_date
 import com.archi.cosplay_planner.databinding.LNewEventScreenBinding
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -54,11 +55,11 @@ class NewEventActivity : AppCompatActivity() {
 
 
 
-           if (e_n.text.length==0) {
+           if (e_n.text.isEmpty()) {
                e_n.setText(R.string.str_Event_name)
            }
 
-           if (e_p.text.length==0) {
+           if (e_p.text.isEmpty()) {
                e_p.setText(R.string.str_Event_place)
            }
 
@@ -77,12 +78,11 @@ class NewEventActivity : AppCompatActivity() {
            if ((InputCheckerText(e_p.text.toString()).second == 0) && (InputCheckerText(e_n.text.toString()).second)==0) {
                //Toast.makeText(context, "Nice" + InputCheckerText(e_f.text.toString()).first.toString() + " " + InputCheckerText(e_c.text.toString()).first.toString(), Toast.LENGTH_SHORT).show()
 
-               var db: AppDatabase
-               db = AppDatabase.getInstance(context)
-               val EventDao = db.EventsDao()
+               val db: AppDatabase = AppDatabase.getInstance(context)
+               val eventDao = db.EventsDao()
                val costumeID = -1
                val steps = ""
-               val date = e_d.getDayOfMonth().toString()+"."+(e_d.getMonth()+1).toString()+"."+e_d.getYear().toString()
+               val date = e_d.dayOfMonth.toString()+"."+(e_d.month).toString()+"."+e_d.year.toString()
 
 
 
@@ -91,16 +91,17 @@ class NewEventActivity : AppCompatActivity() {
                GlobalScope.launch {
                    Log.v("MYDEBUG", "In corut")
 
-                   val EventToAdd = Events(
+                   val eventToAd = Events(
                        eventID = 0,
                        event = InputCheckerText(e_n.text.toString()).first,
                        place = InputCheckerText(e_p.text.toString()).first,
                        date = date,
                        costumeID = costumeID,
                        type = type,
-                       steps = steps
+                       steps = steps,
+                       date_sorted = sort_value_from_date(date)
                    )
-                   EventDao.insertAll(EventToAdd)
+                   eventDao.insertAll(eventToAd)
 
                    val intent = Intent(context, EventActivity::class.java)
                    context.startActivity(intent)
@@ -123,7 +124,7 @@ class NewEventActivity : AppCompatActivity() {
 
            }
 
-        fun HideKeyboard(view: View) {
+        fun hideKeyboard(view: View) {
 
             val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             inputManager.hideSoftInputFromWindow(view.windowToken, 0)
@@ -140,9 +141,9 @@ class NewEventActivity : AppCompatActivity() {
         val binding = LNewEventScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        var current_vm = NewEViewModel("","", "", "")
+        val currentVm = NewEViewModel("","", "", "")
 
-        binding.viewModel = current_vm
+        binding.viewModel = currentVm
         binding.neHandlers = handlers
 
 

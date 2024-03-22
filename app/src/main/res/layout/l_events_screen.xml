@@ -12,16 +12,11 @@
     </data>
 
 
-<LinearLayout
-    android:orientation="vertical"
-    android:id="@+id/l_main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="50dp"
+        android:id="@+id/l_main"
         android:paddingLeft="50dp"
         android:paddingBottom="10dp"
         android:paddingRight="50dp"
@@ -58,7 +53,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:src="@android:drawable/ic_input_add"
-                android:onClick="@{handlers::onClickNewEvent}"/>
+                android:onClick="@{handlers::onClickNewEvent}"
+                android:contentDescription="@string/str_New_Event" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -73,22 +69,26 @@
                 android:layout_height="wrap_content"
                 android:paddingEnd="10dp"
                 android:src="@android:drawable/btn_star_big_on"
-                android:onClick="@{handlers::onClickToCosplay}"/>
+                android:onClick="@{handlers::onClickToCosplay}"
+                android:contentDescription="@string/str_My_Cosplays"/>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingEnd="10dp"
-                android:src="@android:drawable/btn_star_big_on"/>
+                android:src="@android:drawable/btn_star_big_on"
+                android:contentDescription="@string/app_name"/>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingEnd="10dp"
-                android:src="@android:drawable/btn_star_big_on" />
+                android:src="@android:drawable/btn_star_big_on"
+                android:contentDescription="@string/app_name"/>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingEnd="10dp"
-                android:src="@android:drawable/btn_star_big_on"/>
+                android:src="@android:drawable/btn_star_big_on"
+                android:contentDescription="@string/app_name"/>
         </LinearLayout>
 
 
@@ -96,8 +96,6 @@
     </LinearLayout>
 
 
-
-</LinearLayout>
 
 
 

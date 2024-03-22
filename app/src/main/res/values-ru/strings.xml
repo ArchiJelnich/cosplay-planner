@@ -18,6 +18,12 @@
     <string name="str_Event_costume">Костюм</string>
     <string name="str_Event_steps">Шаги</string>
 
+    <string name="str_yes">Да</string>
+    <string name="str_no">Нет</string>
+    <string name="str_delete_event">Удалить событие?</string>
+    <string name="str_delete_event_message">Вы уверены, что хотите удалить событие?</string>
+
+
     <string-array name="Ev_Types">
         <item>Фестиваль</item>
         <item>Тусовка</item>

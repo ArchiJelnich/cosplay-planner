@@ -13,7 +13,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:src="@android:drawable/ic_menu_compass" />
+        android:src="@android:drawable/ic_menu_compass"
+        android:contentDescription="@string/str_Events"/>
 
     <TextView
         android:id="@+id/event_name"

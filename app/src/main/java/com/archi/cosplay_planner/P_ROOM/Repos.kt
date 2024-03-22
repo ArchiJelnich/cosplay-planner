@@ -30,7 +30,7 @@ class Repos (private val CostumeDao: CostumeDao, val filter: Int) {
 class ReposEvent (private val EventsDao: EventsDao, val filter: Int) {
 
 
-      var allEvents: List<Events> = EventsDao.getAll().sortedBy { it.date?.first() }
+      var allEvents: List<Events> = EventsDao.getAll().sortedByDescending { it.date_sorted}
 // NEED NORMAL SORTER
 
       /*

@@ -4,7 +4,9 @@ package com.archi.cosplay_planner
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
@@ -46,7 +48,7 @@ class EventActivity : AppCompatActivity() {
 
 
 
-        val EventDao = db.EventsDao()
+        val eventDao = db.EventsDao()
         val recyclerView: RecyclerView = findViewById(R.id.recyclerViewEvent)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -56,18 +58,45 @@ class EventActivity : AppCompatActivity() {
         lifecycleScope.launch {
             //Log.v("MYDEBUG", "Corrrr")
 
-            var repos = ReposEvent(EventDao, 0)
+            var repos = ReposEvent(eventDao, 0)
             //recyclerView.adapter = EventRV(repos.allEvents, 0)
-            var adapter = EventRV(repos.allEvents, 0)
+            val adapter = EventRV(repos.allEvents, 0)
+            recyclerView.adapter = adapter
+
             adapter.onEventClickListener = { position, event ->
                 //Log.v("MyLog", "clicked " + position)
-                //Log.v("MyLog", "clicked " + event)
+                Log.v("MyLog", "clicked " + event)
                 val intent = Intent(this@EventActivity, EditEventActivity::class.java)
                 intent.putExtra("event", event)
                 this@EventActivity.startActivity(intent)
-
             }
-            recyclerView.adapter = adapter
+            adapter.onEventLongClickListener = { position, event ->
+                Log.v("MyLog", "clicked " + position)
+
+
+                val builder = AlertDialog.Builder(this@EventActivity)
+                builder.setTitle(R.string.str_delete_event)
+                val message = getString(R.string.str_delete_event_message)
+                builder.setMessage(message + " " + event.event)
+
+                builder.setPositiveButton(R.string.str_yes) { dialog, which ->
+                    //Log.v("MyLog", "Yes")
+                    eventDao.delete(event)
+                    //adapter.notifyItemRemoved(position)
+                    repos = ReposEvent(eventDao, 0)
+                    val newAdapter = EventRV(repos.allEvents, 0)
+                    recyclerView.adapter = newAdapter
+
+                }
+
+                builder.setNegativeButton(R.string.str_no) { dialog, which ->
+                    //Log.v("MyLog", "No")
+                }
+
+                builder.show()
+                true
+            }
+
 
 
         }

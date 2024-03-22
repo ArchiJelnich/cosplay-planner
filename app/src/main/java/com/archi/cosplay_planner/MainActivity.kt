@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity()  {
 
            // var sharedPref = getPreferences(Context.MODE_PRIVATE)
            // var editor = sharedPref.edit()
-            var filter = sharedPreferences.getInt("filter", -1)
+            val filter = sharedPreferences.getInt("filter", -1)
             val t_p = (view.rootView as View).findViewById<View>(R.id.text_p)
             val t_f = (view.rootView as View).findViewById<View>(R.id.text_f)
             val t_h = (view.rootView as View).findViewById<View>(R.id.text_h)
@@ -169,13 +169,13 @@ class MainActivity : AppCompatActivity()  {
         setContentView(binding.root)
 
 
-        var current_vm = MyViewModel(getString(R.string.str_My_Cosplays), getString(R.string.str_text_p), getString(R.string.str_text_f), getString(R.string.str_text_h))
+        val currentVm = MyViewModel(getString(R.string.str_My_Cosplays), getString(R.string.str_text_p), getString(R.string.str_text_f), getString(R.string.str_text_h))
 
 
 
 
 
-        binding.viewModel = current_vm
+        binding.viewModel = currentVm
         binding.handlers = handlers
 
 
@@ -275,15 +275,15 @@ lifecycleScope.launch {
         val CostumeDao = db.CostumeDao()
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        var sharedPref = getPreferences(Context.MODE_PRIVATE)
-        var editor = sharedPref.edit()
-        var filter = sharedPref.getInt("filter", -1)
+        val sharedPref = getPreferences(Context.MODE_PRIVATE)
+       // var editor = sharedPref.edit()
+        val filter = sharedPref.getInt("filter", -1)
         //Log.v("MYDEBUG", "Filter in main" + filter)
 
         lifecycleScope.launch {
             //Log.v("MYDEBUG", "Corrrr")
 
-            var repos = Repos(CostumeDao, filter)
+            val repos = Repos(CostumeDao, filter)
             recyclerView.adapter = MainRV(repos.allCosplay, repos.filteredCosplay_f, repos.filteredCosplay_p, repos.filteredCosplay_h, filter)
 
             }
