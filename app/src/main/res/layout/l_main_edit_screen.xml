@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="ViewModel"
+            type="com.archi.cosplay_planner.EditMViewModel" />
+
+        <variable
+            name="ec_handlers"
+            type="com.archi.cosplay_planner.EditMainActivity.Handlers"/>
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/l_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingLeft="50dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="50dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:text="@string/str_New_fandom" />
+            <EditText
+                android:id="@+id/c_f"
+                android:layout_height="wrap_content"
+                android:inputType="textNoSuggestions"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:hint="@string/str_New_fandom"
+                android:text="@{ViewModel.costume_fandom}"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingLeft="50dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="50dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:text="@string/str_New_Char" />
+            <EditText
+                android:id="@+id/c_c"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:inputType="textNoSuggestions"
+                android:hint="@string/str_New_Char"
+                android:gravity="center"
+                android:text="@{ViewModel.costume_character}"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingLeft="50dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="50dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:text="@string/str_Cosplay_status" />
+            <Spinner
+                android:id="@+id/c_s"
+                android:layout_height="wrap_content"
+                android:inputType="textNoSuggestions"
+                android:layout_width="wrap_content"
+                android:gravity="center"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="50dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="50dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:paddingEnd="50sp"
+                android:text="@string/str_Cosplay_progress" />
+            <TextView
+                android:id="@+id/c_p"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:text="@{String.valueOf(ViewModel.costume_progress)}" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="50dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="50dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:paddingEnd="50sp"
+                android:text="@string/str_Cosplay_details" />
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:text="@string/str_Cosplay_details" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_gravity="bottom"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <EditText
+                android:id="@+id/c_id"
+                android:layout_height="0sp"
+                android:inputType="textNoSuggestions"
+                android:layout_width="0sp"
+                android:gravity="center"
+                android:visibility="gone"
+                android:text="@{String.valueOf(ViewModel.costume_id)}"/>
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="end"
+                android:src="@android:drawable/ic_input_add"
+                android:onClick="@{ec_handlers::onClickAdd}"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</layout>

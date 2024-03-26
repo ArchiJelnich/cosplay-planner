@@ -17,7 +17,9 @@
     <string name="str_Event_place">Место</string>
     <string name="str_Event_costume">Костюм</string>
     <string name="str_Event_steps">Шаги</string>
-
+    <string name="str_Cosplay_status">Статус</string>
+    <string name="str_Cosplay_progress">Прогресс</string>
+    <string name="str_Cosplay_details">Детали</string>
     <string name="str_yes">Да</string>
     <string name="str_no">Нет</string>
     <string name="str_delete_event">Удалить событие?</string>
@@ -28,6 +30,12 @@
         <item>Фестиваль</item>
         <item>Тусовка</item>
         <item>Фотосессия</item>
+    </string-array>
+
+    <string-array name="C_status">
+        <item>В прогрессе</item>
+        <item>Закончен</item>
+        <item>На паузе</item>
     </string-array>
 
 </resources>

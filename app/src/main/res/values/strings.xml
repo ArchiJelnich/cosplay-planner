@@ -16,7 +16,9 @@
     <string name="str_Event_place">Place</string>
     <string name="str_Event_costume">Costume</string>
     <string name="str_Event_steps">Steps</string>
-
+    <string name="str_Cosplay_status">Status</string>
+    <string name="str_Cosplay_progress">Progress</string>
+    <string name="str_Cosplay_details">Details</string>
     <string name="str_yes">Yes</string>
     <string name="str_no">No</string>
     <string name="str_delete_event">Delete event?</string>
@@ -27,6 +29,12 @@
         <item>Convention</item>
         <item>Party</item>
         <item>Photoshoot</item>
+    </string-array>
+
+    <string-array name="C_status">
+        <item>In progress</item>
+        <item>Finished</item>
+        <item>On hold</item>
     </string-array>
 
 </resources>

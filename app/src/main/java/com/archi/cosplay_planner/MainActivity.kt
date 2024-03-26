@@ -284,7 +284,16 @@ lifecycleScope.launch {
             //Log.v("MYDEBUG", "Corrrr")
 
             val repos = Repos(CostumeDao, filter)
-            recyclerView.adapter = MainRV(repos.allCosplay, repos.filteredCosplay_f, repos.filteredCosplay_p, repos.filteredCosplay_h, filter)
+            val adapter = MainRV(repos.allCosplay, repos.filteredCosplay_f, repos.filteredCosplay_p, repos.filteredCosplay_h, filter)
+            recyclerView.adapter = adapter
+
+            adapter.onEventClickListener = { position, costume ->
+                //Log.v("MyLog", "clicked " + position)
+                Log.v("MyLog", "clicked " + costume)
+                val intent = Intent(this@MainActivity, EditMainActivity::class.java)
+                intent.putExtra("costume", costume)
+                this@MainActivity.startActivity(intent)
+            }
 
             }
         }

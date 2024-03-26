@@ -24,6 +24,9 @@ interface CostumeDao {
     fun insertAll(vararg users: Costume)
     @Delete
     fun delete(costume: Costume)
+
+    @Update
+    fun updateCostume(costume: Costume)
 }
 
 @Dao

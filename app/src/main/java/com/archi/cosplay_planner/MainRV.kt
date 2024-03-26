@@ -8,10 +8,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.archi.cosplay_planner.P_ROOM.Costume
+import com.archi.cosplay_planner.P_ROOM.Events
 
 
 class MainRV(private val costumes_a: List<Costume>, private val costumes_f: List<Costume>, private val costumes_p: List<Costume>, private val costumes_h: List<Costume>, private val filter: Int): RecyclerView.Adapter<MainRV.MyViewHolder>() {
-        class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+
+    var onEventClickListener: ((position: Int, costume : Costume) -> Unit)? = null
+
+    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
             val fandom: TextView = itemView.findViewById(R.id.textView)
             val character: TextView = itemView.findViewById(R.id.textView2)
             val image: ImageView = itemView.findViewById(R.id.imageView)
@@ -50,6 +54,12 @@ class MainRV(private val costumes_a: List<Costume>, private val costumes_f: List
         holder.character.text = costumes[position].character
         holder.progress.text = costumes[position].progress.toString()
         holder.status.text = costumes[position].status.toString()
+
+
+        holder.itemView.setOnClickListener {
+            onEventClickListener?.invoke(holder.adapterPosition, costumes[position])
+
+        }
 
     }
 

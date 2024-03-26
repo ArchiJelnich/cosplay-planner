@@ -40,9 +40,13 @@ class EditEventActivity : AppCompatActivity() {
             val e_s = (view.rootView as View).findViewById<View>(R.id.e_s) as EditText
             val e_id = (view.rootView as View).findViewById<View>(R.id.e_id) as EditText
 
+            when(e_t.getSelectedItem().toString()){
+                types[0] ->  type = 0;
+                types[1] ->  type = 1;
+                types[2] ->  type = 2;
+            }
 
-
-            if (e_t.getSelectedItem().toString()==types[0] )
+           /* if (e_t.getSelectedItem().toString()==types[0] )
             {
                 type = 0
             }
@@ -53,7 +57,7 @@ class EditEventActivity : AppCompatActivity() {
             if (e_t.getSelectedItem().toString()==types[2] )
             {
                 type = 2
-            }
+            }*/
 
 
             if (e_n.text.isEmpty()) {
@@ -67,12 +71,12 @@ class EditEventActivity : AppCompatActivity() {
 
             if (InputCheckerText(e_n.text.toString()).second != 0)
             {
-                Toast.makeText(context, "Fandom:" + InputCheckerText(e_n.text.toString()).first, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Name:" + InputCheckerText(e_n.text.toString()).first, Toast.LENGTH_SHORT).show()
             }
 
             if (InputCheckerText(e_p.text.toString()).second != 0)
             {
-                Toast.makeText(context, "Character:" + InputCheckerText(e_p.text.toString()).first, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Place:" + InputCheckerText(e_p.text.toString()).first, Toast.LENGTH_SHORT).show()
             }
 
 
