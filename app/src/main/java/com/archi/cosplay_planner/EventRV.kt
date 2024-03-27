@@ -9,12 +9,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.collection.intFloatMapOf
 import androidx.recyclerview.widget.RecyclerView
 import com.archi.cosplay_planner.P_ROOM.Events
-import com.archi.cosplay_planner.R_Infra.check_if_in_future
-import com.archi.cosplay_planner.R_Infra.fulldata_to_string
-import com.archi.cosplay_planner.R_Infra.string_to_data
+import com.archi.cosplay_planner.P_Infra.check_if_in_future
+import com.archi.cosplay_planner.P_Infra.fulldata_to_string
+import com.archi.cosplay_planner.P_Infra.string_to_data
 
 
 class EventRV(private val events: List<Events>, val filter: Int): RecyclerView.Adapter<EventRV.EventViewHolder>() {

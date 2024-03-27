@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity()  {
 
 
 
+
     //val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
     //val navController = navHostFragment.navController
 
@@ -80,13 +81,13 @@ class MainActivity : AppCompatActivity()  {
 
            // var sharedPref = getPreferences(Context.MODE_PRIVATE)
            // var editor = sharedPref.edit()
-            val filter = sharedPreferences.getInt("filter", -1)
+            var filter = sharedPreferences.getInt("filter", -1)
             val t_p = (view.rootView as View).findViewById<View>(R.id.text_p)
             val t_f = (view.rootView as View).findViewById<View>(R.id.text_f)
             val t_h = (view.rootView as View).findViewById<View>(R.id.text_h)
-            val recyclerView = (view.rootView as View).findViewById<View>(R.id.recyclerView)
 
 
+            Log.v("MyDebug", "Filter before " + filter)
 
 
             when (view.id) {
@@ -129,9 +130,22 @@ class MainActivity : AppCompatActivity()  {
 
             }
             editor.apply()
-            Log.v("MyDebug", "Hm " + sharedPreferences.getInt("filter", -1))
+          //  Log.v("MyDebug", "Hm " + sharedPreferences.getInt("filter", -1))
            // com.archi.cosplay_planner.MainActivity.rv()
-
+            filter = sharedPreferences.getInt("filter", -1)
+            var db = AppDatabase.getInstance(context)
+            val CostumeDao = db.CostumeDao()
+            val repos = Repos(CostumeDao, filter)
+            val recycler_view_late = (view.rootView as View).findViewById<RecyclerView>(R.id.recyclerView)
+            val adapter = MainRV(repos.allCosplay, repos.filteredCosplay_f, repos.filteredCosplay_p, repos.filteredCosplay_h, filter)
+            recycler_view_late.adapter = adapter
+            Log.v("MyDebug", "Filter after " + filter)
+            adapter.onEventClickListener = { position, costume ->
+                //Log.v("MyLog", "clicked " + position)
+                val intent = Intent(context, EditMainActivity::class.java)
+                intent.putExtra("costume", costume)
+                context.startActivity(intent)
+            }
 
 
 
@@ -278,7 +292,7 @@ lifecycleScope.launch {
         val sharedPref = getPreferences(Context.MODE_PRIVATE)
        // var editor = sharedPref.edit()
         val filter = sharedPref.getInt("filter", -1)
-        //Log.v("MYDEBUG", "Filter in main" + filter)
+        Log.v("MYDEBUG", "Filter in main" + filter)
 
         lifecycleScope.launch {
             //Log.v("MYDEBUG", "Corrrr")

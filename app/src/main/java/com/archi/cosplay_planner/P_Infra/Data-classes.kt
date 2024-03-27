@@ -1,4 +1,4 @@
-package com.archi.cosplay_planner.R_Infra
+package com.archi.cosplay_planner.P_Infra
 
 import android.os.Build
 import androidx.annotation.RequiresApi

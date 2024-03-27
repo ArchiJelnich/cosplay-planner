@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import com.archi.cosplay_planner.P_ROOM.AppDatabase
 import com.archi.cosplay_planner.P_ROOM.Costume
-import com.archi.cosplay_planner.R_Infra.InputCheckerText
+import com.archi.cosplay_planner.P_Infra.InputCheckerText
 import com.archi.cosplay_planner.databinding.LNewCosplayScreenBinding
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

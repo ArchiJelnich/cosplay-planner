@@ -5,9 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
-import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TextView
@@ -16,11 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import com.archi.cosplay_planner.P_ROOM.AppDatabase
 import com.archi.cosplay_planner.P_ROOM.Costume
-import com.archi.cosplay_planner.P_ROOM.Events
-import com.archi.cosplay_planner.R_Infra.InputCheckerText
-import com.archi.cosplay_planner.R_Infra.sort_value_from_date
-import com.archi.cosplay_planner.R_Infra.string_to_data
-import com.archi.cosplay_planner.databinding.LEventsEditScreenBinding
+import com.archi.cosplay_planner.P_Infra.InputCheckerText
 import com.archi.cosplay_planner.databinding.LMainEditScreenBinding
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

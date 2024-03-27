@@ -34,7 +34,8 @@ class MainRV(private val costumes_a: List<Costume>, private val costumes_f: List
             -1 -> costumes_a
             0 -> costumes_p
             1 -> costumes_f
-            else -> costumes_h
+            2 -> costumes_h
+            else -> costumes_a
         }
 
 
