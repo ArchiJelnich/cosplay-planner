@@ -1,7 +1,10 @@
 package com.archi.cosplay_planner
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -11,16 +14,22 @@ import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
-import com.archi.cosplay_planner.P_ROOM.AppDatabase
-import com.archi.cosplay_planner.P_ROOM.Events
 import com.archi.cosplay_planner.P_Infra.InputCheckerText
 import com.archi.cosplay_planner.P_Infra.sort_value_from_date
 import com.archi.cosplay_planner.P_Infra.string_to_data
+import com.archi.cosplay_planner.P_ROOM.AppDatabase
+import com.archi.cosplay_planner.P_ROOM.Events
 import com.archi.cosplay_planner.databinding.LEventsEditScreenBinding
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 
 class EditEventActivity : AppCompatActivity() {
@@ -125,7 +134,68 @@ class EditEventActivity : AppCompatActivity() {
 
                 }
 
+        @SuppressLint("SimpleDateFormat")
+        @RequiresApi(Build.VERSION_CODES.O)
+        fun onClickCalendar(view: View) {
 
+
+            val e_d = (view.rootView as View).findViewById<View>(R.id.datePicker1) as DatePicker
+            var date = e_d.dayOfMonth.toString()+"."+(e_d.month +1).toString()+"."+e_d.year.toString()
+            val e_n = (view.rootView as View).findViewById<View>(R.id.e_n) as EditText
+            val e_p = (view.rootView as View).findViewById<View>(R.id.e_p) as EditText
+
+            val sdf = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+            val parsedDate = sdf.parse(date)
+            val calendar = Calendar.getInstance()
+            calendar.time = parsedDate ?: Date()
+            var fullEvent = e_n.text.toString() + " [" + e_p.text.toString() + "]"
+
+           // val millis = calendar.timeInMillis
+
+            var intent = Intent(Intent.ACTION_EDIT)
+            intent.type = "vnd.android.cursor.item/event"
+            intent.putExtra("beginTime", calendar.timeInMillis)
+            intent.putExtra("allDay", true)
+            //intent.putExtra("rule", "FREQ=YEARLY")
+            intent.putExtra("endTime", calendar.timeInMillis + 60 * 60 * 1000)
+            intent.putExtra("title", fullEvent)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            context.startActivity(intent)
+
+           // val intentUri = Uri.parse("content://com.android.calendar/time/$millis")
+            //val intent = Intent(Intent.ACTION_EDIT, intentUri)
+            //intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+
+           // context.startActivity(intent)
+
+
+
+/*
+            val calendarEvent: Calendar = Calendar.getInstance()
+            var intent = Intent(Intent.ACTION_EDIT)
+            intent.type = "vnd.android.cursor.item/event"
+            intent.putExtra("beginTime", calendarEvent.timeInMillis)
+            intent.putExtra("allDay", true)
+            intent.putExtra("rule", "FREQ=YEARLY")
+            intent.putExtra("endTime", calendarEvent.timeInMillis + 60 * 60 * 1000)
+            intent.putExtra("title", "Calendar Event")
+            context.startActivity(intent)
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
         fun hideKeyboard(view: View) {
 
             val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
