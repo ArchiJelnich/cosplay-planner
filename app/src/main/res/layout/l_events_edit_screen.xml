@@ -87,7 +87,7 @@
                 android:layout_height="30dp"
                 android:layout_gravity="end"
                 android:onClick="@{ee_handlers::onClickCalendar}"
-                android:src="@android:drawable/ic_dialog_map" />
+                android:src="@android:drawable/ic_dialog_dialer" />
         </LinearLayout>
 
         <LinearLayout
@@ -110,6 +110,12 @@
                 android:gravity="center"
                 android:hint="@string/str_Event_place"
                 android:text="@{ViewModel.event_place}"/>
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="end"
+                android:onClick="@{ee_handlers::onClickMap}"
+                android:src="@android:drawable/ic_dialog_map" />
         </LinearLayout>
 
         <LinearLayout

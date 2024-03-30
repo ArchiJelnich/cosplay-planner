@@ -196,6 +196,24 @@ class EditEventActivity : AppCompatActivity() {
 
 
         }
+
+        fun onClickMap(view: View) {
+
+
+            val e_p = (view.rootView as View).findViewById<View>(R.id.e_p) as EditText
+            val uriString = "geo:0,0?q="+e_p.text.toString()
+            val gmmIntentUri = Uri.parse(uriString)
+            val intent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+            intent.setPackage("com.google.android.apps.maps")
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            context.startActivity(intent)
+
+
+
+        }
+
+
+
         fun hideKeyboard(view: View) {
 
             val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
