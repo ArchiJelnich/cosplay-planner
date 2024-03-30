@@ -17,6 +17,7 @@ data class Costume(
     // 2 - On hold
     @ColumnInfo(name = "progress", defaultValue = "0") val progress: Int?,
    // Picaso? Or URI localy? @ColumnInfo(name = "image", typeAffinity = ColumnInfo.BLOB, defaultValue = Null) val image: ByteArray?
+
 ) : Serializable
 
 @Entity

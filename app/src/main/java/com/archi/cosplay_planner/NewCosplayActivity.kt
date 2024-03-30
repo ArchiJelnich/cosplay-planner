@@ -14,8 +14,10 @@ import com.archi.cosplay_planner.P_ROOM.AppDatabase
 import com.archi.cosplay_planner.P_ROOM.Costume
 import com.archi.cosplay_planner.P_Infra.InputCheckerText
 import com.archi.cosplay_planner.databinding.LNewCosplayScreenBinding
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class NewCosplayActivity : AppCompatActivity() {
@@ -60,11 +62,21 @@ class NewCosplayActivity : AppCompatActivity() {
 
                 GlobalScope.launch  {
                     Log.v("MYDEBUG", "In corut")
+                    var character = InputCheckerText(e_c.text.toString()).first
+
+                    if (costumeDao.getByCharacter(character).size!=0)
+                    {
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(context, "Character name is not unique", Toast.LENGTH_SHORT).show()
+                        }
+                        // Toast.makeText(context, "Character name is not unique", Toast.LENGTH_SHORT).show()
+                        return@launch
+                    }
 
                     val CostumeToAdd = Costume(
                         costumeID = 0,
                         fandom = InputCheckerText(e_f.text.toString()).first,
-                        character = InputCheckerText(e_c.text.toString()).first,
+                        character = character,
                         status = 0,
                         progress = 0
                     )

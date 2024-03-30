@@ -11,6 +11,9 @@ interface CostumeDao {
     @Query("SELECT * FROM Costume")
     fun getAll():  List<Costume>
 
+    @Query("SELECT costumeID FROM Costume WHERE character = :character")
+    fun getByCharacter(character: String):  List<Int>
+
     @Query("SELECT * FROM Costume WHERE status = 0")
     fun getP():  List<Costume>
 
@@ -39,6 +42,8 @@ interface EventsDao {
     fun delete(event: Events)
     @Update
     fun updateEvent(event: Events)
+    @Query("SELECT * FROM Events WHERE costumeID = :costumeID")
+    fun getByCostume(costumeID: Int):  List<Events>
 
 }
 

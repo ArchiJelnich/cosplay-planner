@@ -16,12 +16,15 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.toMutableStateMap
 import androidx.lifecycle.ViewModel
 import com.archi.cosplay_planner.P_Infra.InputCheckerText
 import com.archi.cosplay_planner.P_Infra.sort_value_from_date
 import com.archi.cosplay_planner.P_Infra.string_to_data
 import com.archi.cosplay_planner.P_ROOM.AppDatabase
+import com.archi.cosplay_planner.P_ROOM.CostumeDao
 import com.archi.cosplay_planner.P_ROOM.Events
+import com.archi.cosplay_planner.P_ROOM.Repos
 import com.archi.cosplay_planner.databinding.LEventsEditScreenBinding
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -45,7 +48,7 @@ class EditEventActivity : AppCompatActivity() {
             val e_d = (view.rootView as View).findViewById<View>(R.id.datePicker1) as DatePicker
             val types = context.resources.getStringArray(R.array.Ev_Types)
             var type = 0
-            val e_c = (view.rootView as View).findViewById<View>(R.id.e_c) as EditText
+            val e_c = (view.rootView as View).findViewById<View>(R.id.e_c) as Spinner
             val e_s = (view.rootView as View).findViewById<View>(R.id.e_s) as EditText
             val e_id = (view.rootView as View).findViewById<View>(R.id.e_id) as EditText
 
@@ -54,6 +57,8 @@ class EditEventActivity : AppCompatActivity() {
                 types[1] ->  type = 1;
                 types[2] ->  type = 2;
             }
+
+
 
            /* if (e_t.getSelectedItem().toString()==types[0] )
             {
@@ -96,12 +101,22 @@ class EditEventActivity : AppCompatActivity() {
                 val eventDao = db.EventsDao()
 
                 val date = e_d.dayOfMonth.toString()+"."+(e_d.month +1).toString()+"."+e_d.year.toString()
-                val cosplay_id = e_c.text.toString()
+                var cosplay_id = e_c.getSelectedItem().toString()
                 val event_id = e_id.text.toString()
 
 
 
                 GlobalScope.launch {
+
+                    val db: AppDatabase = AppDatabase.getInstance(context)
+                    val costumeDao = db.CostumeDao()
+                    val repos = Repos(costumeDao, 0)
+                    var names = repos.allCosplay.map { it.character to it.costumeID}.toMap()
+                    names = names + Pair(context.getString(R.string.str_no), -1)
+                    cosplay_id = names.getValue(cosplay_id).toString()
+
+
+
                     Log.v("MYDEBUG", "In corut")
 
                     val EventToUpdate = Events(
@@ -248,7 +263,9 @@ class EditEventActivity : AppCompatActivity() {
         val event_steps = event.steps!!
         val event_costume = event.costumeID!!
         val event_date_sortes = event.date_sorted!!
+        val costume_name = getString(R.string.str_no)
 
+        Log.v("MyLogSpinner", "string event_costume" + event_costume)
 
         val binding = LEventsEditScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -262,7 +279,7 @@ class EditEventActivity : AppCompatActivity() {
 
 
         val spinner: Spinner = findViewById(R.id.e_t)
-
+        val spinner_costume: Spinner = findViewById(R.id.e_c)
 
         ArrayAdapter.createFromResource(
             this,
@@ -275,6 +292,44 @@ class EditEventActivity : AppCompatActivity() {
             spinner.adapter = adapter
         }
         spinner.setSelection(event_type)
+
+        val db: AppDatabase = AppDatabase.getInstance(this)
+        val costumeDao = db.CostumeDao()
+        GlobalScope.launch {
+            val repos = Repos(costumeDao, 0)
+            var names = repos.allCosplay.map { it.character to it.costumeID}.toMap()
+            names = names + Pair(getString(R.string.str_no), -1)
+            val names_list = names.keys.toList()
+
+
+            var adapter_sp = ArrayAdapter(
+                this@EditEventActivity,
+                android.R.layout.simple_spinner_item,
+                names_list
+            )
+
+            adapter_sp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner_costume.adapter = adapter_sp
+            if (event_costume==-1)
+            {
+                spinner_costume.setSelection(names_list.size-1)
+            }
+            else {
+                spinner_costume.setSelection(event_costume-1)
+            }
+
+
+
+
+
+
+
+        }
+
+
+
+
+
 
 
         val datePicker: DatePicker = findViewById(R.id.datePicker1)

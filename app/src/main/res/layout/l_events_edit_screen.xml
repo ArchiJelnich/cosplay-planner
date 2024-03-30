@@ -130,14 +130,13 @@
                 android:layout_width="wrap_content"
                 android:gravity="center"
                 android:text="@string/str_Event_costume" />
-            <EditText
+            <Spinner
                 android:id="@+id/e_c"
                 android:layout_height="wrap_content"
                 android:inputType="textNoSuggestions"
                 android:layout_width="wrap_content"
                 android:gravity="center"
-                android:hint="@string/str_Event_costume"
-                android:text="@{String.valueOf(ViewModel.event_costume)}"/>
+                android:hint="@string/str_Event_costume"/>
         </LinearLayout>
 
         <LinearLayout

@@ -152,6 +152,12 @@
                 android:onClick="@{ec_handlers::onClickAdd}"/>
         </LinearLayout>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:paddingTop="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"/>
 
     </LinearLayout>
 

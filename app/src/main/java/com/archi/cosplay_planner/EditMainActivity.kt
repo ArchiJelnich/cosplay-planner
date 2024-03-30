@@ -10,14 +10,21 @@ import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.archi.cosplay_planner.P_ROOM.AppDatabase
 import com.archi.cosplay_planner.P_ROOM.Costume
 import com.archi.cosplay_planner.P_Infra.InputCheckerText
+import com.archi.cosplay_planner.P_ROOM.ReposEvent
 import com.archi.cosplay_planner.databinding.LMainEditScreenBinding
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class EditMainActivity : AppCompatActivity() {
@@ -59,21 +66,34 @@ class EditMainActivity : AppCompatActivity() {
             }
 
 
+
+
             if ((InputCheckerText(c_f.text.toString()).second == 0) && (InputCheckerText(c_c.text.toString()).second)==0) {
 
                 val db: AppDatabase = AppDatabase.getInstance(context)
                 val costumeDao = db.CostumeDao()
                 val costume_id = c_id.text.toString()
-
+                var character = InputCheckerText(c_c.text.toString()).first
 
 
                 GlobalScope.launch {
+
+                    if (costumeDao.getByCharacter(character).size!=0)
+                    {
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(context, "Character name is not unique", Toast.LENGTH_SHORT).show()
+                        }
+                       // Toast.makeText(context, "Character name is not unique", Toast.LENGTH_SHORT).show()
+                        return@launch
+                    }
+
+
                     Log.v("MYDEBUG", "In corut")
 
                     val CostumeToUpdate = Costume(
                         costumeID = costume_id.toInt(),
                         fandom = InputCheckerText(c_f.text.toString()).first,
-                        character = InputCheckerText(c_c.text.toString()).first,
+                        character = character,
                         status = status,
                         progress = c_p.text.toString().toInt()
                     )
@@ -81,6 +101,9 @@ class EditMainActivity : AppCompatActivity() {
 
                     val intent = Intent(context, MainActivity::class.java)
                     context.startActivity(intent)
+
+
+
 
 
                 }}
@@ -126,7 +149,31 @@ class EditMainActivity : AppCompatActivity() {
         }
         spinner.setSelection(costume_status)
 
+        var db = AppDatabase.getInstance(applicationContext)
+        val eventDao = db.EventsDao()
 
+
+
+
+        lifecycleScope.launch {
+            //Log.v("MYDEBUG", "Corrrr")
+
+            var repos = ReposEvent(eventDao, costume_id)
+            //recyclerView.adapter = EventRV(repos.allEvents, 0)
+            val adapter = EventRV(repos.filteredEvents, costume_id)
+            val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
+            recyclerView.layoutManager = LinearLayoutManager(this@EditMainActivity)
+            recyclerView.adapter = adapter
+
+            adapter.onEventClickListener = { position, event ->
+
+                val intent = Intent(this@EditMainActivity, EditEventActivity::class.java)
+                intent.putExtra("event", event)
+                this@EditMainActivity.startActivity(intent)
+            }
+
+
+        }
 
 
 
