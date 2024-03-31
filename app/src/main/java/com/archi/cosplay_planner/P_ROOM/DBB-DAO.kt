@@ -45,6 +45,11 @@ interface EventsDao {
     @Query("SELECT * FROM Events WHERE costumeID = :costumeID")
     fun getByCostume(costumeID: Int):  List<Events>
 
+    @Query("UPDATE Events SET costumeID = -1 WHERE costumeID = :costumeID")
+    fun updateWhenDelete(costumeID: Int)
+    @Query("DELETE FROM Events WHERE costumeID = :costumeID")
+    fun deleteByCostumeID(costumeID: Int)
+
 }
 
 @Dao

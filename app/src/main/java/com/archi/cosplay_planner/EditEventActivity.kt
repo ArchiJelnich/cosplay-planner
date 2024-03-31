@@ -100,7 +100,7 @@ class EditEventActivity : AppCompatActivity() {
                 val db: AppDatabase = AppDatabase.getInstance(context)
                 val eventDao = db.EventsDao()
 
-                val date = e_d.dayOfMonth.toString()+"."+(e_d.month +1).toString()+"."+e_d.year.toString()
+                val date = e_d.dayOfMonth.toString()+"."+(e_d.month).toString()+"."+e_d.year.toString()
                 var cosplay_id = e_c.getSelectedItem().toString()
                 val event_id = e_id.text.toString()
 

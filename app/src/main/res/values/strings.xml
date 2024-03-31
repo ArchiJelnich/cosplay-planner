@@ -24,6 +24,14 @@
     <string name="str_delete_event">Delete event?</string>
     <string name="str_delete_event_message">Are you sure what you want to delete this event?</string>
 
+    <string name="str_delete_costume_message">Are you sure what you want to delete this costume?</string>
+
+    <string name="str_delete_costume_message_full">This costume linked to</string>
+    <string name="str_event">event</string>
+    <string name="str_events">events</string>
+
+    <string name="str_del_del">Delete costume and event with it</string>
+    <string name="str_del_update">Delete costume, set "no" in events</string>
 
     <string-array name="Ev_Types">
         <item>Convention</item>

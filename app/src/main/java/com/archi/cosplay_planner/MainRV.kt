@@ -14,6 +14,7 @@ import com.archi.cosplay_planner.P_ROOM.Events
 class MainRV(private val costumes_a: List<Costume>, private val costumes_f: List<Costume>, private val costumes_p: List<Costume>, private val costumes_h: List<Costume>, private val filter: Int): RecyclerView.Adapter<MainRV.MyViewHolder>() {
 
     var onEventClickListener: ((position: Int, costume : Costume) -> Unit)? = null
+    var onEventLongClickListener: ((position: Int, event: Costume) -> Boolean)? = null
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
             val fandom: TextView = itemView.findViewById(R.id.textView)
@@ -60,6 +61,10 @@ class MainRV(private val costumes_a: List<Costume>, private val costumes_f: List
         holder.itemView.setOnClickListener {
             onEventClickListener?.invoke(holder.adapterPosition, costumes[position])
 
+        }
+
+        holder.itemView.setOnLongClickListener{
+            onEventLongClickListener?.invoke(position, costumes[position]) ?: false
         }
 
     }

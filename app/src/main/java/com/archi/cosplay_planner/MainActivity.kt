@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.preference.PreferenceManager
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.archi.cosplay_planner.P_ROOM.AppDatabase
 import com.archi.cosplay_planner.P_ROOM.Repos
+import com.archi.cosplay_planner.P_ROOM.ReposEvent
 import com.archi.cosplay_planner.databinding.LMainScreenBinding
 import kotlinx.coroutines.launch
 
@@ -146,6 +148,7 @@ class MainActivity : AppCompatActivity()  {
                 intent.putExtra("costume", costume)
                 context.startActivity(intent)
             }
+
 
 
 
@@ -297,7 +300,7 @@ lifecycleScope.launch {
         lifecycleScope.launch {
             //Log.v("MYDEBUG", "Corrrr")
 
-            val repos = Repos(CostumeDao, filter)
+            var repos = Repos(CostumeDao, filter)
             val adapter = MainRV(repos.allCosplay, repos.filteredCosplay_f, repos.filteredCosplay_p, repos.filteredCosplay_h, filter)
             recyclerView.adapter = adapter
 
@@ -307,6 +310,102 @@ lifecycleScope.launch {
                 val intent = Intent(this@MainActivity, EditMainActivity::class.java)
                 intent.putExtra("costume", costume)
                 this@MainActivity.startActivity(intent)
+            }
+
+            adapter.onEventLongClickListener = { position, costume ->
+                Log.v("MyLog", "clicked long " + position)
+                val builder = AlertDialog.Builder(this@MainActivity)
+                builder.setTitle(R.string.str_delete_event)
+                val message = getString(R.string.str_delete_costume_message)
+                var db = AppDatabase.getInstance(applicationContext)
+                val eventDao = db.EventsDao()
+                val costumeDao = db.CostumeDao()
+                var repos_e = ReposEvent(eventDao, costume.costumeID)
+
+
+                if (repos_e.filteredEvents.size == 0)
+                {
+                    builder.setMessage(message + " " + costume.fandom + " " + costume.character)
+
+                    builder.setPositiveButton(R.string.str_yes) { dialog, which ->
+                        costumeDao.delete(costume)
+                        repos = Repos(CostumeDao, filter)
+                        val newAdapter = MainRV(
+                            repos.allCosplay,
+                            repos.filteredCosplay_f,
+                            repos.filteredCosplay_p,
+                            repos.filteredCosplay_h,
+                            filter
+                        )
+                        recyclerView.adapter = newAdapter
+
+                    }
+
+
+                }
+                else
+                {
+                    if (repos_e.filteredEvents.size == 1) {
+                        builder.setMessage(
+                            message + " " + costume.fandom + " " + costume.character + ("\n") + getString(
+                                R.string.str_delete_costume_message_full
+                            ) + " " + "1" + " " + getString(R.string.str_event)
+                        )
+                    }
+                    else {
+                        builder.setMessage(
+                            message + " " + costume.fandom + " " + costume.character + ("\n") + getString(
+                                R.string.str_delete_costume_message_full
+                            ) + " " + repos_e.filteredEvents.size + " " + getString(R.string.str_events))
+                    }
+
+                    builder.setPositiveButton(R.string.str_del_del) { dialog, which ->
+                        costumeDao.delete(costume)
+                        eventDao.deleteByCostumeID(costume.costumeID)
+
+                        repos = Repos(CostumeDao, filter)
+                        val newAdapter = MainRV(
+                            repos.allCosplay,
+                            repos.filteredCosplay_f,
+                            repos.filteredCosplay_p,
+                            repos.filteredCosplay_h,
+                            filter
+                        )
+                        recyclerView.adapter = newAdapter
+
+                    }
+
+                    builder.setNeutralButton(R.string.str_del_update) { dialog, which ->
+                        costumeDao.delete(costume)
+                        eventDao.updateWhenDelete(costume.costumeID)
+
+                        repos = Repos(CostumeDao, filter)
+                        val newAdapter = MainRV(
+                            repos.allCosplay,
+                            repos.filteredCosplay_f,
+                            repos.filteredCosplay_p,
+                            repos.filteredCosplay_h,
+                            filter
+                        )
+                        recyclerView.adapter = newAdapter
+
+                    }
+
+
+
+                }
+
+
+
+
+
+                builder.setNegativeButton(R.string.str_no) { dialog, which ->
+                    Log.v("MyLog", "No")
+                }
+
+
+                builder.show()
+                true
             }
 
             }
