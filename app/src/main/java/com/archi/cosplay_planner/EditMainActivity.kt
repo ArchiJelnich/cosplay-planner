@@ -78,7 +78,7 @@ class EditMainActivity : AppCompatActivity() {
 
                 GlobalScope.launch {
 
-                    if (costumeDao.getByCharacter(character).size!=0)
+                    if (costumeDao.getByCharacter(character).size!=0 && !costumeDao.getByCharacter(character).contains(c_id.text.toString().toInt()))
                     {
                         withContext(Dispatchers.Main) {
                             Toast.makeText(context, "Character name is not unique", Toast.LENGTH_SHORT).show()
