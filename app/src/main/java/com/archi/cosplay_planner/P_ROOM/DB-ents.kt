@@ -33,8 +33,8 @@ data class Events(
     @ColumnInfo(name = "date_sorted", defaultValue = "Mystery") val date_sorted: Int?,
     @ColumnInfo(name = "costumeID", defaultValue = "0") val costumeID: Int?,
     @ColumnInfo(name = "steps", defaultValue = "All done!") val steps: String?,
-) : Serializable
 
+) : Serializable
 @Entity
 data class Detail(
     @PrimaryKey(autoGenerate = true) val detailID: Int,
@@ -50,7 +50,7 @@ data class Detail(
     // 7 - Other
     @ColumnInfo(name = "progress", defaultValue = "0") val progress: Int?,
     @ColumnInfo(name = "costumeID", defaultValue = "0") val costumeID: Int?,
-)
+) : Serializable
 
 @Entity
 data class Materials(

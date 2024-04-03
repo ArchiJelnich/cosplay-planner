@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="ViewModel"
+            type="com.archi.cosplay_planner.DetailViewModel" />
+
+        <variable
+            name="d_handlers"
+            type="com.archi.cosplay_planner.DetailActivity.Handlers"/>
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/l_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:onClick="@{d_handlers::hideKeyboard}">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="50dp"
+            android:paddingLeft="50dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="50dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:text="@string/str_Cosplay_details" />
+            <EditText
+                android:id="@+id/d_n"
+                android:layout_height="wrap_content"
+                android:inputType="textNoSuggestions"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:hint="@string/str_Cosplay_details"
+                android:text="@{ViewModel.detail_name}"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="50dp"
+            android:paddingLeft="50dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="50dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:text="@string/str_detail_type" />
+            <Spinner
+                android:id="@+id/d_t"
+                android:layout_height="wrap_content"
+                android:inputType="textNoSuggestions"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:hint="@string/str_detail_type"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="50dp"
+            android:paddingLeft="50dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="50dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:text="@string/str_Cosplay_progress" />
+            <Spinner
+                android:id="@+id/d_p"
+                android:layout_height="wrap_content"
+                android:inputType="textNoSuggestions"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:hint="@string/str_Cosplay_progress"/>
+        </LinearLayout>
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_gravity="bottom"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center">
+
+
+         <EditText
+             android:id="@+id/c_id"
+             android:layout_height="0sp"
+             android:inputType="textNoSuggestions"
+             android:layout_width="0sp"
+             android:gravity="center"
+             android:visibility="gone"
+             android:text="@{String.valueOf(ViewModel.costume_id)}"/>
+
+            <TextView
+                android:id="@+id/d_id"
+                android:layout_height="0sp"
+                android:inputType="textNoSuggestions"
+                android:layout_width="0sp"
+                android:gravity="center"
+                android:visibility="gone"
+                android:text="@string/str_m_one"/>
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="end"
+                android:src="@android:drawable/ic_input_add"
+                android:onClick="@{d_handlers::onClickAdd}"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</layout>

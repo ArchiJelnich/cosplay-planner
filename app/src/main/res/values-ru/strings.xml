@@ -23,10 +23,13 @@
     <string name="str_yes">Да</string>
     <string name="str_no">Нет</string>
     <string name="str_delete_event">Удалить событие?</string>
+    <string name="str_delete_detail">Удалить деталь?</string>
     <string name="str_delete_event_message">Вы уверены, что хотите удалить событие?</string>
 
     <string name="str_delete_costume_message">Вы уверены, что хотите удалить костюм?</string>
     <string name="str_delete_costume_message_full">Этот костюм прилинкован к </string>
+    <string name="str_delete_detail_message">Вы уверены, что хотите удалить деталь?</string>
+
     <string name="str_event">событию</string>
     <string name="str_events">событиям</string>
     <string name="str_del_del">Удалить костюм и ивенты с ним</string>
@@ -42,6 +45,18 @@
         <item>В прогрессе</item>
         <item>Закончен</item>
         <item>На паузе</item>
+    </string-array>
+
+    <string name="str_detail_type">Тип детали</string>
+    <string-array name="D_type">
+        <item>Обувь</item>
+        <item>Парик</item>
+        <item>Аксессуар</item>
+        <item>Пропс</item>
+        <item>Верх</item>
+        <item>Низ</item>
+        <item>Бельё</item>
+        <item>Другое</item>
     </string-array>
 
 </resources>

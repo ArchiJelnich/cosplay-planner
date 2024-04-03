@@ -14,6 +14,9 @@ interface CostumeDao {
     @Query("SELECT costumeID FROM Costume WHERE character = :character")
     fun getByCharacter(character: String):  List<Int>
 
+    @Query("SELECT * FROM Costume WHERE costumeID = :id")
+    fun getByID(id: Int):  Costume
+
     @Query("SELECT * FROM Costume WHERE status = 0")
     fun getP():  List<Costume>
 
@@ -60,6 +63,11 @@ interface DetailDao {
     fun insertAll(vararg users: Detail)
     @Delete
     fun delete(detail: Detail)
+    @Query("SELECT * FROM Detail WHERE costumeID = :costumeID")
+    fun getByCostume(costumeID: Int):  List<Detail>
+
+    @Update
+    fun updateDetail(detail: Detail)
 }
 
 @Dao

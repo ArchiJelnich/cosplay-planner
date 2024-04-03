@@ -19,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.archi.cosplay_planner.P_ROOM.AppDatabase
 import com.archi.cosplay_planner.P_ROOM.Costume
 import com.archi.cosplay_planner.P_Infra.InputCheckerText
+import com.archi.cosplay_planner.P_ROOM.Repos
+import com.archi.cosplay_planner.P_ROOM.ReposDetail
 import com.archi.cosplay_planner.P_ROOM.ReposEvent
 import com.archi.cosplay_planner.databinding.LMainEditScreenBinding
 import kotlinx.coroutines.Dispatchers
@@ -111,6 +113,87 @@ class EditMainActivity : AppCompatActivity() {
 
 
         }
+
+        fun onClickAddDetail(view: View){
+
+
+            val c_f = (view.rootView as View).findViewById<View>(R.id.c_f) as EditText
+            val c_c = (view.rootView as View).findViewById<View>(R.id.c_c) as EditText
+            val c_id = (view.rootView as View).findViewById<View>(R.id.c_id) as EditText
+            val c_p = (view.rootView as View).findViewById<View>(R.id.c_p) as TextView
+            val c_s = (view.rootView as View).findViewById<View>(R.id.c_s) as Spinner
+            val statuses = context.resources.getStringArray(R.array.C_status)
+            var status = 0
+
+            when(c_s.getSelectedItem().toString()){
+                statuses[0] ->  status = 0;
+                statuses[1] ->  status = 1;
+                statuses[2] ->  status = 2;
+            }
+
+            if (c_f.text.isEmpty()) {
+                c_f.setText(R.string.str_New_fandom)
+            }
+
+            if (c_c.text.isEmpty()) {
+                c_c.setText(R.string.str_New_Char)
+            }
+
+            if (InputCheckerText(c_f.text.toString()).second != 0)
+            {
+                Toast.makeText(context, "Fandom:" + InputCheckerText(c_f.text.toString()).first, Toast.LENGTH_SHORT).show()
+            }
+
+            if (InputCheckerText(c_c.text.toString()).second != 0)
+            {
+                Toast.makeText(context, "Character:" + InputCheckerText(c_c.text.toString()).first, Toast.LENGTH_SHORT).show()
+            }
+
+
+
+
+            if ((InputCheckerText(c_f.text.toString()).second == 0) && (InputCheckerText(c_c.text.toString()).second)==0) {
+
+                val db: AppDatabase = AppDatabase.getInstance(context)
+                val costumeDao = db.CostumeDao()
+                val costume_id = c_id.text.toString()
+                var character = InputCheckerText(c_c.text.toString()).first
+
+
+                GlobalScope.launch {
+
+                    if (costumeDao.getByCharacter(character).size!=0 && !costumeDao.getByCharacter(character).contains(c_id.text.toString().toInt()))
+                    {
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(context, "Character name is not unique", Toast.LENGTH_SHORT).show()
+                        }
+                        // Toast.makeText(context, "Character name is not unique", Toast.LENGTH_SHORT).show()
+                        return@launch
+                    }
+
+
+                    Log.v("MYDEBUG", "In corut")
+
+                    val CostumeToUpdate = Costume(
+                        costumeID = costume_id.toInt(),
+                        fandom = InputCheckerText(c_f.text.toString()).first,
+                        character = character,
+                        status = status,
+                        progress = c_p.text.toString().toInt()
+                    )
+                    costumeDao.updateCostume(CostumeToUpdate)
+
+
+
+                }}
+
+
+            val costume_id = c_id.text.toString().toInt()
+            val intent = Intent(context, DetailActivity::class.java)
+            intent.putExtra("costume_id", costume_id)
+            intent.putExtra("edit_flag", 0)
+            context.startActivity(intent)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -151,7 +234,7 @@ class EditMainActivity : AppCompatActivity() {
 
         var db = AppDatabase.getInstance(applicationContext)
         val eventDao = db.EventsDao()
-
+        val detailDao = db.DetailDao()
 
 
 
@@ -175,7 +258,57 @@ class EditMainActivity : AppCompatActivity() {
 
         }
 
+        lifecycleScope.launch {
+            //Log.v("MYDEBUG", "Corrrr")
 
+            var repos = ReposDetail(detailDao, costume_id)
+            //recyclerView.adapter = EventRV(repos.allEvents, 0)
+            val adapter = DetailRV(repos.filteredDetails)
+            val recyclerView: RecyclerView = findViewById(R.id.recyclerViewD)
+            recyclerView.layoutManager = LinearLayoutManager(this@EditMainActivity)
+            recyclerView.adapter = adapter
+
+            adapter.onDetailClickListener = { position, detail ->
+
+
+                val intent = Intent(this@EditMainActivity, DetailActivity::class.java)
+
+                intent.putExtra("costume_id", costume_id)
+
+
+                intent.putExtra("edit_flag", 1)
+                intent.putExtra("detail", detail)
+                this@EditMainActivity.startActivity(intent)
+            }
+
+            adapter.onDetailLongClickListener = {position, detail ->
+                val builder = AlertDialog.Builder(this@EditMainActivity)
+
+
+                builder.setTitle(R.string.str_delete_detail)
+                val message = getString(R.string.str_delete_detail_message)
+                builder.setMessage(message + " " + detail.detail)
+
+                builder.setPositiveButton(R.string.str_yes) { dialog, which ->
+                    //Log.v("MyLog", "Yes")
+                    detailDao.delete(detail)
+                    //adapter.notifyItemRemoved(position)
+                    repos = ReposDetail(detailDao, costume_id)
+                    val newAdapter = DetailRV(repos.filteredDetails)
+                    recyclerView.adapter = newAdapter
+
+                }
+
+                builder.setNegativeButton(R.string.str_no) { dialog, which ->
+                    //Log.v("MyLog", "No")
+                }
+
+                builder.show()
+                true
+            }
+
+
+        }
 
 
 
