@@ -98,12 +98,14 @@
                 android:layout_width="wrap_content"
                 android:gravity="center"
                 android:paddingEnd="50sp"
+                android:visibility="gone"
                 android:text="@string/str_Cosplay_progress" />
             <TextView
                 android:id="@+id/c_p"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:gravity="center"
+                android:visibility="gone"
                 android:text="@{String.valueOf(ViewModel.costume_progress)}" />
         </LinearLayout>
 

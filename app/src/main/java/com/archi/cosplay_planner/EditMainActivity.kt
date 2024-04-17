@@ -76,7 +76,8 @@ class EditMainActivity : AppCompatActivity() {
                 val costumeDao = db.CostumeDao()
                 val costume_id = c_id.text.toString()
                 var character = InputCheckerText(c_c.text.toString()).first
-
+                val detailDao = db.DetailDao()
+                var repos = ReposDetail(detailDao, costume_id.toInt())
 
                 GlobalScope.launch {
 
@@ -97,9 +98,21 @@ class EditMainActivity : AppCompatActivity() {
                         fandom = InputCheckerText(c_f.text.toString()).first,
                         character = character,
                         status = status,
-                        progress = c_p.text.toString().toInt()
+                        progress = repos.costume_progress
                     )
+
                     costumeDao.updateCostume(CostumeToUpdate)
+
+
+
+
+
+
+
+
+
+
+
 
                     val intent = Intent(context, MainActivity::class.java)
                     context.startActivity(intent)

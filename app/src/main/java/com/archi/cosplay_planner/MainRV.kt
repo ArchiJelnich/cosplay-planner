@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.archi.cosplay_planner.P_ROOM.Costume
@@ -22,6 +23,7 @@ class MainRV(private val costumes_a: List<Costume>, private val costumes_f: List
             val image: ImageView = itemView.findViewById(R.id.imageView)
             val progress: TextView = itemView.findViewById(R.id.textView3)
             val status: TextView = itemView.findViewById(R.id.textView4)
+            val progress_bar: ProgressBar = itemView.findViewById(R.id.progressBar)
         }
 
     private var costumes = filtering()
@@ -56,7 +58,7 @@ class MainRV(private val costumes_a: List<Costume>, private val costumes_f: List
         holder.character.text = costumes[position].character
         holder.progress.text = costumes[position].progress.toString()
         holder.status.text = costumes[position].status.toString()
-
+        costumes[position].progress?.let { holder.progress_bar.setProgress(it) }
 
         holder.itemView.setOnClickListener {
             onEventClickListener?.invoke(holder.adapterPosition, costumes[position])
