@@ -18,6 +18,7 @@ import com.archi.cosplay_planner.P_ROOM.Repos
 import com.archi.cosplay_planner.P_ROOM.ReposEvent
 import com.archi.cosplay_planner.databinding.LMainScreenBinding
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 
 class MainActivity : AppCompatActivity()  {
@@ -68,6 +69,11 @@ class MainActivity : AppCompatActivity()  {
 
         fun onClickToEvents(view: View) {
             val intent = Intent(context, EventActivity::class.java)
+            context.startActivity(intent)
+        }
+
+        fun onClickToSettings(view: View) {
+            val intent = Intent(context, SettingActivity::class.java)
             context.startActivity(intent)
         }
 
@@ -204,11 +210,6 @@ class MainActivity : AppCompatActivity()  {
 
 
         rv()
-
-
-
-
-
 
 
            // val binding: MyViewModel = MyViewModel.bind(R.layout.l_main_screen)

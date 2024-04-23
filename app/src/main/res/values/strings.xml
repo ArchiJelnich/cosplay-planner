@@ -62,5 +62,20 @@
 
     <string name="str_m_one" translatable="false">-1</string>
 
+
+    <string name="str_Settings">Settings</string>
+    <string name="str_Settings_theme">Theme</string>
+    <string name="str_Settings_language">Language</string>
+
+    <string-array name="S_theme">
+        <item>Grey</item>
+    </string-array>
+
+    <string-array name="S_language">
+        <item>Russian</item>
+        <item>English</item>
+    </string-array>
+
+
 </resources>
 

@@ -59,4 +59,17 @@
         <item>Другое</item>
     </string-array>
 
+    <string name="str_Settings">Настройки</string>
+    <string name="str_Settings_theme">Тема</string>
+    <string name="str_Settings_language">Язык</string>
+
+    <string-array name="S_theme">
+        <item>Серая</item>
+    </string-array>
+
+    <string-array name="S_language">
+        <item>Русский</item>
+        <item>Английский</item>
+    </string-array>
+
 </resources>
