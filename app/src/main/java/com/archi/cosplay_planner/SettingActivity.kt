@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.os.LocaleList
 import android.preference.PreferenceManager
 import android.util.Log
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
@@ -31,7 +32,17 @@ class SettingActivity : AppCompatActivity() {
     private lateinit var db: AppDatabase
     private val handlers = SettingActivity.Handler(this)
 
-    class Handler (private val context: Context) {}
+    class Handler (private val context: Context) {
+        fun onClickToCosplay(view: View) {
+            val intent = Intent(context, MainActivity::class.java)
+            context.startActivity(intent)
+        }
+
+        fun onClickToEvents(view: View) {
+            val intent = Intent(context, EventActivity::class.java)
+            context.startActivity(intent)
+        }
+    }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     @SuppressLint("CommitPrefEdits")

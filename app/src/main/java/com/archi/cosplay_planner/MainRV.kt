@@ -60,6 +60,11 @@ class MainRV(private val costumes_a: List<Costume>, private val costumes_f: List
         holder.status.text = costumes[position].status.toString()
         costumes[position].progress?.let { holder.progress_bar.setProgress(it) }
 
+        if (costumes[position].status==1)
+        {
+            holder.character.setBackgroundResource(R.color.green_t)
+        }
+
         holder.itemView.setOnClickListener {
             onEventClickListener?.invoke(holder.adapterPosition, costumes[position])
 

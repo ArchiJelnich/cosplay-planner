@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.getString
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,10 +24,14 @@ import com.archi.cosplay_planner.P_ROOM.Repos
 import com.archi.cosplay_planner.P_ROOM.ReposDetail
 import com.archi.cosplay_planner.P_ROOM.ReposEvent
 import com.archi.cosplay_planner.databinding.LMainEditScreenBinding
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 
 class EditMainActivity : AppCompatActivity() {
@@ -34,6 +39,7 @@ class EditMainActivity : AppCompatActivity() {
 
     private val handlers = Handlers(this)
     class Handlers  (private val context: Context) {
+        @OptIn(DelicateCoroutinesApi::class)
         fun onClickAdd(view: View) {
             val c_f = (view.rootView as View).findViewById<View>(R.id.c_f) as EditText
             val c_c = (view.rootView as View).findViewById<View>(R.id.c_c) as EditText
@@ -79,7 +85,43 @@ class EditMainActivity : AppCompatActivity() {
                 val detailDao = db.DetailDao()
                 var repos = ReposDetail(detailDao, costume_id.toInt())
 
+
+
+
                 GlobalScope.launch {
+
+                withContext(Dispatchers.Main){
+                if (repos.costume_progress == 100 && status == 0) {
+                    //val builder = AlertDialog.Builder(context)
+                    //builder.setTitle(R.string.str_change_status)
+                    //builder.setCancelable(false)
+                    //builder.setMessage(R.string.str_change_all_finished)
+                    //builder.setPositiveButton(R.string.str_yes) { dialog, which ->
+                    //        status = 1
+
+                    //}
+                    //builder.setNegativeButton(R.string.str_no) { dialog, which ->
+                        //Log.v("MyLog", "No")
+                    //}
+                    //builder.show()
+                    var d_result = showAlertDialog(context, context.getString(R.string.str_change_status), context.getString(R.string.str_change_all_finished))
+                    if (d_result)
+                    {
+                        status = 1
+                    }
+
+                }
+
+                if (repos.costume_progress != 100 && status == 1) {
+                    var d_result = showAlertDialog(context, context.getString(R.string.str_change_status), context.getString(R.string.str_change_not_all_finished))
+                    if (d_result)
+                    {
+                        status = 0
+                    }
+                }}
+
+
+
 
                     if (costumeDao.getByCharacter(character).size!=0 && !costumeDao.getByCharacter(character).contains(c_id.text.toString().toInt()))
                     {
@@ -90,8 +132,9 @@ class EditMainActivity : AppCompatActivity() {
                         return@launch
                     }
 
-
                     Log.v("MYDEBUG", "In corut")
+
+
 
                     val CostumeToUpdate = Costume(
                         costumeID = costume_id.toInt(),
@@ -102,26 +145,13 @@ class EditMainActivity : AppCompatActivity() {
                     )
 
                     costumeDao.updateCostume(CostumeToUpdate)
-
-
-
-
-
-
-
-
-
-
-
-
                     val intent = Intent(context, MainActivity::class.java)
                     context.startActivity(intent)
-
-
-
-
-
                 }}
+
+
+
+
 
 
 
@@ -345,3 +375,21 @@ class EditMainActivity : AppCompatActivity() {
 class EditMViewModel(var costume_id : Int, var costume_fandom : String, var costume_character: String, var costume_status: Int, var costume_progress: Int) : ViewModel() {
 }
 
+suspend fun showAlertDialog(context: Context, mess : String, title : String): Boolean {
+    return suspendCoroutine { continuation ->
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(title)
+        builder.setMessage(mess)
+        builder.setPositiveButton(R.string.str_yes) { dialog, which ->
+            continuation.resume(true)
+        }
+        builder.setNegativeButton(R.string.str_no) { dialog, which ->
+            continuation.resume(false)
+        }
+        builder.setOnCancelListener {
+            continuation.resume(false)
+        }
+        builder.show()
+        Log.v("MYDEBUG", "Corrrr")
+    }
+}

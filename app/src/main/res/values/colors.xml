@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="white_t">#1AFFFFFF</color>
     <color name="red_t">#1AFF0000</color>
+    <color name="green_t">#1A11FF00</color>
 </resources>

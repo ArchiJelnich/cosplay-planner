@@ -36,6 +36,11 @@ class EventActivity : AppCompatActivity() {
             context.startActivity(intent)
         }
 
+        fun onClickToSettings(view: View) {
+            val intent = Intent(context, SettingActivity::class.java)
+            context.startActivity(intent)
+        }
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

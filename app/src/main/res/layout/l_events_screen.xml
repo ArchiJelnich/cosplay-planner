@@ -82,7 +82,8 @@
                 android:layout_height="wrap_content"
                 android:paddingEnd="10dp"
                 android:src="@android:drawable/btn_star_big_on"
-                android:contentDescription="@string/app_name"/>
+                android:contentDescription="@string/app_name"
+                android:onClick="@{handlers::onClickToSettings}"/>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
