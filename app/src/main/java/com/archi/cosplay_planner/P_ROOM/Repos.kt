@@ -98,3 +98,9 @@ private fun progression(): Int {
       // }
 }
 
+
+class ReposBMaterial (private val MaterialsDao: MaterialsDao) {
+
+
+      var allMaterial: List<Materials> = MaterialsDao.getAll()
+}

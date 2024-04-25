@@ -79,4 +79,7 @@
     <string name="str_my_material">Мои материалы</string>
     <string name="str_material_base">База материалов</string>
 
+    <string name="str_material_name">Название материала</string>
+    <string name="str_material_unit">Единица исчисления</string>
+
 </resources>

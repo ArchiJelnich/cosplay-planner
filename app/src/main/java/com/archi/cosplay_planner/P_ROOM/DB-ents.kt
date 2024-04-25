@@ -56,8 +56,8 @@ data class Detail(
 data class Materials(
     @PrimaryKey(autoGenerate = true) val materialID: Int,
     @ColumnInfo(name = "material", defaultValue = "Mystery") val material: String?,
-    @ColumnInfo(name = "unit", defaultValue = "0") val unit: Int?,
-)
+    @ColumnInfo(name = "unit", defaultValue = "Mystery") val unit: String?,
+) : Serializable
 
 @Entity
 data class MaterialsStock(

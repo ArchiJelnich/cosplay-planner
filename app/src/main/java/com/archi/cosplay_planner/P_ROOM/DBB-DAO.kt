@@ -78,6 +78,9 @@ interface MaterialsDao {
     fun insertAll(vararg users: Materials)
     @Delete
     fun delete(materials: Materials)
+
+    @Update
+    fun updateMaterial(materials: Materials)
 }
 
 @Dao

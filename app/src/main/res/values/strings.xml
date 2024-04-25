@@ -83,5 +83,8 @@
     <string name="str_my_material">My material</string>
     <string name="str_material_base">Material base</string>
 
+    <string name="str_material_name">Material name</string>
+    <string name="str_material_unit">Unit of calculation</string>
+
 </resources>
 
