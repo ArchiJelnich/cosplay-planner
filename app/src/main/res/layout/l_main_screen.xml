@@ -140,7 +140,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingEnd="10dp"
-                android:src="@android:drawable/btn_star_big_on"/>
+                android:src="@android:drawable/btn_star_big_on"
+                android:onClick="@{handlers::onClickToMMaterial}"/>
         </LinearLayout>
 
 

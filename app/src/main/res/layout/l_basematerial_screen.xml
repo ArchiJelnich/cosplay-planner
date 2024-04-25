@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="ViewModel"
+            type="com.archi.cosplay_planner.MaterialBaseViewModel" />
+        <variable
+            name="mb_handlers"
+            type="com.archi.cosplay_planner.MaterialBase.Handler"/>
+    </data>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="50dp"
+        android:id="@+id/l_main"
+        android:paddingLeft="50dp"
+        android:paddingBottom="10dp"
+        android:paddingRight="50dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text_view_id"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:text="@string/str_material_base"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewEvent"
+                android:paddingTop="50dp"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3"/>
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:src="@android:drawable/ic_input_add"
+                android:onClick="@{mb_handlers::onClickNewMaterial}"/>
+
+
+
+
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+
+
+
+
+</layout>

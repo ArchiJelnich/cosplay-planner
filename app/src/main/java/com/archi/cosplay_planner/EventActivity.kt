@@ -41,6 +41,11 @@ class EventActivity : AppCompatActivity() {
             context.startActivity(intent)
         }
 
+        fun onClickToMMaterial(view: View) {
+            val intent = Intent(context, MyMaterial::class.java)
+            context.startActivity(intent)
+        }
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

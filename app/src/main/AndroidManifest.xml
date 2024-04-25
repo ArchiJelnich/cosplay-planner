@@ -57,6 +57,16 @@
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar">
         </activity>
+        <activity
+            android:name=".MyMaterial"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+        </activity>
+        <activity
+            android:name=".MaterialBase"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

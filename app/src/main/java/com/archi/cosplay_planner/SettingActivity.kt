@@ -42,6 +42,11 @@ class SettingActivity : AppCompatActivity() {
             val intent = Intent(context, EventActivity::class.java)
             context.startActivity(intent)
         }
+
+        fun onClickToMMaterial(view: View) {
+            val intent = Intent(context, MyMaterial::class.java)
+            context.startActivity(intent)
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)

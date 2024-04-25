@@ -76,5 +76,7 @@
     <string name="str_change_all_finished">Все детали закончены. Поставить статус всего костюма "закончен"?</string>
     <string name="str_change_not_all_finished">Есть незаконченная деталь. Поставить статус всего костюма "в прогрессе"?</string>
 
+    <string name="str_my_material">Мои материалы</string>
+    <string name="str_material_base">База материалов</string>
 
 </resources>

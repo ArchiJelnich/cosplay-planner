@@ -77,6 +77,11 @@ class MainActivity : AppCompatActivity()  {
             context.startActivity(intent)
         }
 
+        fun onClickToMMaterial(view: View) {
+            val intent = Intent(context, MyMaterial::class.java)
+            context.startActivity(intent)
+        }
+
         @SuppressLint("CommitPrefEdits", "ResourceAsColor")
         fun onClickFilter(view: View) {
 

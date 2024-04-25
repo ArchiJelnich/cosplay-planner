@@ -80,6 +80,8 @@
     <string name="str_change_all_finished">All details are finished. Set entire costume status to finish?</string>
     <string name="str_change_not_all_finished">There are no finished details. Set entire costume status to in progress?</string>
 
+    <string name="str_my_material">My material</string>
+    <string name="str_material_base">Material base</string>
 
 </resources>
 
