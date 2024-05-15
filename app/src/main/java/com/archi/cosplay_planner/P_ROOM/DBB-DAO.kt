@@ -98,7 +98,9 @@ interface MaterialsPlannedDao {
     @Query("SELECT * FROM MaterialsPlanned")
     fun getAll(): List<MaterialsPlanned>
     @Insert
-    fun insertAll(vararg users: MaterialsPlanned)
-    @Delete
-    fun delete(materialsPlanned: MaterialsPlanned)
+    fun insertAll(vararg materialsp: MaterialsPlanned)
+    @Query("DELETE FROM MaterialsPlanned")
+    fun delete()
+    @Query("SELECT * FROM MaterialsPlanned WHERE detailID = :detailID")
+    fun getByDetail(detailID: Int):  List<MaterialsPlanned>
 }

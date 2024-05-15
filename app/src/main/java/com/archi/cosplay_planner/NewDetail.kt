@@ -17,11 +17,18 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.archi.cosplay_planner.P_Infra.InputCheckerText
 import com.archi.cosplay_planner.P_Infra.sort_value_from_date
 import com.archi.cosplay_planner.P_ROOM.AppDatabase
 import com.archi.cosplay_planner.P_ROOM.Detail
 import com.archi.cosplay_planner.P_ROOM.Events
+import com.archi.cosplay_planner.P_ROOM.MaterialsPlanned
+import com.archi.cosplay_planner.P_ROOM.MaterialsPlannedDao
+import com.archi.cosplay_planner.P_ROOM.ReposBMaterial
+import com.archi.cosplay_planner.P_ROOM.ReposBPMaterial
 import com.archi.cosplay_planner.databinding.LNewDetailBinding
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -31,7 +38,7 @@ class DetailActivity : AppCompatActivity() {
 
 
 
-
+    private lateinit var db: AppDatabase
         private val handlers = Handlers(this)
         class Handlers  (private val context: Context) {
             fun onClickAdd(view: View) {
@@ -166,7 +173,8 @@ class DetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         var current_vm = DetailViewModel(getString(R.string.str_Cosplay_details), costume_id)
-
+        db = AppDatabase.getInstance(applicationContext)
+        val materialPDao = db.MaterialsPlannedDao()
 
         binding.viewModel = current_vm
         binding.dHandlers = handlers
@@ -210,6 +218,87 @@ class DetailActivity : AppCompatActivity() {
             detail.type?.let { d_t.setSelection(it) }
             detail.progress?.let { d_p.setSelection(it) }
             d_id.text = detail.detailID.toString()
+            val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
+            recyclerView.layoutManager = LinearLayoutManager(this)
+
+            lifecycleScope.launch {
+
+
+
+
+                val materialPDao = db.MaterialsPlannedDao()
+                val materialDao = db.MaterialsDao()
+
+                /*
+                var mP = MaterialsPlanned(
+                    materialPlannedID = 0,
+                    materialID = 1,
+                    quantity = 1,
+                    detailID = 2
+                )
+
+               materialPDao.insertAll(mP)
+
+                mP = MaterialsPlanned(
+                    materialPlannedID = 0,
+                    materialID = 4,
+                    quantity = 100,
+                    detailID = 2
+                )
+
+                materialPDao.insertAll(mP)
+*/
+
+                //materialPDao.delete()
+
+                var repos = ReposBPMaterial(materialPDao, detail.detailID)
+                var repos_all = ReposBMaterial(materialDao)
+
+                Log.d("MyTag", "Repos=" + repos.toString())
+                val adapter = MaterialPlannedRV(repos.MaterialP, repos_all.allMaterial)
+                recyclerView.adapter = adapter
+
+              //  adapter.onBMaterialPClickListener = { position, materialP ->
+               //     val intent = Intent(this@MaterialBase, NewBMaterial::class.java)
+              //      intent.putExtra("material", material)
+              //      intent.putExtra("edit_flag", 1)
+              //      this@MaterialBase.startActivity(intent)
+              //  }
+              //  adapter.onBMaterialLongClickListener = { position, material ->
+              //      Log.v("MyLog", "clicked " + position)
+
+                    /* val builder = AlertDialog.Builder(this@MaterialBase)
+                     builder.setTitle(R.string.str_delete_event)
+                     val message = getString(R.string.str_delete_event_message)
+                     builder.setMessage(message + " " + event.event)
+
+                     builder.setPositiveButton(R.string.str_yes) { dialog, which ->
+                         //Log.v("MyLog", "Yes")
+                         eventDao.delete(event)
+                         //adapter.notifyItemRemoved(position)
+                         repos = ReposEvent(eventDao, 0)
+                         val newAdapter = EventRV(repos.allEvents, 0)
+                         recyclerView.adapter = newAdapter
+
+                     }
+
+                     builder.setNegativeButton(R.string.str_no) { dialog, which ->
+                         //Log.v("MyLog", "No")
+                     }
+
+                     builder.show()
+                     */
+                 //   true
+
+
+                //}
+
+
+
+
+
+            }
+
 
 
         }

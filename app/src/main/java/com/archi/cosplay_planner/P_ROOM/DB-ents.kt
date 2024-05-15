@@ -72,5 +72,5 @@ data class MaterialsPlanned(
     @ColumnInfo(name = "materialID", defaultValue = "0") val materialID: Int?,
     @ColumnInfo(name = "quantity", defaultValue = "0") val quantity: Int?,
     @ColumnInfo(name = "detailID", defaultValue = "0") val detailID: Int?,
-)
+) : Serializable
 

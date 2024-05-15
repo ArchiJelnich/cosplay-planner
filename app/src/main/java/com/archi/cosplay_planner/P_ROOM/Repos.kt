@@ -104,3 +104,9 @@ class ReposBMaterial (private val MaterialsDao: MaterialsDao) {
 
       var allMaterial: List<Materials> = MaterialsDao.getAll()
 }
+
+class ReposBPMaterial (private val MaterialsPlannedDao: MaterialsPlannedDao, val detail_id: Int) {
+
+      var MaterialP: List<MaterialsPlanned> = MaterialsPlannedDao.getByDetail(detail_id)
+
+}
