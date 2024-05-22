@@ -22,3 +22,8 @@ package com.archi.cosplay_planner.P_Infra
 
         return Pair(new_string, status)
     }
+
+fun IntCheckerNum(string: String): Boolean {
+    val regex = "-?[0-9]+(\\.[0-9]+)?".toRegex()
+    return string.matches(regex)
+}

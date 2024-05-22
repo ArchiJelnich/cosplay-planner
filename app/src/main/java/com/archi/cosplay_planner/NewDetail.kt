@@ -6,16 +6,20 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.text.Layout
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -157,7 +161,18 @@ class DetailActivity : AppCompatActivity() {
 
             }
 
+            fun addMaterial(view: View){
 
+                val d_id = (view.rootView as View).findViewById<View>(R.id.d_id) as TextView
+                val detail_id = d_id.text.toString().toInt()
+                val intent = Intent(context, NewMaterial::class.java)
+                intent.putExtra("detail_id", detail_id)
+                intent.putExtra("edit_flag", 0)
+                intent.putExtra("material_id", -1)
+                context.startActivity(intent)
+
+
+            }
 
 
             }
@@ -209,6 +224,10 @@ class DetailActivity : AppCompatActivity() {
         Log.d ("MyLog", "My flag " + edit_flag)
         if (edit_flag==1)
         {
+            Log.d ("MyLog", "We are editing")
+            val lay_id : ImageView = findViewById(R.id.lay_id)
+            lay_id.visibility = View.VISIBLE
+
             var detail =  intent.extras?.get("detail") as Detail
             current_vm = DetailViewModel(detail.detail.toString(), detail.costumeID.toString().toInt())
             binding.viewModel = current_vm

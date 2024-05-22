@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="ViewModel"
+            type="com.archi.cosplay_planner.NewMaterialViewModel" />
+
+        <variable
+            name="nm_handlers"
+            type="com.archi.cosplay_planner.NewMaterial.Handlers"/>
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/l_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:onClick="@{nm_handlers::hideKeyboard}">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="50dp"
+            android:paddingLeft="50dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="50dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:text="@string/str_material_name" />
+            <Spinner
+                android:id="@+id/nm_n"
+                android:layout_height="wrap_content"
+                android:inputType="textNoSuggestions"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:hint="@string/str_material_name"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="50dp"
+            android:paddingLeft="50dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="50dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/nm_unit_t"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:text="@string/str_material_unit" />
+            <EditText
+                android:id="@+id/nm_unit"
+                android:inputType="number"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:hint=""
+                tools:ignore="LabelFor" />
+        </LinearLayout>
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_gravity="bottom"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center">
+
+
+            <TextView
+                android:id="@+id/c_id"
+                android:layout_height="0sp"
+                android:layout_width="0sp"
+                android:gravity="center"
+                android:visibility="gone"
+                android:text="@{String.valueOf(ViewModel.material_id)}"/>
+
+            <TextView
+                android:id="@+id/d_id"
+                android:layout_height="0sp"
+                android:layout_width="0sp"
+                android:gravity="center"
+                android:visibility="gone"
+                android:text="@string/str_m_one"/>
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="end"
+                android:src="@android:drawable/ic_input_add"
+                android:onClick="@{nm_handlers::onClickAdd}"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</layout>

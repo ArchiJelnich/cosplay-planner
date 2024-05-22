@@ -86,6 +86,7 @@
         </LinearLayout>
 
         <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="50dp"
@@ -114,7 +115,10 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_gravity="right"
-                    android:src="@android:drawable/ic_input_add"/>
+                    android:src="@android:drawable/ic_input_add"
+                    android:visibility="gone"
+                    android:id="@+id/lay_id"
+                    android:onClick="@{d_handlers::addMaterial}"/>
             </LinearLayout>
         </LinearLayout>
 
