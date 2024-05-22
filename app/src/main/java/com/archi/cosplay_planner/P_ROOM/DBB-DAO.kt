@@ -103,4 +103,7 @@ interface MaterialsPlannedDao {
     fun delete()
     @Query("SELECT * FROM MaterialsPlanned WHERE detailID = :detailID")
     fun getByDetail(detailID: Int):  List<MaterialsPlanned>
+
+    @Query("DELETE FROM MaterialsPlanned WHERE materialPlannedID = :materialPlannedID")
+    fun deleteBymaterialIP(materialPlannedID: Int)
 }

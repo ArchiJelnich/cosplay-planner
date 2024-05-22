@@ -18,6 +18,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModel
@@ -283,20 +284,22 @@ class DetailActivity : AppCompatActivity() {
               //      intent.putExtra("edit_flag", 1)
               //      this@MaterialBase.startActivity(intent)
               //  }
-              //  adapter.onBMaterialLongClickListener = { position, material ->
-              //      Log.v("MyLog", "clicked " + position)
+                adapter.onBMaterialPLongClickListener = { position, material ->
+                    Log.v("MyLog", "clicked " + position)
+                    Log.v("MyLog", "clicked " + material)
 
-                    /* val builder = AlertDialog.Builder(this@MaterialBase)
-                     builder.setTitle(R.string.str_delete_event)
-                     val message = getString(R.string.str_delete_event_message)
-                     builder.setMessage(message + " " + event.event)
+                    val builder = AlertDialog.Builder(this@DetailActivity)
+
+
+                     //builder.setTitle(R.string.str_delete_material)
+                     val message = getString(R.string.str_delete_material)
+                     builder.setMessage(message)
 
                      builder.setPositiveButton(R.string.str_yes) { dialog, which ->
                          //Log.v("MyLog", "Yes")
-                         eventDao.delete(event)
-                         //adapter.notifyItemRemoved(position)
-                         repos = ReposEvent(eventDao, 0)
-                         val newAdapter = EventRV(repos.allEvents, 0)
+                         materialPDao.deleteBymaterialIP(material.materialPlannedID)
+                         repos = ReposBPMaterial(materialPDao, detail.detailID)
+                         val newAdapter = MaterialPlannedRV(repos.MaterialP, repos_all.allMaterial)
                          recyclerView.adapter = newAdapter
 
                      }
@@ -306,11 +309,11 @@ class DetailActivity : AppCompatActivity() {
                      }
 
                      builder.show()
-                     */
-                 //   true
+
+                    true
 
 
-                //}
+                }
 
 
 

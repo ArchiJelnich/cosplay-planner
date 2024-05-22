@@ -81,5 +81,6 @@
 
     <string name="str_material_name">Название материала</string>
     <string name="str_material_unit">Единица исчисления</string>
+    <string name="str_delete_material">Удалить этот материал из детали?</string>
 
 </resources>

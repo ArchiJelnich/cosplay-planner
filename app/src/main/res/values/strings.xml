@@ -85,6 +85,7 @@
 
     <string name="str_material_name">Material name</string>
     <string name="str_material_unit">Unit of calculation</string>
+    <string name="str_delete_material">Delete this material from detail?</string>
 
 </resources>
 
