@@ -74,6 +74,8 @@ interface DetailDao {
 interface MaterialsDao {
     @Query("SELECT * FROM Materials")
     fun getAll(): List<Materials>
+    @Query("SELECT * FROM Materials WHERE material LIKE :filter")
+    fun getFiltered(filter : String): List<Materials>
     @Insert
     fun insertAll(vararg users: Materials)
     @Delete
@@ -103,7 +105,6 @@ interface MaterialsPlannedDao {
     fun delete()
     @Query("SELECT * FROM MaterialsPlanned WHERE detailID = :detailID")
     fun getByDetail(detailID: Int):  List<MaterialsPlanned>
-
     @Query("DELETE FROM MaterialsPlanned WHERE materialPlannedID = :materialPlannedID")
     fun deleteBymaterialIP(materialPlannedID: Int)
 }

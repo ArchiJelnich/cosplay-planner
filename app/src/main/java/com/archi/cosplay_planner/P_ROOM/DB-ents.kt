@@ -32,8 +32,6 @@ data class Events(
     @ColumnInfo(name = "date", defaultValue = "Mystery") val date: String?,
     @ColumnInfo(name = "date_sorted", defaultValue = "Mystery") val date_sorted: Int?,
     @ColumnInfo(name = "costumeID", defaultValue = "0") val costumeID: Int?,
-    @ColumnInfo(name = "steps", defaultValue = "All done!") val steps: String?,
-
 ) : Serializable
 @Entity
 data class Detail(

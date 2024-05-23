@@ -105,8 +105,15 @@ class ReposBMaterial (private val MaterialsDao: MaterialsDao) {
       var allMaterial: List<Materials> = MaterialsDao.getAll()
 }
 
+class ReposBMaterial_filter (private val MaterialsDao: MaterialsDao, val filter : String) {
+
+      var new_filter = "%"+filter+"%"
+      var filtereMaterial: List<Materials> = MaterialsDao.getFiltered(new_filter)
+}
+
 class ReposBPMaterial (private val MaterialsPlannedDao: MaterialsPlannedDao, val detail_id: Int) {
 
       var MaterialP: List<MaterialsPlanned> = MaterialsPlannedDao.getByDetail(detail_id)
 
 }
+

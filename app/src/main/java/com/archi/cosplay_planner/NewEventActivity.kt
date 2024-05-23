@@ -98,7 +98,6 @@ class NewEventActivity : AppCompatActivity() {
                        date = date,
                        costumeID = costumeID,
                        type = type,
-                       steps = steps,
                        date_sorted = sort_value_from_date(date)
                    )
                    eventDao.insertAll(eventToAd)

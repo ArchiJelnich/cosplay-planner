@@ -139,27 +139,6 @@
                 android:hint="@string/str_Event_costume"/>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="50dp"
-            android:paddingBottom="10dp"
-            android:paddingRight="50dp"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:gravity="center"
-                android:text="@string/str_Event_steps" />
-            <EditText
-                android:id="@+id/e_s"
-                android:layout_height="wrap_content"
-                android:inputType="textNoSuggestions"
-                android:layout_width="wrap_content"
-                android:gravity="center"
-                android:hint="@string/str_Event_steps"
-                android:text="@{ViewModel.event_steps}"/>
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

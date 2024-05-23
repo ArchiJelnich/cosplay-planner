@@ -13,6 +13,7 @@ import android.preference.PreferenceManager
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.annotation.RequiresApi
@@ -27,8 +28,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.archi.cosplay_planner.P_Infra.InputCheckerText
 import com.archi.cosplay_planner.P_ROOM.AppDatabase
 import com.archi.cosplay_planner.P_ROOM.ReposBMaterial
+import com.archi.cosplay_planner.P_ROOM.ReposBMaterial_filter
 import com.archi.cosplay_planner.P_ROOM.ReposEvent
 import com.archi.cosplay_planner.databinding.LBasematerialScreenBinding
 import com.archi.cosplay_planner.databinding.LMymaterialScreenBinding
@@ -48,6 +51,70 @@ class MaterialBase : AppCompatActivity() {
             intent.putExtra("edit_flag", 0)
             context.startActivity(intent)
         }
+
+        fun onClickFilterIcon(view: View) {
+            val t_filter = (view.rootView as View).findViewById<EditText>(R.id.text_filter)
+            var t_filter_text = t_filter.text.toString()
+
+            if (InputCheckerText(t_filter_text).second==1)
+            {
+                t_filter_text = ""
+            }
+            else
+            {
+                t_filter_text = InputCheckerText(t_filter_text).first
+            }
+
+
+
+            var db = AppDatabase.getInstance(context)
+            val materialDao = db.MaterialsDao()
+            val recyclerView: RecyclerView = (view.rootView as View).findViewById(R.id.recyclerViewEvent)
+            recyclerView.layoutManager = LinearLayoutManager(context)
+
+            if (t_filter_text=="")
+            {
+                var repos = ReposBMaterial(materialDao)
+                var adapter = MaterialBaseRV(repos.allMaterial)
+                recyclerView.adapter = adapter
+
+                adapter.onBMaterialClickListener = { position, material ->
+                    val intent = Intent(context, NewBMaterial::class.java)
+                    intent.putExtra("material", material)
+                    intent.putExtra("edit_flag", 1)
+                    context.startActivity(intent)
+                }
+                adapter.onBMaterialLongClickListener = { position, material ->
+                    Log.v("MyLog", "clicked " + position)
+                    true
+
+
+                }
+            }
+            else
+            {
+                var repos = ReposBMaterial_filter(materialDao, t_filter_text)
+                var adapter = MaterialBaseRV(repos.filtereMaterial)
+                recyclerView.adapter = adapter
+
+                adapter.onBMaterialClickListener = { position, material ->
+                    val intent = Intent(context, NewBMaterial::class.java)
+                    intent.putExtra("material", material)
+                    intent.putExtra("edit_flag", 1)
+                    context.startActivity(intent)
+                }
+                adapter.onBMaterialLongClickListener = { position, material ->
+                    Log.v("MyLog", "clicked " + position)
+                    true
+
+
+                }
+            }
+
+
+
+            }
+
 
     }
 

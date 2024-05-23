@@ -49,7 +49,6 @@ class EditEventActivity : AppCompatActivity() {
             val types = context.resources.getStringArray(R.array.Ev_Types)
             var type = 0
             val e_c = (view.rootView as View).findViewById<View>(R.id.e_c) as Spinner
-            val e_s = (view.rootView as View).findViewById<View>(R.id.e_s) as EditText
             val e_id = (view.rootView as View).findViewById<View>(R.id.e_id) as EditText
 
             when(e_t.getSelectedItem().toString()){
@@ -126,7 +125,6 @@ class EditEventActivity : AppCompatActivity() {
                         date = date,
                         costumeID = cosplay_id.toInt(),
                         type = type,
-                        steps = e_s.text.toString(),
                         date_sorted = sort_value_from_date(date)
                     )
                     eventDao.updateEvent(EventToUpdate)
@@ -260,7 +258,6 @@ class EditEventActivity : AppCompatActivity() {
         val event_name = event.event!!
         val event_date = event.date!!
         val event_place = event.place!!
-        val event_steps = event.steps!!
         val event_costume = event.costumeID!!
         val event_date_sortes = event.date_sorted!!
         val costume_name = getString(R.string.str_no)
@@ -270,7 +267,7 @@ class EditEventActivity : AppCompatActivity() {
         val binding = LEventsEditScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        var current_vm = EditEViewModel(event_type, event_name, event_place, event_date, event_costume, event_steps, event_id)
+        var current_vm = EditEViewModel(event_type, event_name, event_place, event_date, event_costume, event_id)
 
         binding.viewModel = current_vm
         binding.eeHandlers = handlers
@@ -360,6 +357,6 @@ class EditEventActivity : AppCompatActivity() {
 
 
 
-class EditEViewModel(var event_type: Int, var event_name : String, var event_place : String, var event_date : String, var event_costume : Int, var event_steps : String, var event_id : Int) : ViewModel() {
+class EditEViewModel(var event_type: Int, var event_name : String, var event_place : String, var event_date : String, var event_costume : Int, var event_id : Int) : ViewModel() {
 }
 
