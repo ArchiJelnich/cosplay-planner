@@ -34,7 +34,6 @@ import com.archi.cosplay_planner.P_ROOM.ReposBMaterial
 import com.archi.cosplay_planner.P_ROOM.ReposBMaterial_filter
 import com.archi.cosplay_planner.P_ROOM.ReposEvent
 import com.archi.cosplay_planner.databinding.LBasematerialScreenBinding
-import com.archi.cosplay_planner.databinding.LMymaterialScreenBinding
 import com.archi.cosplay_planner.databinding.LSettingScreenBinding
 import kotlinx.coroutines.launch
 import java.util.Locale
@@ -45,6 +44,21 @@ class MaterialBase : AppCompatActivity() {
     private val handlers = MaterialBase.Handler(this)
 
     class Handler (private val context: Context) {
+
+        fun onClickToCosplay(view: View) {
+            val intent = Intent(context, MainActivity::class.java)
+            context.startActivity(intent)
+        }
+
+        fun onClickToSettings(view: View) {
+            val intent = Intent(context, SettingActivity::class.java)
+            context.startActivity(intent)
+        }
+
+        fun onClickToEvents(view: View) {
+            val intent = Intent(context, EventActivity::class.java)
+            context.startActivity(intent)
+        }
 
         fun onClickNewMaterial(view: View) {
             val intent = Intent(context, NewBMaterial::class.java)

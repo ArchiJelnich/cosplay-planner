@@ -86,16 +86,6 @@ interface MaterialsDao {
 }
 
 @Dao
-interface MaterialsStockDao {
-    @Query("SELECT * FROM MaterialsStock")
-    fun getAll(): List<MaterialsStock>
-    @Insert
-    fun insertAll(vararg users: MaterialsStock)
-    @Delete
-    fun delete(materialsStock: MaterialsStock)
-}
-
-@Dao
 interface MaterialsPlannedDao {
     @Query("SELECT * FROM MaterialsPlanned")
     fun getAll(): List<MaterialsPlanned>
@@ -107,4 +97,7 @@ interface MaterialsPlannedDao {
     fun getByDetail(detailID: Int):  List<MaterialsPlanned>
     @Query("DELETE FROM MaterialsPlanned WHERE materialPlannedID = :materialPlannedID")
     fun deleteBymaterialIP(materialPlannedID: Int)
+    @Update
+    fun updateMaterialP(materials: MaterialsPlanned)
+
 }

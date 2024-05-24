@@ -51,6 +51,8 @@ class NewMaterial : AppCompatActivity() {
             val nm_unit = (view.rootView as View).findViewById<View>(R.id.nm_unit) as EditText
             val c_id = (view.rootView as View).findViewById<View>(R.id.c_id) as TextView
             val d_id = (view.rootView as View).findViewById<View>(R.id.d_id) as TextView
+            val mp_id = (view.rootView as View).findViewById<View>(R.id.mp_id) as TextView
+
 
             if (nm_unit.text.isEmpty()) {
                 nm_unit.setText("0")
@@ -65,6 +67,11 @@ class NewMaterial : AppCompatActivity() {
 
             val db: AppDatabase = AppDatabase.getInstance(context)
             val MaterialsPlannedDao = db.MaterialsPlannedDao()
+
+            if (mp_id.text.toString().toInt()==-1)
+            {
+
+
 
             GlobalScope.launch {
 
@@ -84,6 +91,25 @@ class NewMaterial : AppCompatActivity() {
 
 
 
+            }}
+            else {
+
+            }
+                GlobalScope.launch {
+
+                    val materialPtoadd = MaterialsPlanned(
+                        materialPlannedID = mp_id.text.toString().toInt(),
+                        materialID = c_id.text.toString().toInt(),
+                        quantity = nm_unit.text.toString().toInt(),
+                        detailID = d_id.text.toString().toInt()
+                    )
+                    MaterialsPlannedDao.updateMaterialP(materialPtoadd)
+
+                    Log.d("MyLog","Q " + nm_unit.text.toString())
+
+
+                    val intent = Intent(context, MainActivity::class.java)
+                    context.startActivity(intent)
             }
 
 
@@ -121,7 +147,12 @@ class NewMaterial : AppCompatActivity() {
         val materials_names = mutableListOf<String>()
         val material_unit = mutableListOf<String>()
         val d_id: TextView = findViewById(R.id.d_id)
+        val mp_id: TextView = findViewById(R.id.mp_id)
         d_id.text = detailID.toString()
+        val text_unit: TextView = findViewById(R.id.nm_unit_t)
+        val c_id: TextView = findViewById(R.id.c_id)
+        val text_unit_number: TextView = findViewById(R.id.nm_unit)
+
 
 
         for (material in repos.allMaterial) {
@@ -130,8 +161,19 @@ class NewMaterial : AppCompatActivity() {
         }
 
 
-        if (edit_flag==0)
+        if (edit_flag==1)
         {
+            var current_material = intent.extras?.get("material") as MaterialsPlanned
+            current_material.materialID?.let { spinner_name.setSelection(it) }
+            spinner_name.isEnabled = false
+            text_unit.text = material_unit[current_material.materialID!!]
+            c_id.text = current_material.materialID.toString()
+            d_id.text = current_material.detailID.toString()
+            mp_id.text = current_material.materialPlannedID.toString()
+            text_unit_number.text = current_material.quantity.toString()
+        }
+
+
 
             var adapter_name = ArrayAdapter(
                 this,
@@ -147,10 +189,8 @@ class NewMaterial : AppCompatActivity() {
 
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     Log.d("MyLog", "Selected!" + position)
-                    val text_unit: TextView = findViewById(R.id.nm_unit_t)
                     text_unit.text = material_unit[position]
                     Log.d("MyLog", "Unit name!" + material_unit[position])
-                    val c_id: TextView = findViewById(R.id.c_id)
                     c_id.text = position.toString()
                 }
 
@@ -158,7 +198,8 @@ class NewMaterial : AppCompatActivity() {
 
 
 
-        }
+
+
 
 
 

@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity()  {
         }
 
         fun onClickToMMaterial(view: View) {
-            val intent = Intent(context, MyMaterial::class.java)
+            val intent = Intent(context, MaterialBase::class.java)
             context.startActivity(intent)
         }
 

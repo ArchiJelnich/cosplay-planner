@@ -58,13 +58,6 @@ data class Materials(
 ) : Serializable
 
 @Entity
-data class MaterialsStock(
-    @PrimaryKey(autoGenerate = true) val materialStockID: Int,
-    @ColumnInfo(name = "materialID", defaultValue = "0") val materialID: Int?,
-    @ColumnInfo(name = "quantity", defaultValue = "Mystery") val quantity: Int?,
-)
-
-@Entity
 data class MaterialsPlanned(
     @PrimaryKey(autoGenerate = true) val materialPlannedID: Int,
     @ColumnInfo(name = "materialID", defaultValue = "0") val materialID: Int?,

@@ -278,12 +278,14 @@ class DetailActivity : AppCompatActivity() {
                 val adapter = MaterialPlannedRV(repos.MaterialP, repos_all.allMaterial)
                 recyclerView.adapter = adapter
 
-              //  adapter.onBMaterialPClickListener = { position, materialP ->
-               //     val intent = Intent(this@MaterialBase, NewBMaterial::class.java)
-              //      intent.putExtra("material", material)
-              //      intent.putExtra("edit_flag", 1)
-              //      this@MaterialBase.startActivity(intent)
-              //  }
+               adapter.onBMaterialPClickListener = { position, material ->
+                    val intent = Intent(this@DetailActivity, NewMaterial::class.java)
+                    intent.putExtra("material", material)
+                    intent.putExtra("edit_flag", 1)
+                   val detail_id = d_id.text.toString().toInt()
+                   intent.putExtra("detail_id", detail_id)
+                    this@DetailActivity.startActivity(intent)
+               }
                 adapter.onBMaterialPLongClickListener = { position, material ->
                     Log.v("MyLog", "clicked " + position)
                     Log.v("MyLog", "clicked " + material)
