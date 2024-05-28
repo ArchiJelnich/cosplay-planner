@@ -86,5 +86,8 @@
     <string name="str_delete_material_base">Удалить этот материал?</string>
     <string name="str_delete_material_used">Материал не может быть удалён. Используется в деталях</string>
 
+    <string name="str_material_planned">Итого запланированно для костюмов в процессе</string>
+
+    <string name="str_copy">Скопировать</string>
 
 </resources>

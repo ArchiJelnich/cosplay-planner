@@ -65,3 +65,8 @@ data class MaterialsPlanned(
     @ColumnInfo(name = "detailID", defaultValue = "0") val detailID: Int?,
 ) : Serializable
 
+data class MaterialQuanPair (
+    val M: Int,
+    val Q : Int
+
+)

@@ -17,6 +17,9 @@ interface CostumeDao {
     @Query("SELECT * FROM Costume WHERE costumeID = :id")
     fun getByID(id: Int):  Costume
 
+    @Query("SELECT costumeID FROM Costume WHERE status = 0")
+    fun getIDByInProgress():  List<Int>
+
     @Query("SELECT * FROM Costume WHERE status = 0")
     fun getP():  List<Costume>
 
@@ -87,6 +90,12 @@ interface MaterialsDao {
     @Query("SELECT materialID FROM Materials WHERE material = :material")
     fun getByName(material: String):  List<Int>
 
+    @Query("SELECT material FROM Materials WHERE materialID = :materialID")
+    fun getNameByID(materialID: Int):  List<String>
+
+    @Query("SELECT unit FROM Materials WHERE materialID = :materialID")
+    fun getUnitByID(materialID: Int):  List<String>
+
     @Update
     fun updateMaterial(materials: Materials)
 }
@@ -109,5 +118,9 @@ interface MaterialsPlannedDao {
     fun deleteBymaterialIP(materialPlannedID: Int)
     @Update
     fun updateMaterialP(materials: MaterialsPlanned)
+    @Query("SELECT materialID as M, quantity as Q FROM MaterialsPlanned WHERE detailID IN (:detailIDlist) GROUP BY materialID")
+    fun getAllRes(detailIDlist: List<Int>): List<MaterialQuanPair>
 
 }
+
+

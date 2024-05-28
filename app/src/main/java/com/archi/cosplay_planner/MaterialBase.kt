@@ -1,43 +1,39 @@
 package com.archi.cosplay_planner
 
+import android.R.attr.label
+import android.R.attr.text
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.app.LocaleManager
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
-import android.os.LocaleList
-import android.preference.PreferenceManager
 import android.util.Log
 import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.EditText
-import android.widget.Spinner
-import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.app.LocaleManagerCompat.getApplicationLocales
-import androidx.core.os.LocaleListCompat
-import androidx.core.view.isGone
-import androidx.core.view.isVisible
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.archi.cosplay_planner.P_Infra.CreateReport
 import com.archi.cosplay_planner.P_Infra.InputCheckerText
 import com.archi.cosplay_planner.P_ROOM.AppDatabase
 import com.archi.cosplay_planner.P_ROOM.ReposBMaterial
 import com.archi.cosplay_planner.P_ROOM.ReposBMaterial_filter
-import com.archi.cosplay_planner.P_ROOM.ReposEvent
 import com.archi.cosplay_planner.databinding.LBasematerialScreenBinding
-import com.archi.cosplay_planner.databinding.LSettingScreenBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
-import java.util.Locale
+import kotlinx.coroutines.runBlocking
+
 
 class MaterialBase : AppCompatActivity() {
 
@@ -65,6 +61,28 @@ class MaterialBase : AppCompatActivity() {
             val intent = Intent(context, NewBMaterial::class.java)
             intent.putExtra("edit_flag", 0)
             context.startActivity(intent)
+        }
+
+        fun onClickLoad(view: View) {
+            val builder = AlertDialog.Builder(context)
+            builder.setTitle(R.string.str_material_planned)
+            var db = AppDatabase.getInstance(context)
+            var message = CreateReport(db)
+
+
+
+            builder.setMessage(message)
+
+            builder.setPositiveButton(R.string.str_copy) { dialog, which ->
+                val clipboard = ContextCompat.getSystemService(context, ClipboardManager::class.java)
+                val clip = ClipData.newPlainText("cosplay-planner",message)
+                if (clipboard != null) {
+                    clipboard.setPrimaryClip(clip)
+                }
+
+            }
+
+            builder.show()
         }
 
         fun onClickFilterIcon(view: View) {

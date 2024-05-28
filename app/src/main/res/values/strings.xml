@@ -90,5 +90,9 @@
     <string name="str_delete_material_base">Delete this material?</string>
     <string name="str_delete_material_used">Material can\'t be deleted. Used in details</string>
 
+    <string name="str_material_planned">All planned materials for costumes in progress</string>
+
+    <string name="str_copy">Copy</string>
+
 </resources>
 

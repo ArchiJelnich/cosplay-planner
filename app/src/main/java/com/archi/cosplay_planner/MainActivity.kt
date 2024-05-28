@@ -172,8 +172,15 @@ class MainActivity : AppCompatActivity()  {
     override fun onCreate(savedInstanceState: Bundle?) {
 
 
-        //var sharedPref = getPreferences(Context.MODE_WORLD_READABLE)
-       // var editor = sharedPref.edit()
+        val language = loadLanguage(this)
+        if (language!=null)
+        {
+            setAppLocale(this, language)
+        }
+        Log.v("MyLog", "language:" + language);
+
+
+
         //editor.putInt("filter",-1)
        // editor.apply()
 

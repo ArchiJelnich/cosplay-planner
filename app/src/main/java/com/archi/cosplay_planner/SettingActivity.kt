@@ -12,6 +12,7 @@ import android.os.LocaleList
 import android.preference.PreferenceManager
 import android.util.Log
 import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
@@ -84,10 +85,47 @@ class SettingActivity : AppCompatActivity() {
             // Apply the adapter to the spinner.
             spinner_language.adapter = adapter
         }
-        spinner_language.setSelection(0)
 
-        spinner_language.isGone = true
-        text_language.isGone = true
+        if (loadLanguage(this)=="ru")
+        {
+            spinner_language.setSelection(0)
+        }
+        else {
+            spinner_language.setSelection(1)
+        }
+
+
+        spinner_language.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val selectedLanguage = when (position)
+                {
+                    0 -> "ru"
+                        else -> "en"
+                }
+
+
+                if (loadLanguage(this@SettingActivity)!=selectedLanguage)
+                {
+                    setAppLocale(this@SettingActivity, selectedLanguage)
+                    saveLanguage(this@SettingActivity, selectedLanguage)
+                    recreate()
+                }
+
+                //recreate()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+        }
+        //spinner_language.setSelection(0)
+        //spinner_language.isGone = true
+        //text_language.isGone = true
 
 
         /*Log.d("MyLog", "s " + loadLanguage(applicationContext) + " and c " +  getResources().getConfiguration().getLocales().get(0))
@@ -123,32 +161,35 @@ class SettingsViewModel() : ViewModel() {
 }
 
 
-// Функция для сохранения выбранного языка в SharedPreferences
 fun saveLanguage(context: Context, languageCode: String) {
     val preferences = PreferenceManager.getDefaultSharedPreferences(context)
     preferences.edit().putString("language", languageCode).apply()
 }
 
-// Функция для загрузки выбранного языка из SharedPreferences
 fun loadLanguage(context: Context): String? {
     val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-    return preferences.getString("language", null)
+    return preferences.getString("language", "eng")
 }
 
-// Функция для установки выбранного языка в приложении
-fun setAppLocale(context: Context, myLocate: Locale) {
-    Locale.setDefault(myLocate)
+fun setAppLocale(context: Context, myLocate: String) {
+    /*val locale = Locale(myLocate)
+    Locale.setDefault(locale)
+    val config = Configuration()
+    config.setLocale(locale)
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        context.createConfigurationContext(config)
+    } else {
+        context.resources.updateConfiguration(config, context.resources.displayMetrics)
+    }
+    saveLanguage(context, myLocate)
+*/
+
+    val locale = Locale(myLocate)
+    Locale.setDefault(locale)
     val resources = context.resources
-    val configuration = Configuration(resources.configuration)
-    configuration.locale = myLocate
-    configuration.setLayoutDirection(myLocate)
+    val configuration = resources.configuration
+    configuration.locale = locale
+    configuration.setLayoutDirection(locale)
     resources.updateConfiguration(configuration, resources.displayMetrics)
-}
 
-// Функция для перезапуска активити
-fun restartActivity(activity: Activity) {
-    val intent = Intent(activity, activity::class.java)
-    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-    activity.startActivity(intent)
-    activity.finish()
 }
