@@ -87,5 +87,8 @@
     <string name="str_material_unit">Unit of calculation</string>
     <string name="str_delete_material">Delete this material from detail?</string>
 
+    <string name="str_delete_material_base">Delete this material?</string>
+    <string name="str_delete_material_used">Material can\'t be deleted. Used in details</string>
+
 </resources>
 

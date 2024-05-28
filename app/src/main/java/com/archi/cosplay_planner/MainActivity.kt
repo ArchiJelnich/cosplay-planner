@@ -326,6 +326,8 @@ lifecycleScope.launch {
                 var db = AppDatabase.getInstance(applicationContext)
                 val eventDao = db.EventsDao()
                 val costumeDao = db.CostumeDao()
+                val detailDao = db.DetailDao()
+                val MaterialsPlannedDao = db.MaterialsPlannedDao()
                 var repos_e = ReposEvent(eventDao, costume.costumeID)
 
 
@@ -335,6 +337,12 @@ lifecycleScope.launch {
 
                     builder.setPositiveButton(R.string.str_yes) { dialog, which ->
                         costumeDao.delete(costume)
+                        var detailID = detailDao.getIDByCostume(costume.costumeID)
+                        for (ID in detailID)
+                        {
+                            MaterialsPlannedDao.deleteByDetail(ID)
+                        }
+                        detailDao.deleteByCostumeID(costume.costumeID)
                         repos = Repos(CostumeDao, filter)
                         val newAdapter = MainRV(
                             repos.allCosplay,
@@ -367,6 +375,12 @@ lifecycleScope.launch {
 
                     builder.setPositiveButton(R.string.str_del_del) { dialog, which ->
                         costumeDao.delete(costume)
+                        var detailID = detailDao.getIDByCostume(costume.costumeID)
+                        for (ID in detailID)
+                        {
+                            MaterialsPlannedDao.deleteByDetail(ID)
+                        }
+                        detailDao.deleteByCostumeID(costume.costumeID)
                         eventDao.deleteByCostumeID(costume.costumeID)
 
                         repos = Repos(CostumeDao, filter)
@@ -383,8 +397,13 @@ lifecycleScope.launch {
 
                     builder.setNeutralButton(R.string.str_del_update) { dialog, which ->
                         costumeDao.delete(costume)
+                        var detailID = detailDao.getIDByCostume(costume.costumeID)
+                        for (ID in detailID)
+                        {
+                            MaterialsPlannedDao.deleteByDetail(ID)
+                        }
+                        detailDao.deleteByCostumeID(costume.costumeID)
                         eventDao.updateWhenDelete(costume.costumeID)
-
                         repos = Repos(CostumeDao, filter)
                         val newAdapter = MainRV(
                             repos.allCosplay,

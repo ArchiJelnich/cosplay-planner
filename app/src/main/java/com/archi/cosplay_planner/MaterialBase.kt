@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -143,6 +144,7 @@ class MaterialBase : AppCompatActivity() {
         binding.mbHandlers = handlers
 
         val materialDao = db.MaterialsDao()
+        val materialPlannedDao = db.MaterialsPlannedDao()
         val recyclerView: RecyclerView = findViewById(R.id.recyclerViewEvent)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -160,19 +162,29 @@ class MaterialBase : AppCompatActivity() {
                 this@MaterialBase.startActivity(intent)
             }
             adapter.onBMaterialLongClickListener = { position, material ->
-                Log.v("MyLog", "clicked " + position)
+                Log.v("MyLog", "clicked " + material.materialID)
+                Log.v("MyLog", "find all " + materialPlannedDao.getAll())
+                Log.v("MyLog", "find all in base" + materialDao.getAll())
+                Log.v("MyLog", "find rewsult " + materialPlannedDao.getByMaterial(material.materialID))
 
-               /* val builder = AlertDialog.Builder(this@MaterialBase)
-                builder.setTitle(R.string.str_delete_event)
-                val message = getString(R.string.str_delete_event_message)
-                builder.setMessage(message + " " + event.event)
+                if (materialPlannedDao.getByMaterial(material.materialID).size!=0)
+                {
+                    val message_used = getString(R.string.str_delete_material_used)
+                    Toast.makeText(this@MaterialBase, message_used, Toast.LENGTH_SHORT).show()
+                }
+                else {
+
+                val builder = AlertDialog.Builder(this@MaterialBase)
+                builder.setTitle(R.string.str_delete_material_base)
+                val message = getString(R.string.str_delete_material_base)
+                builder.setMessage(message + " " + material.material)
 
                 builder.setPositiveButton(R.string.str_yes) { dialog, which ->
                     //Log.v("MyLog", "Yes")
-                    eventDao.delete(event)
+                    materialDao.delete(material)
                     //adapter.notifyItemRemoved(position)
-                    repos = ReposEvent(eventDao, 0)
-                    val newAdapter = EventRV(repos.allEvents, 0)
+                    repos = ReposBMaterial(materialDao)
+                    val newAdapter = MaterialBaseRV(repos.allMaterial)
                     recyclerView.adapter = newAdapter
 
                 }
@@ -182,7 +194,8 @@ class MaterialBase : AppCompatActivity() {
                 }
 
                 builder.show()
-                */
+
+                }
                 true
 
 

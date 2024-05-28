@@ -65,7 +65,10 @@ interface DetailDao {
     fun delete(detail: Detail)
     @Query("SELECT * FROM Detail WHERE costumeID = :costumeID")
     fun getByCostume(costumeID: Int):  List<Detail>
-
+    @Query("SELECT detailID FROM Detail WHERE costumeID = :costumeID")
+    fun getIDByCostume(costumeID: Int):  List<Int>
+    @Query("DELETE FROM Detail WHERE costumeID = :costumeID")
+    fun deleteByCostumeID(costumeID: Int)
     @Update
     fun updateDetail(detail: Detail)
 }
@@ -81,6 +84,9 @@ interface MaterialsDao {
     @Delete
     fun delete(materials: Materials)
 
+    @Query("SELECT materialID FROM Materials WHERE material = :material")
+    fun getByName(material: String):  List<Int>
+
     @Update
     fun updateMaterial(materials: Materials)
 }
@@ -95,6 +101,10 @@ interface MaterialsPlannedDao {
     fun delete()
     @Query("SELECT * FROM MaterialsPlanned WHERE detailID = :detailID")
     fun getByDetail(detailID: Int):  List<MaterialsPlanned>
+    @Query("DELETE FROM MaterialsPlanned WHERE detailID = :detailID")
+    fun deleteByDetail(detailID: Int)
+    @Query("SELECT materialPlannedID FROM MaterialsPlanned WHERE materialID = :materialID")
+    fun getByMaterial(materialID: Int): List<Int>
     @Query("DELETE FROM MaterialsPlanned WHERE materialPlannedID = :materialPlannedID")
     fun deleteBymaterialIP(materialPlannedID: Int)
     @Update

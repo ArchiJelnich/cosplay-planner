@@ -83,4 +83,8 @@
     <string name="str_material_unit">Единица исчисления</string>
     <string name="str_delete_material">Удалить этот материал из детали?</string>
 
+    <string name="str_delete_material_base">Удалить этот материал?</string>
+    <string name="str_delete_material_used">Материал не может быть удалён. Используется в деталях</string>
+
+
 </resources>

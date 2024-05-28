@@ -23,6 +23,8 @@ import com.archi.cosplay_planner.P_ROOM.AppDatabase
 import com.archi.cosplay_planner.P_ROOM.Detail
 import com.archi.cosplay_planner.P_ROOM.Events
 import com.archi.cosplay_planner.P_ROOM.Materials
+import com.archi.cosplay_planner.P_ROOM.MaterialsDao
+import com.archi.cosplay_planner.P_ROOM.ReposBMaterial
 import com.archi.cosplay_planner.databinding.LBmaterialEditScreenBinding
 import com.archi.cosplay_planner.databinding.LBmaterialRvBinding
 import com.archi.cosplay_planner.databinding.LNewDetailBinding
@@ -41,72 +43,82 @@ class NewBMaterial : AppCompatActivity() {
             val m_n = (view.rootView as View).findViewById<View>(R.id.m_n) as EditText
             val m_u = (view.rootView as View).findViewById<View>(R.id.m_u) as EditText
             val m_id = (view.rootView as View).findViewById<View>(R.id.m_id) as EditText
-
-            if (InputCheckerText(m_n.text.toString()).second != 0)
-            {
-                Toast.makeText(context, "Material name:" + InputCheckerText(m_n.text.toString()).first, Toast.LENGTH_SHORT).show()
-            }
-
-            if (InputCheckerText(m_u.text.toString()).second != 0)
-            {
-                Toast.makeText(context, "Material unit:" + InputCheckerText(m_u.text.toString()).first, Toast.LENGTH_SHORT).show()
-            }
+            val db: AppDatabase = AppDatabase.getInstance(context)
+            val materialDao = db.MaterialsDao()
+            var getByName = materialDao.getByName(InputCheckerText(m_n.text.toString()).first)
 
 
 
-            if (InputCheckerText(m_n.text.toString()).second == 0 && InputCheckerText(m_u.text.toString()).second == 0)
-            {
+            if (getByName.size!=0 && getByName[0]!=m_id.text.toString().toInt()) {
+                Toast.makeText(context, "Material name not uniq", Toast.LENGTH_SHORT).show()
+            } else {
 
 
-                if (m_id.text.toString().toInt()==-1) {
+                if (InputCheckerText(m_n.text.toString()).second != 0) {
+                    Toast.makeText(
+                        context,
+                        "Material name:" + InputCheckerText(m_n.text.toString()).first,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
 
-                    val db: AppDatabase = AppDatabase.getInstance(context)
-                    val materialDao = db.MaterialsDao()
+                if (InputCheckerText(m_u.text.toString()).second != 0) {
+                    Toast.makeText(
+                        context,
+                        "Material unit:" + InputCheckerText(m_u.text.toString()).first,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
 
-                    GlobalScope.launch {
 
-                        val materialToAd = Materials(
-                            materialID = 0,
-                            material = InputCheckerText(m_n.text.toString()).first,
-                            unit = InputCheckerText(m_u.text.toString()).first
-                        )
-                        materialDao.insertAll(materialToAd)
-                        Log.d ("MyLog", "insertAll")
-                        val intent = Intent(context, MaterialBase::class.java)
-                        context.startActivity(intent)
+
+                if (InputCheckerText(m_n.text.toString()).second == 0 && InputCheckerText(m_u.text.toString()).second == 0) {
+
+
+                    if (m_id.text.toString().toInt() == -1) {
+
+
+                        GlobalScope.launch {
+
+                            val materialToAd = Materials(
+                                materialID = 0,
+                                material = InputCheckerText(m_n.text.toString()).first,
+                                unit = InputCheckerText(m_u.text.toString()).first
+                            )
+                            materialDao.insertAll(materialToAd)
+                            Log.d("MyLog", "insertAll")
+                            val intent = Intent(context, MaterialBase::class.java)
+                            context.startActivity(intent)
+
+
+                        }
+
+
+                    } else {
+
+
+                        GlobalScope.launch {
+
+                            val materialToAd = Materials(
+                                materialID = m_id.text.toString().toInt(),
+                                material = InputCheckerText(m_n.text.toString()).first,
+                                unit = InputCheckerText(m_u.text.toString()).first
+                            )
+
+                            materialDao.updateMaterial(materialToAd)
+                            Log.d("MyLog", "updateMaterial")
+                            val intent = Intent(context, MaterialBase::class.java)
+                            context.startActivity(intent)
+
+
+                        }
 
 
                     }
-
-
                 }
-                else {
-
-                    val db: AppDatabase = AppDatabase.getInstance(context)
-                    val materialDao = db.MaterialsDao()
-
-                    GlobalScope.launch {
-
-                        val materialToAd = Materials(
-                            materialID = m_id.text.toString().toInt(),
-                            material = InputCheckerText(m_n.text.toString()).first,
-                            unit = InputCheckerText(m_u.text.toString()).first
-                        )
-
-                        materialDao.updateMaterial(materialToAd)
-                        Log.d ("MyLog", "updateMaterial")
-                        val intent = Intent(context, MaterialBase::class.java)
-                        context.startActivity(intent)
 
 
-                    }
-
-
-                }
             }
-
-
-
         }
 
         fun hideKeyboard(view: View) {

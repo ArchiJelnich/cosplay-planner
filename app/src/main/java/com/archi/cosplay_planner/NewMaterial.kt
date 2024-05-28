@@ -68,6 +68,9 @@ class NewMaterial : AppCompatActivity() {
             val db: AppDatabase = AppDatabase.getInstance(context)
             val MaterialsPlannedDao = db.MaterialsPlannedDao()
 
+
+
+
             if (mp_id.text.toString().toInt()==-1)
             {
 
@@ -191,7 +194,7 @@ class NewMaterial : AppCompatActivity() {
                     Log.d("MyLog", "Selected!" + position)
                     text_unit.text = material_unit[position]
                     Log.d("MyLog", "Unit name!" + material_unit[position])
-                    c_id.text = position.toString()
+                    c_id.text = (position+1).toString()
                 }
 
             }

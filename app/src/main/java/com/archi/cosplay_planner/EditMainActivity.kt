@@ -278,6 +278,7 @@ class EditMainActivity : AppCompatActivity() {
         var db = AppDatabase.getInstance(applicationContext)
         val eventDao = db.EventsDao()
         val detailDao = db.DetailDao()
+        val MaterialsPlannedDao = db.MaterialsPlannedDao()
 
 
 
@@ -335,6 +336,10 @@ class EditMainActivity : AppCompatActivity() {
                 builder.setPositiveButton(R.string.str_yes) { dialog, which ->
                     //Log.v("MyLog", "Yes")
                     detailDao.delete(detail)
+                    MaterialsPlannedDao.deleteByDetail(detail.detailID)
+
+
+
                     //adapter.notifyItemRemoved(position)
                     repos = ReposDetail(detailDao, costume_id)
                     val newAdapter = DetailRV(repos.filteredDetails)
