@@ -68,7 +68,8 @@
     <string name="str_Settings_language">Language</string>
 
     <string-array name="S_theme">
-        <item>Grey</item>
+        <item>Pink</item>
+        <item>Blue</item>
     </string-array>
 
     <string-array name="S_language">

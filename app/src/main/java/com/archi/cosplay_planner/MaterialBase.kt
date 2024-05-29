@@ -154,6 +154,10 @@ class MaterialBase : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     @SuppressLint("CommitPrefEdits")
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (loadTheme(this)=="blue")
+        {
+            setTheme(R.style.Theme_Cosplayplanner_blue)
+        }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.l_basematerial_screen)
         db = AppDatabase.getInstance(applicationContext)

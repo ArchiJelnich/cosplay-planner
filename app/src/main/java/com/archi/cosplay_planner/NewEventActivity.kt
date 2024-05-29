@@ -133,7 +133,10 @@ class NewEventActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-
+        if (loadTheme(this)=="blue")
+        {
+            setTheme(R.style.Theme_Cosplayplanner_blue)
+        }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.l_new_event_screen)
 

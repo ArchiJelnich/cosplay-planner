@@ -133,6 +133,10 @@ class NewMaterial : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("CutPasteId")
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (loadTheme(this)=="blue")
+        {
+            setTheme(R.style.Theme_Cosplayplanner_blue)
+        }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.l_new_material)
         val detailID = intent.extras?.get("detail_id") as Int

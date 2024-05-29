@@ -18,7 +18,6 @@ import com.archi.cosplay_planner.P_ROOM.Repos
 import com.archi.cosplay_planner.P_ROOM.ReposEvent
 import com.archi.cosplay_planner.databinding.LMainScreenBinding
 import kotlinx.coroutines.launch
-import java.util.Locale
 
 
 class MainActivity : AppCompatActivity()  {
@@ -107,33 +106,33 @@ class MainActivity : AppCompatActivity()  {
 
                 R.id.text_p -> {
                     if (filter==0) {editor.putInt("filter", -1)
-                        t_p.setBackgroundColor(0);
+                        t_p.setBackgroundResource(0);
                     }
                     else {editor.putInt("filter",0)
-                        t_p.setBackgroundColor(R.color.purple_500);
+                        t_p.setBackgroundResource(R.color.green_t);
                     }
-                    t_h.setBackgroundColor(0)
-                    t_f.setBackgroundColor(0)
+                    t_h.setBackgroundResource(0)
+                    t_f.setBackgroundResource(0)
                 }
 
                 R.id.text_f -> {
                     if (filter==1) {editor.putInt("filter", -1)
-                        t_f.setBackgroundColor(0);}
+                        t_f.setBackgroundResource(0);}
                     else {editor.putInt("filter",1)
-                        t_f.setBackgroundColor(R.color.purple_500);
+                        t_f.setBackgroundResource(R.color.green_t);
                     }
-                    t_h.setBackgroundColor(0)
-                    t_p.setBackgroundColor(0)
+                    t_h.setBackgroundResource(0)
+                    t_p.setBackgroundResource(0)
                 }
 
                 R.id.text_h -> {
                     if (filter==2) {editor.putInt("filter", -1)
-                        t_h.setBackgroundColor(0);}
+                        t_h.setBackgroundResource(0);}
                     else {editor.putInt("filter",2)
-                        t_h.setBackgroundColor(R.color.purple_500);
+                        t_h.setBackgroundResource(R.color.green_t);
                     }
-                    t_p.setBackgroundColor(0)
-                    t_f.setBackgroundColor(0)
+                    t_p.setBackgroundResource(0)
+                    t_f.setBackgroundResource(0)
                 }
 
                 else -> { // Note the block
@@ -170,7 +169,10 @@ class MainActivity : AppCompatActivity()  {
 
     @SuppressLint("CommitPrefEdits")
     override fun onCreate(savedInstanceState: Bundle?) {
-
+        if (loadTheme(this)=="blue")
+        {
+            setTheme(R.style.Theme_Cosplayplanner_blue)
+        }
 
         val language = loadLanguage(this)
         if (language!=null)

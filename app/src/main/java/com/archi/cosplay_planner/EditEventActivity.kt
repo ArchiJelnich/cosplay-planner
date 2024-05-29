@@ -237,6 +237,10 @@ class EditEventActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
+        if (loadTheme(this)=="blue")
+        {
+            setTheme(R.style.Theme_Cosplayplanner_blue)
+        }
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.l_events_edit_screen)

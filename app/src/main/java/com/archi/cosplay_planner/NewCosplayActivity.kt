@@ -105,7 +105,10 @@ class NewCosplayActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.v("MYLOG", "OnCreate");
-
+        if (loadTheme(this)=="blue")
+        {
+            setTheme(R.style.Theme_Cosplayplanner_blue)
+        }
         super.onCreate(savedInstanceState)
 
 

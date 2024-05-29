@@ -64,7 +64,8 @@
     <string name="str_Settings_language">Язык</string>
 
     <string-array name="S_theme">
-        <item>Серая</item>
+        <item>Розовая</item>
+        <item>Голубая</item>
     </string-array>
 
     <string-array name="S_language">

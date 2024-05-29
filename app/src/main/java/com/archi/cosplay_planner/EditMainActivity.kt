@@ -1,5 +1,6 @@
 package com.archi.cosplay_planner
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -12,22 +13,20 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.getString
+import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.archi.cosplay_planner.P_Infra.InputCheckerText
 import com.archi.cosplay_planner.P_ROOM.AppDatabase
 import com.archi.cosplay_planner.P_ROOM.Costume
-import com.archi.cosplay_planner.P_Infra.InputCheckerText
-import com.archi.cosplay_planner.P_ROOM.Repos
 import com.archi.cosplay_planner.P_ROOM.ReposDetail
 import com.archi.cosplay_planner.P_ROOM.ReposEvent
 import com.archi.cosplay_planner.databinding.LMainEditScreenBinding
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.resume
@@ -157,6 +156,15 @@ class EditMainActivity : AppCompatActivity() {
 
         }
 
+        fun onClickAddPhoto(view: View){
+
+         val REQUST_GALLERY = 101
+         val activity = context as Activity
+         val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            activity.startActivityForResult(intent, REQUST_GALLERY)
+        }
+
         fun onClickAddDetail(view: View){
 
 
@@ -240,6 +248,11 @@ class EditMainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        if (loadTheme(this)=="blue")
+        {
+            setTheme(R.style.Theme_Cosplayplanner_blue)
+        }
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.l_main_edit_screen)

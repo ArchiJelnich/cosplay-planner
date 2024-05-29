@@ -53,6 +53,12 @@ class SettingActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     @SuppressLint("CommitPrefEdits")
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        if (loadTheme(this)=="blue")
+        {
+            setTheme(R.style.Theme_Cosplayplanner_blue)
+        }
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.l_setting_screen)
         val binding = LSettingScreenBinding.inflate(layoutInflater)
@@ -73,7 +79,48 @@ class SettingActivity : AppCompatActivity() {
             // Apply the adapter to the spinner.
             spinner_theme.adapter = adapter
         }
-        spinner_theme.setSelection(0)
+
+        if (loadTheme(this) =="pink")
+        {
+            spinner_theme.setSelection(0)
+        }
+        else {
+            spinner_theme.setSelection(1)
+        }
+
+        spinner_theme.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val selectedTheme = when (position)
+                {
+                    0 -> "pink"
+                    else -> "blue"
+                }
+
+
+                if (loadTheme(this@SettingActivity) !=selectedTheme)
+                {
+
+                    saveTheme(this@SettingActivity, selectedTheme)
+                    if (selectedTheme=="pink") {
+                        setTheme(R.style.Theme_Cosplayplanner)
+                    }
+                    else setTheme(R.style.Theme_Cosplayplanner_blue)
+                    recreate()
+                }
+
+                //recreate()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+        }
+
 
         ArrayAdapter.createFromResource(
             this,
@@ -192,4 +239,15 @@ fun setAppLocale(context: Context, myLocate: String) {
     configuration.setLayoutDirection(locale)
     resources.updateConfiguration(configuration, resources.displayMetrics)
 
+}
+
+
+fun saveTheme(context: Context, themecode: String) {
+    val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+    preferences.edit().putString("themecode", themecode).apply()
+}
+
+fun loadTheme(context: Context): String? {
+    val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+    return preferences.getString("themecode", "pink")
 }

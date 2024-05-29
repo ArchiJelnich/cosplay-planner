@@ -68,5 +68,4 @@ data class MaterialsPlanned(
 data class MaterialQuanPair (
     val M: Int,
     val Q : Int
-
 )

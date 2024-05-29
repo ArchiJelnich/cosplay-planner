@@ -38,6 +38,7 @@
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
                     android:gravity="center"
+                    style="@style/HeaderText"
                     android:text="@string/str_Settings" />
 
                 <LinearLayout
