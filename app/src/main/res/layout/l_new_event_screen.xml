@@ -21,14 +21,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="50dp"
-            android:paddingLeft="50dp"
-            android:paddingBottom="10dp"
-            android:paddingRight="50dp"
+            android:background="@color/tran"
+            android:layout_gravity="top"
             android:orientation="vertical">
                 <TextView
+                    android:id="@+id/text_view_id"
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
+                    android:background="@color/tran"
+                    style="@style/HeaderText"
                     android:gravity="center"
                     android:text="@string/str_New_Event" />
             </LinearLayout>
@@ -36,9 +37,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="50dp"
             android:paddingLeft="50dp"
-            android:paddingBottom="10dp"
             android:paddingRight="50dp"
             android:orientation="horizontal">
             <TextView
@@ -59,9 +58,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="50dp"
-            android:paddingLeft="50dp"
+            android:paddingTop="10dp"
             android:paddingBottom="10dp"
+            android:paddingLeft="50dp"
             android:paddingRight="50dp"
             android:orientation="horizontal">
             <TextView
@@ -81,18 +80,18 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="50dp"
-            android:paddingLeft="50dp"
+            android:paddingTop="10dp"
+            android:gravity="center"
+            android:layout_gravity="center"
             android:paddingBottom="10dp"
+            android:paddingLeft="50dp"
             android:paddingRight="50dp"
             android:orientation="horizontal">
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:gravity="center"
-                android:text="@string/str_Event_date" />
+
             <DatePicker
                 android:id="@+id/datePicker1"
+                android:paddingLeft="5sp"
+                android:paddingRight="5sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:datePickerMode="spinner"
@@ -102,9 +101,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="50dp"
-            android:paddingLeft="50dp"
+            android:paddingTop="10dp"
             android:paddingBottom="10dp"
+            android:paddingLeft="50dp"
             android:paddingRight="50dp"
             android:orientation="horizontal">
             <TextView
@@ -127,14 +126,15 @@
             android:orientation="horizontal"
             android:layout_gravity="bottom"
             android:layout_height="0dp"
+            android:paddingTop="50sp"
             android:layout_weight="1"
             android:gravity="center">
 
             <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_gravity="end"
-                android:src="@android:drawable/ic_input_add"
+                android:src="@drawable/plus"
                 android:onClick="@{ne_handlers::onClickAdd}"/>
         </LinearLayout>
 

@@ -14,6 +14,7 @@
     <LinearLayout
         android:orientation="vertical"
         android:id="@+id/l_main"
+        android:background="@color/tran"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:onClick="@{d_handlers::hideKeyboard}">
@@ -21,21 +22,25 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="50dp"
+            android:paddingTop="75dp"
             android:paddingLeft="50dp"
             android:paddingBottom="10dp"
             android:paddingRight="50dp"
+            android:background="@color/tran"
             android:orientation="horizontal">
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:background="@color/tran"
                 android:gravity="center"
                 android:text="@string/str_Cosplay_details" />
             <EditText
                 android:id="@+id/d_n"
+                android:paddingLeft="10sp"
                 android:layout_height="wrap_content"
                 android:inputType="textNoSuggestions"
                 android:layout_width="wrap_content"
+                android:background="@color/tran"
                 android:gravity="center"
                 android:hint="@string/str_Cosplay_details"
                 android:text="@{ViewModel.detail_name}"/>
@@ -44,21 +49,24 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="50dp"
+            android:paddingTop="20dp"
             android:paddingLeft="50dp"
             android:paddingBottom="10dp"
             android:paddingRight="50dp"
+            android:background="@color/tran"
             android:orientation="horizontal">
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:gravity="center"
+                android:background="@color/tran"
                 android:text="@string/str_detail_type" />
             <Spinner
                 android:id="@+id/d_t"
                 android:layout_height="wrap_content"
                 android:inputType="textNoSuggestions"
                 android:layout_width="wrap_content"
+                android:background="@color/tran"
                 android:gravity="center"
                 android:hint="@string/str_detail_type"/>
         </LinearLayout>
@@ -66,15 +74,17 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="50dp"
+            android:paddingTop="20dp"
             android:paddingLeft="50dp"
             android:paddingBottom="10dp"
+            android:background="@color/tran"
             android:paddingRight="50dp"
             android:orientation="horizontal">
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:gravity="center"
+                android:background="@color/tran"
                 android:text="@string/str_Cosplay_progress" />
             <Spinner
                 android:id="@+id/d_p"
@@ -82,6 +92,7 @@
                 android:inputType="textNoSuggestions"
                 android:layout_width="wrap_content"
                 android:gravity="center"
+                android:background="@color/tran"
                 android:hint="@string/str_Cosplay_progress"/>
         </LinearLayout>
 
@@ -90,34 +101,41 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="50dp"
+            android:paddingTop="20dp"
             android:paddingBottom="10dp"
             android:paddingRight="50dp"
+            android:background="@color/tran"
             android:orientation="horizontal">
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:gravity="center"
+                android:background="@color/tran"
                 android:paddingEnd="50sp"
                 android:text="@string/str_material_base" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/tran"
                 android:orientation="vertical">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView"
-                    android:paddingTop="50dp"
+                    android:paddingTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
+                    android:background="@drawable/rounded"
                     android:layout_weight="3"/>
 
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:paddingTop="10sp"
                     android:layout_gravity="right"
-                    android:src="@android:drawable/ic_input_add"
+                    android:src="@drawable/plus"
                     android:visibility="gone"
                     android:id="@+id/lay_id"
+                    android:background="@color/tran"
                     android:onClick="@{d_handlers::addMaterial}"/>
             </LinearLayout>
         </LinearLayout>
@@ -129,6 +147,7 @@
             android:layout_gravity="bottom"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:background="@color/tran"
             android:gravity="center">
 
 
@@ -138,6 +157,7 @@
              android:inputType="textNoSuggestions"
              android:layout_width="0sp"
              android:gravity="center"
+             android:background="@color/tran"
              android:visibility="gone"
              android:text="@{String.valueOf(ViewModel.costume_id)}"/>
 
@@ -146,15 +166,17 @@
                 android:layout_height="0sp"
                 android:inputType="textNoSuggestions"
                 android:layout_width="0sp"
+                android:background="@color/tran"
                 android:gravity="center"
                 android:visibility="gone"
                 android:text="@string/str_m_one"/>
 
             <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="end"
-                android:src="@android:drawable/ic_input_add"
+                android:paddingTop="20sp"
+                android:layout_width="40sp"
+                android:background="@color/tran"
+                android:layout_height="40sp"
+                android:src="@drawable/plus"
                 android:onClick="@{d_handlers::onClickAdd}"/>
         </LinearLayout>
 

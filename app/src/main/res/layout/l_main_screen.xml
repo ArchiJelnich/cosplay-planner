@@ -2,116 +2,130 @@
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data>
-        <variable
-            name="ViewModel"
-            type="com.archi.cosplay_planner.MyViewModel" />
+<data>
+    <variable
+        name="ViewModel"
+        type="com.archi.cosplay_planner.MyViewModel" />
 
-        <variable
-            name="handlers"
-            type="com.archi.cosplay_planner.MainActivity.Handler"/>
-    </data>
+    <variable
+        name="handlers"
+        type="com.archi.cosplay_planner.MainActivity.Handler"/>
+</data>
 
 
 <LinearLayout
-    android:orientation="vertical"
-    android:id="@+id/l_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/tran"
+        android:orientation="vertical">
+
+    <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:background="@color/tran"
+    android:paddingBottom="40sp"
+    android:layout_gravity="top"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/text_view_id"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        style="@style/HeaderText"
+        android:background="@color/tran"
+        android:text="@{ViewModel.header}" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="50dp"
-        android:paddingLeft="50dp"
-        android:paddingBottom="10dp"
-        android:paddingRight="50dp"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:background="@color/tran"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/tran"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/text_p"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:background="@color/tran"
+                android:paddingRight="5dp"
+                android:visibility="visible"
+                android:onClick="@{handlers::onClickFilter}"
+                android:text="@{ViewModel.progress}"/>`
+            <TextView
+                android:id="@+id/text_f"
+                android:layout_height="wrap_content"
+                android:background="@color/tran"
+                android:layout_width="wrap_content"
+                android:paddingRight="5dp"
+                android:onClick="@{handlers::onClickFilter}"
+                android:text="@{ViewModel.finished}" />
+            <TextView
+                android:id="@+id/text_h"
+                android:layout_height="wrap_content"
+                android:background="@color/tran"
+                android:layout_width="wrap_content"
+                android:paddingRight="5dp"
+                android:onClick="@{handlers::onClickFilter}"
+                android:text="@{ViewModel.hold}" />
+        </LinearLayout>
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@color/tran"
+            android:layout_gravity="end"
+            android:gravity="end"
+            android:onClick="@{handlers::onClickFilterIcon}"
+            android:src="@drawable/search" />
+    </LinearLayout>
+    </LinearLayout>
+
+
+
+
+
+
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/tran"
+            android:paddingLeft="20sp"
+            android:paddingRight="20sp"
+            android:layout_weight="3"
             android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/text_view_id"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:gravity="center"
-            style="@style/HeaderText"
-            android:text="@{ViewModel.header}" />
 
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:divider="@null"
+                android:paddingTop="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingTop="50dp"
-                android:orientation="horizontal">
+                android:layout_height="0dp"
+                android:background="@drawable/rounded"
+                android:layout_weight="3"/>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/text_p"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:paddingRight="5dp"
-                    android:visibility="visible"
-                    android:onClick="@{handlers::onClickFilter}"
-                    android:text="@{ViewModel.progress}"/>`
-
-                <TextView
-                    android:id="@+id/text_f"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:paddingRight="5dp"
-                    android:onClick="@{handlers::onClickFilter}"
-                    android:text="@{ViewModel.finished}" />
-
-                <TextView
-                    android:id="@+id/text_h"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:paddingRight="5dp"
-                    android:onClick="@{handlers::onClickFilter}"
-                    android:text="@{ViewModel.hold}" />
-
-            </LinearLayout>
-
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="end"
-                    android:gravity="end"
-                    android:onClick="@{handlers::onClickFilterIcon}"
-                    android:src="@android:drawable/ic_menu_zoom" />
-
-            </LinearLayout>
+            <ImageView
+                android:layout_width="20sp"
+                android:layout_height="20sp"
+                android:paddingTop="20dp"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:src="@drawable/plus"
+                android:background="@color/tran"
+                android:onClick="@{handlers::onClickNewCosplay}"/>
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:divider="@null"
-            android:paddingTop="50dp"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="3"/>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:src="@android:drawable/ic_input_add"
-                android:onClick="@{handlers::onClickNewCosplay}"/>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -119,43 +133,37 @@
             android:layout_gravity="bottom"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:background="@color/tran"
             android:gravity="center">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingEnd="10dp"
-                android:src="@android:drawable/btn_star_big_on"/>
+                android:layout_width="50sp"
+                android:layout_height="50sp"
+                android:paddingRight="20dp"
+                android:background="@color/tran"
+                android:src="@drawable/cosplay"/>
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingEnd="10dp"
-                android:src="@android:drawable/btn_star_big_on"
+                android:layout_width="50sp"
+                android:layout_height="50sp"
+                android:paddingRight="20dp"
+                android:src="@drawable/events"
+                android:background="@color/tran"
                 android:onClick="@{handlers::onClickToEvents}"/>
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingEnd="10dp"
-                android:src="@android:drawable/btn_star_big_on"
+                android:layout_width="50sp"
+                android:layout_height="50sp"
+                android:paddingRight="20dp"
+                android:background="@color/tran"
+                android:src="@drawable/settings"
                 android:onClick="@{handlers::onClickToSettings}"/>
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingEnd="10dp"
-                android:src="@android:drawable/btn_star_big_on"
+                android:layout_width="50sp"
+                android:layout_height="50sp"
+                android:paddingRight="20dp"
+                android:background="@color/tran"
+                android:src="@drawable/material"
                 android:onClick="@{handlers::onClickToMMaterial}"/>
         </LinearLayout>
 
-
-        </LinearLayout>
     </LinearLayout>
-
-
-
-</LinearLayout>
-
-
-
-
-
 </layout>

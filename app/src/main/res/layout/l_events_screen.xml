@@ -14,17 +14,16 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="50dp"
-        android:id="@+id/l_main"
-        android:paddingLeft="50dp"
-        android:paddingBottom="10dp"
-        android:paddingRight="50dp"
+        android:layout_height="wrap_content"
+        android:background="@color/tran"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/tran"
+            android:paddingBottom="40sp"
+            android:layout_gravity="top"
             android:orientation="vertical">
 
         <TextView
@@ -32,6 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:gravity="center"
+            android:background="@color/tran"
             style="@style/HeaderText"
             android:text="@string/str_Events"/>
 
@@ -39,63 +39,80 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/tran"
+            android:paddingLeft="20sp"
+            android:paddingRight="20sp"
+            android:layout_weight="3"
             android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewEvent"
-            android:paddingTop="50dp"
+            android:paddingTop="20dp"
             android:layout_width="match_parent"
+            android:background="@drawable/rounded"
             android:layout_height="0dp"
             android:layout_weight="3"/>
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="20sp"
+                android:layout_height="20sp"
+                android:paddingTop="20dp"
                 android:layout_gravity="end"
-                android:src="@android:drawable/ic_input_add"
+                android:src="@drawable/plus"
+                android:background="@color/tran"
+                android:layout_weight="1"
                 android:onClick="@{handlers::onClickNewEvent}"
                 android:contentDescription="@string/str_New_Event" />
+        </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_gravity="bottom"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center">
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_gravity="bottom"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@color/tran"
+                android:gravity="center">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingEnd="10dp"
-                android:src="@android:drawable/btn_star_big_on"
+                android:layout_width="50sp"
+                android:layout_height="50sp"
+                android:paddingRight="20dp"
+                android:background="@color/tran"
+                android:src="@drawable/cosplay"
                 android:onClick="@{handlers::onClickToCosplay}"
                 android:contentDescription="@string/str_My_Cosplays"/>
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingEnd="10dp"
-                android:src="@android:drawable/btn_star_big_on"
+                android:layout_width="50sp"
+                android:layout_height="50sp"
+                android:paddingRight="20dp"
+                android:src="@drawable/events"
+                android:background="@color/tran"
                 android:contentDescription="@string/app_name"/>
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingEnd="10dp"
-                android:src="@android:drawable/btn_star_big_on"
+                android:layout_width="50sp"
+                android:layout_height="50sp"
+                android:paddingRight="20dp"
+                android:background="@color/tran"
+                android:src="@drawable/settings"
                 android:contentDescription="@string/app_name"
                 android:onClick="@{handlers::onClickToSettings}"/>
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingEnd="10dp"
-                android:src="@android:drawable/btn_star_big_on"
+                android:layout_width="50sp"
+                android:layout_height="50sp"
+                android:paddingRight="20dp"
+                android:background="@color/tran"
+                android:src="@drawable/material"
                 android:onClick="@{handlers::onClickToMMaterial}"
                 android:contentDescription="@string/app_name"/>
         </LinearLayout>
 
 
-        </LinearLayout>
+
     </LinearLayout>
 
 

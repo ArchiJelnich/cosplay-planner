@@ -111,7 +111,7 @@ class MainActivity : AppCompatActivity()  {
                         t_p.setBackgroundResource(0);
                     }
                     else {editor.putInt("filter",0)
-                        t_p.setBackgroundResource(R.color.green_t);
+                        t_p.setBackgroundResource(R.drawable.rounded_green)
                     }
                     t_h.setBackgroundResource(0)
                     t_f.setBackgroundResource(0)
@@ -121,7 +121,7 @@ class MainActivity : AppCompatActivity()  {
                     if (filter==1) {editor.putInt("filter", -1)
                         t_f.setBackgroundResource(0);}
                     else {editor.putInt("filter",1)
-                        t_f.setBackgroundResource(R.color.green_t);
+                        t_f.setBackgroundResource(R.drawable.rounded_green)
                     }
                     t_h.setBackgroundResource(0)
                     t_p.setBackgroundResource(0)
@@ -131,7 +131,7 @@ class MainActivity : AppCompatActivity()  {
                     if (filter==2) {editor.putInt("filter", -1)
                         t_h.setBackgroundResource(0);}
                     else {editor.putInt("filter",2)
-                        t_h.setBackgroundResource(R.color.green_t);
+                        t_h.setBackgroundResource(R.drawable.rounded_green)
                     }
                     t_p.setBackgroundResource(0)
                     t_f.setBackgroundResource(0)

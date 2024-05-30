@@ -14,51 +14,54 @@
 
 
     <LinearLayout
-        android:orientation="vertical"
-        android:id="@+id/l_main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="@color/tran"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingTop="50dp"
-            android:paddingLeft="50dp"
-            android:paddingBottom="10dp"
-            android:paddingRight="50dp"
+            android:layout_height="wrap_content"
+            android:background="@color/tran"
+            android:paddingBottom="40sp"
+            android:layout_gravity="top"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/text_view_id"
+                    android:background="@color/tran"
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
                     android:gravity="center"
                     style="@style/HeaderText"
                     android:text="@string/str_Settings" />
+        </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingTop="50dp"
-                    android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/tran"
+            android:paddingLeft="20sp"
+            android:paddingRight="20sp"
+            android:layout_weight="3"
+            android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingTop="10dp"
                         android:paddingLeft="50dp"
+                        android:background="@color/tran"
                         android:paddingBottom="10dp"
                         android:paddingRight="50dp"
                         android:orientation="horizontal">
                         <TextView
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
+                            android:background="@color/tran"
                             android:gravity="center"
                             android:text="@string/str_Settings_theme" />
                         <Spinner
@@ -66,6 +69,7 @@
                             android:layout_height="wrap_content"
                             android:inputType="textNoSuggestions"
                             android:layout_width="wrap_content"
+                            android:background="@color/tran"
                             android:gravity="center"/>
                     </LinearLayout>
 
@@ -74,6 +78,7 @@
                         android:layout_height="wrap_content"
                         android:paddingTop="10dp"
                         android:paddingLeft="50dp"
+                        android:background="@color/tran"
                         android:paddingBottom="10dp"
                         android:paddingRight="50dp"
                         android:orientation="horizontal">
@@ -81,68 +86,68 @@
                             android:id="@+id/t_l"
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
+                            android:background="@color/tran"
                             android:gravity="center"
                             android:text="@string/str_Settings_language" />
                         <Spinner
                             android:id="@+id/s_l"
                             android:layout_height="wrap_content"
                             android:inputType="textNoSuggestions"
+                            android:background="@color/tran"
                             android:layout_width="wrap_content"
                             android:gravity="center"/>
                     </LinearLayout>
 
 
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+         </LinearLayout>
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:orientation="horizontal"
-                    android:layout_gravity="bottom"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_gravity="bottom"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/tran"
+            android:gravity="center">
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingEnd="10dp"
-                        android:src="@android:drawable/btn_star_big_on"
+                        android:layout_width="50sp"
+                        android:layout_height="50sp"
+                        android:paddingRight="20dp"
+                        android:background="@color/tran"
+                        android:src="@drawable/cosplay"
                         android:onClick="@{s_handlers::onClickToCosplay}"
                         android:contentDescription="@string/str_My_Cosplays"/>
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingEnd="10dp"
-                        android:src="@android:drawable/btn_star_big_on"
+                        android:layout_width="50sp"
+                        android:layout_height="50sp"
+                        android:paddingRight="20dp"
+                        android:src="@drawable/events"
+                        android:background="@color/tran"
                         android:onClick="@{s_handlers::onClickToEvents}"/>
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingEnd="10dp"
-                        android:src="@android:drawable/btn_star_big_on"/>
+                        android:layout_width="50sp"
+                        android:layout_height="50sp"
+                        android:paddingRight="20dp"
+                        android:background="@color/tran"
+                        android:src="@drawable/settings"/>
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingEnd="10dp"
-                        android:src="@android:drawable/btn_star_big_on"
+                        android:layout_width="50sp"
+                        android:layout_height="50sp"
+                        android:paddingRight="20dp"
+                        android:background="@color/tran"
+                        android:src="@drawable/material"
                         android:onClick="@{s_handlers::onClickToMMaterial}"/>
                 </LinearLayout>
 
 
-            </LinearLayout>
+
         </LinearLayout>
 
 
 
-    </LinearLayout>
 
 
 

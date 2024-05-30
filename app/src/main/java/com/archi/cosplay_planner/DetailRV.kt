@@ -1,19 +1,12 @@
 package com.archi.cosplay_planner
 
 
-import android.annotation.SuppressLint
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
-import com.archi.cosplay_planner.P_ROOM.Events
-import com.archi.cosplay_planner.P_Infra.check_if_in_future
-import com.archi.cosplay_planner.P_Infra.fulldata_to_string
-import com.archi.cosplay_planner.P_Infra.string_to_data
 import com.archi.cosplay_planner.P_ROOM.Detail
 
 
@@ -52,9 +45,14 @@ class DetailRV(private val details: List<Detail>): RecyclerView.Adapter<DetailRV
 
         when (details[position].type)
         {
+            0 -> holder.type.setBackgroundResource(R.drawable.t_shoe)
+            1 -> holder.type.setBackgroundResource(R.drawable.t_hat)
+            2 -> holder.type.setBackgroundResource(R.drawable.t_access)
+            3 -> holder.type.setBackgroundResource(R.drawable.t_props)
             4 -> holder.type.setBackgroundResource(R.drawable.t_top)
+            5 -> holder.type.setBackgroundResource(R.drawable.t_bot)
             6 -> holder.type.setBackgroundResource(R.drawable.t_lan)
-            else -> holder.type.setBackgroundResource(R.drawable.t_shoe)
+            else -> holder.type.setBackgroundResource(R.drawable.t_other)
         }
 
         //holder.type.text = details[position].type.toString()

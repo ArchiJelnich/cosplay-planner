@@ -15,7 +15,9 @@
         android:orientation="vertical"
         android:id="@+id/l_main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/tran"
+        android:paddingTop="75sp"
         android:onClick="@{nbm_handlers::hideKeyboard}">
 
         <LinearLayout
@@ -23,18 +25,22 @@
             android:layout_height="wrap_content"
             android:paddingTop="50dp"
             android:paddingLeft="50dp"
+            android:background="@color/tran"
             android:paddingBottom="10dp"
+            android:gravity="center"
             android:paddingRight="50dp"
-            android:orientation="horizontal">
+            android:orientation="vertical">
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:gravity="center"
+                android:background="@color/tran"
                 android:text="@string/str_material_name" />
             <EditText
                 android:id="@+id/m_n"
                 android:layout_height="wrap_content"
                 android:inputType="textNoSuggestions"
+                android:background="@color/tran"
                 android:layout_width="wrap_content"
                 android:gravity="center"
                 android:text="@{ViewModel.material_name}"/>
@@ -46,11 +52,14 @@
             android:layout_height="wrap_content"
             android:paddingTop="50dp"
             android:paddingLeft="50dp"
+            android:background="@color/tran"
             android:paddingBottom="10dp"
+            android:gravity="center"
             android:paddingRight="50dp"
-            android:orientation="horizontal">
+            android:orientation="vertical">
             <TextView
                 android:layout_height="wrap_content"
+                android:background="@color/tran"
                 android:layout_width="wrap_content"
                 android:gravity="center"
                 android:text="@string/str_material_unit" />
@@ -58,6 +67,7 @@
                 android:id="@+id/m_u"
                 android:layout_height="wrap_content"
                 android:inputType="textNoSuggestions"
+                android:background="@color/tran"
                 android:layout_width="wrap_content"
                 android:gravity="center"
                 android:text="@{ViewModel.material_unit}"/>
@@ -70,6 +80,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="horizontal"
+            android:background="@color/tran"
             android:layout_gravity="bottom"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -78,6 +89,7 @@
 
             <EditText
                 android:id="@+id/m_id"
+                android:background="@color/tran"
                 android:layout_height="0sp"
                 android:inputType="textNoSuggestions"
                 android:layout_width="0sp"
@@ -87,10 +99,12 @@
                 android:text="@{String.valueOf(ViewModel.material_id)}"/>
 
             <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="end"
-                android:src="@android:drawable/ic_input_add"
+                android:paddingTop="20sp"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:src="@drawable/plus"
+                android:background="@color/tran"
+                android:layout_weight="1"
                 android:onClick="@{nbm_handlers::onClickAdd}"/>
         </LinearLayout>
 

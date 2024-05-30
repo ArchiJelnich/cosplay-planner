@@ -14,6 +14,11 @@
     <LinearLayout
         android:orientation="vertical"
         android:id="@+id/l_main"
+        android:background="@color/tran"
+        android:paddingTop="75sp"
+        android:paddingLeft="20sp"
+        android:paddingRight="20sp"
+        android:paddingBottom="20sp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -21,6 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
+            android:background="@color/tran"
             android:paddingLeft="50dp"
             android:paddingBottom="10dp"
             android:paddingRight="50dp"
@@ -28,10 +34,13 @@
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:background="@color/tran"
                 android:gravity="center"
                 android:text="@string/str_New_fandom" />
             <EditText
                 android:id="@+id/c_f"
+                android:paddingLeft="20sp"
+                android:background="@color/tran"
                 android:layout_height="wrap_content"
                 android:inputType="textNoSuggestions"
                 android:layout_width="wrap_content"
@@ -45,6 +54,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
             android:paddingLeft="50dp"
+            android:background="@color/tran"
             android:paddingBottom="10dp"
             android:paddingRight="50dp"
             android:orientation="horizontal">
@@ -52,11 +62,14 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:gravity="center"
+                android:background="@color/tran"
                 android:text="@string/str_New_Char" />
             <EditText
                 android:id="@+id/c_c"
+                android:paddingLeft="20sp"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:background="@color/tran"
                 android:inputType="textNoSuggestions"
                 android:hint="@string/str_New_Char"
                 android:gravity="center"
@@ -69,6 +82,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
             android:paddingLeft="50dp"
+            android:background="@color/tran"
             android:paddingBottom="10dp"
             android:paddingRight="50dp"
             android:orientation="horizontal">
@@ -76,9 +90,11 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:gravity="center"
+                android:background="@color/tran"
                 android:text="@string/str_Cosplay_status" />
             <Spinner
                 android:id="@+id/c_s"
+                android:background="@color/tran"
                 android:layout_height="wrap_content"
                 android:inputType="textNoSuggestions"
                 android:layout_width="wrap_content"
@@ -90,6 +106,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="50dp"
             android:paddingTop="10dp"
+            android:background="@color/tran"
             android:paddingBottom="10dp"
             android:paddingRight="50dp"
             android:orientation="horizontal">
@@ -97,11 +114,13 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:gravity="center"
+                android:background="@color/tran"
                 android:paddingEnd="50sp"
                 android:visibility="gone"
                 android:text="@string/str_Cosplay_progress" />
             <TextView
                 android:id="@+id/c_p"
+                android:background="@color/tran"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:gravity="center"
@@ -113,6 +132,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="50dp"
+            android:background="@color/tran"
             android:paddingBottom="10dp"
             android:paddingRight="50dp"
             android:orientation="horizontal">
@@ -120,25 +140,30 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:gravity="center"
+                android:background="@color/tran"
                 android:paddingEnd="50sp"
                 android:text="@string/str_Cosplay_details" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/tran"
                 android:orientation="vertical">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerViewD"
                     android:paddingTop="10sp"
+                    android:background="@drawable/rounded"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:layout_weight="3"/>
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:paddingTop="10sp"
+                    android:layout_width="30sp"
+                    android:background="@color/tran"
+                    android:layout_height="30sp"
                     android:layout_gravity="right"
-                    android:src="@android:drawable/ic_input_add"
+                    android:src="@drawable/plus"
                     android:onClick="@{ec_handlers::onClickAddDetail}"/>
             </LinearLayout>
         </LinearLayout>
@@ -146,20 +171,23 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/rounded"
             android:layout_gravity="center"
             android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/image_avatar"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/ic_launcher_foreground" />
+                android:background="@color/tran"
+                android:layout_width="100sp"
+                android:layout_height="100sp"
+                android:src="@drawable/sparkle" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="horizontal"
             android:layout_gravity="bottom"
+            android:background="@color/tran"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:gravity="center">
@@ -167,6 +195,7 @@
             <EditText
                 android:id="@+id/c_id"
                 android:layout_height="0sp"
+                android:background="@color/tran"
                 android:inputType="textNoSuggestions"
                 android:layout_width="0sp"
                 android:gravity="center"
@@ -174,16 +203,19 @@
                 android:text="@{String.valueOf(ViewModel.costume_id)}"/>
 
             <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="40sp"
+                android:layout_height="40sp"
+                android:paddingTop="10sp"
                 android:layout_gravity="end"
-                android:src="@android:drawable/ic_input_add"
+                android:background="@color/tran"
+                android:src="@drawable/plus"
                 android:onClick="@{ec_handlers::onClickAdd}"/>
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
-            android:paddingTop="50dp"
+            android:background="@drawable/rounded"
+            android:paddingTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="3"/>
