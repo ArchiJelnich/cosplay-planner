@@ -23,7 +23,7 @@ class EventRV(private val events: List<Events>, val filter: Int): RecyclerView.A
 
     inner class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val name: TextView = itemView.findViewById(R.id.event_name)
-        val type: TextView = itemView.findViewById(R.id.event_type)
+        val type: ImageView = itemView.findViewById(R.id.event_type)
         val date: TextView = itemView.findViewById(R.id.event_date)
         val image: ImageView = itemView.findViewById(R.id.imageView)
 
@@ -44,7 +44,16 @@ class EventRV(private val events: List<Events>, val filter: Int): RecyclerView.A
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
         holder.name.text = events[position].event
-        holder.type.text = events[position].type.toString()
+
+        when(events[position].type)
+        {
+            0 -> holder.type.setBackgroundResource(R.drawable.t_conv)
+            2 -> holder.type.setBackgroundResource(R.drawable.t_photo)
+            else -> holder.type.setBackgroundResource(R.drawable.t_party)
+        }
+
+
+        //holder.type.text = events[position].type.toString()
         var date = events[position].date.toString()
         val ob_date = string_to_data(date)
         date = fulldata_to_string(ob_date)
@@ -52,8 +61,8 @@ class EventRV(private val events: List<Events>, val filter: Int): RecyclerView.A
 
         when (check_if_in_future(date))
         {
-            2 -> holder.name.setBackgroundResource(R.color.white_t)
-            1 -> holder.name.setBackgroundResource(R.color.red_t)
+            2 -> holder.name.setBackgroundResource(R.drawable.rounded_white)
+            1 -> holder.name.setBackgroundResource(R.drawable.rounded_red)
 
         }
 

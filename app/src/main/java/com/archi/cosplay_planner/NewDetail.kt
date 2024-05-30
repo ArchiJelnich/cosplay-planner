@@ -20,9 +20,11 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.archi.cosplay_planner.P_Infra.InputCheckerText
@@ -243,6 +245,10 @@ class DetailActivity : AppCompatActivity() {
             detail.progress?.let { d_p.setSelection(it) }
             d_id.text = detail.detailID.toString()
             val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
+            val divider = DividerItemDecoration(this@DetailActivity, DividerItemDecoration.VERTICAL)
+            divider.setDrawable(ContextCompat.getDrawable(this@DetailActivity,R.drawable.divider)!!)
+            recyclerView.addItemDecoration(divider)
+
             recyclerView.layoutManager = LinearLayoutManager(this)
 
             lifecycleScope.launch {
@@ -280,6 +286,7 @@ class DetailActivity : AppCompatActivity() {
 
                 Log.d("MyTag", "Repos=" + repos.toString())
                 val adapter = MaterialPlannedRV(repos.MaterialP, repos_all.allMaterial)
+
                 recyclerView.adapter = adapter
 
                adapter.onBMaterialPClickListener = { position, material ->

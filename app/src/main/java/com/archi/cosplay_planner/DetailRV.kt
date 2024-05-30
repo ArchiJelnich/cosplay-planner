@@ -24,8 +24,8 @@ class DetailRV(private val details: List<Detail>): RecyclerView.Adapter<DetailRV
 
     inner class DetailViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val name: TextView = itemView.findViewById(R.id.detail_name)
-        val type: TextView = itemView.findViewById(R.id.detail_type)
-        val progress: TextView = itemView.findViewById(R.id.detail_progress)
+        val type: ImageView = itemView.findViewById(R.id.detail_type)
+        val progress: ImageView = itemView.findViewById(R.id.detail_progress)
 
     }
 
@@ -42,8 +42,24 @@ class DetailRV(private val details: List<Detail>): RecyclerView.Adapter<DetailRV
 
     override fun onBindViewHolder(holder: DetailViewHolder, position: Int) {
         holder.name.text = details[position].detail
-        holder.type.text = details[position].type.toString()
-        holder.progress.text = details[position].progress.toString()
+
+        when (details[position].progress)
+        {
+            1 -> holder.progress.setBackgroundResource(R.drawable.p_done)
+            2 -> holder.progress.setBackgroundResource(R.drawable.p_hold)
+            else -> holder.progress.setBackgroundResource(R.drawable.p_progress)
+        }
+
+        when (details[position].type)
+        {
+            4 -> holder.type.setBackgroundResource(R.drawable.t_top)
+            6 -> holder.type.setBackgroundResource(R.drawable.t_lan)
+            else -> holder.type.setBackgroundResource(R.drawable.t_shoe)
+        }
+
+        //holder.type.text = details[position].type.toString()
+        //holder.progress.text = details[position].progress.toString()
+
         //holder.type.text = events[position].type.toString()
         //var date = events[position].date.toString()
         //val ob_date = string_to_data(date)

@@ -8,8 +8,10 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.archi.cosplay_planner.P_ROOM.AppDatabase
@@ -75,6 +77,9 @@ class EventActivity : AppCompatActivity() {
             var repos = ReposEvent(eventDao, 0)
             //recyclerView.adapter = EventRV(repos.allEvents, 0)
             val adapter = EventRV(repos.allEvents, 0)
+            val divider = DividerItemDecoration(this@EventActivity, DividerItemDecoration.VERTICAL)
+            divider.setDrawable(ContextCompat.getDrawable(this@EventActivity,R.drawable.divider)!!)
+            recyclerView.addItemDecoration(divider)
             recyclerView.adapter = adapter
 
             adapter.onEventClickListener = { position, event ->

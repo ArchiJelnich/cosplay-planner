@@ -21,8 +21,7 @@ class MainRV(private val costumes_a: List<Costume>, private val costumes_f: List
             val fandom: TextView = itemView.findViewById(R.id.textView)
             val character: TextView = itemView.findViewById(R.id.textView2)
             val image: ImageView = itemView.findViewById(R.id.imageView)
-            val progress: TextView = itemView.findViewById(R.id.textView3)
-            val status: TextView = itemView.findViewById(R.id.textView4)
+            val status: ImageView = itemView.findViewById(R.id.i_status)
             val progress_bar: ProgressBar = itemView.findViewById(R.id.progressBar)
         }
 
@@ -56,13 +55,21 @@ class MainRV(private val costumes_a: List<Costume>, private val costumes_f: List
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.fandom.text = costumes[position].fandom
         holder.character.text = costumes[position].character
-        holder.progress.text = costumes[position].progress.toString()
-        holder.status.text = costumes[position].status.toString()
+        //holder.status.text = costumes[position].status.toString()
+
+        when(costumes[position].status)
+        {
+            1 -> holder.status.setBackgroundResource(R.drawable.p_done)
+            2 -> holder.status.setBackgroundResource(R.drawable.p_hold)
+            else -> holder.status.setBackgroundResource(R.drawable.p_progress)
+        }
+
+
         costumes[position].progress?.let { holder.progress_bar.setProgress(it) }
 
         if (costumes[position].status==1)
         {
-            holder.character.setBackgroundResource(R.color.green_t)
+            holder.character.setBackgroundResource(R.drawable.rounded_green)
         }
 
         holder.itemView.setOnClickListener {

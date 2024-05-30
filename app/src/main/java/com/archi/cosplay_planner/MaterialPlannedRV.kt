@@ -27,8 +27,8 @@ class MaterialPlannedRV(private val materials: List<MaterialsPlanned>, private v
     var onBMaterialPLongClickListener: ((position: Int, event: MaterialsPlanned) -> Boolean)? = null
 
     inner class BMaterialPlannedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val material_unit: TextView = itemView.findViewById(R.id.unit)
-        val material_name: TextView = itemView.findViewById(R.id.material)
+        val material_unit: TextView = itemView.findViewById(R.id.material)
+        val material_name: TextView = itemView.findViewById(R.id.unit)
 
     }
 

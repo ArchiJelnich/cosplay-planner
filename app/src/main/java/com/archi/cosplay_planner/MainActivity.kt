@@ -9,8 +9,10 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.archi.cosplay_planner.P_ROOM.AppDatabase
@@ -150,6 +152,8 @@ class MainActivity : AppCompatActivity()  {
             val repos = Repos(CostumeDao, filter)
             val recycler_view_late = (view.rootView as View).findViewById<RecyclerView>(R.id.recyclerView)
             val adapter = MainRV(repos.allCosplay, repos.filteredCosplay_f, repos.filteredCosplay_p, repos.filteredCosplay_h, filter)
+
+
             recycler_view_late.adapter = adapter
             Log.v("MyDebug", "Filter after " + filter)
             adapter.onEventClickListener = { position, costume ->
@@ -317,6 +321,10 @@ lifecycleScope.launch {
 
             var repos = Repos(CostumeDao, filter)
             val adapter = MainRV(repos.allCosplay, repos.filteredCosplay_f, repos.filteredCosplay_p, repos.filteredCosplay_h, filter)
+            val divider = DividerItemDecoration(this@MainActivity, DividerItemDecoration.VERTICAL)
+            divider.setDrawable(ContextCompat.getDrawable(this@MainActivity,R.drawable.divider)!!)
+            recyclerView.addItemDecoration(divider)
+
             recyclerView.adapter = adapter
 
             adapter.onEventClickListener = { position, costume ->

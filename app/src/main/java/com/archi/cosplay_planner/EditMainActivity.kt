@@ -14,8 +14,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat.startActivityForResult
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.archi.cosplay_planner.P_Infra.InputCheckerText
@@ -303,6 +305,10 @@ class EditMainActivity : AppCompatActivity() {
             val adapter = EventRV(repos.filteredEvents, costume_id)
             val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
             recyclerView.layoutManager = LinearLayoutManager(this@EditMainActivity)
+            val divider = DividerItemDecoration(this@EditMainActivity,DividerItemDecoration.VERTICAL)
+            divider.setDrawable(ContextCompat.getDrawable(this@EditMainActivity,R.drawable.divider)!!)
+            recyclerView.addItemDecoration(divider)
+
             recyclerView.adapter = adapter
 
             adapter.onEventClickListener = { position, event ->
@@ -323,7 +329,14 @@ class EditMainActivity : AppCompatActivity() {
             val adapter = DetailRV(repos.filteredDetails)
             val recyclerView: RecyclerView = findViewById(R.id.recyclerViewD)
             recyclerView.layoutManager = LinearLayoutManager(this@EditMainActivity)
+            //recyclerView.addItemDecoration(DividerItemDecoration(this@EditMainActivity, LinearLayoutManager.VERTICAL))
+
+            val divider = DividerItemDecoration(this@EditMainActivity,DividerItemDecoration.VERTICAL)
+            divider.setDrawable(ContextCompat.getDrawable(this@EditMainActivity,R.drawable.divider)!!)
+            recyclerView.addItemDecoration(divider)
+
             recyclerView.adapter = adapter
+
 
             adapter.onDetailClickListener = { position, detail ->
 

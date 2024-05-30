@@ -20,6 +20,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.archi.cosplay_planner.P_Infra.CreateReport
@@ -168,6 +169,10 @@ class MaterialBase : AppCompatActivity() {
         val materialDao = db.MaterialsDao()
         val materialPlannedDao = db.MaterialsPlannedDao()
         val recyclerView: RecyclerView = findViewById(R.id.recyclerViewEvent)
+
+        val divider = DividerItemDecoration(this@MaterialBase, DividerItemDecoration.VERTICAL)
+        divider.setDrawable(ContextCompat.getDrawable(this@MaterialBase,R.drawable.divider)!!)
+        recyclerView.addItemDecoration(divider)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
 

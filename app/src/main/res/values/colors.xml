@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="white_t">#1AFFFFFF</color>
-    <color name="red_t">#1AFF0000</color>
-    <color name="green_t">#1A11FF00</color>
+    <color name="white_t">#40FFFFFF</color>
+    <color name="red_t">#40FF0000</color>
+    <color name="green_t">#4011FF00</color>
 
-    <color name="pink_t">#1ADD9C9C</color>
-    <color name="blue_t">#1A8AB9DD</color>
+    <color name="pink_t">#40A33030</color>
+    <color name="blue_t">#401C4D73</color>
+
+    <color name="tran">#00000000</color>
 
 </resources>

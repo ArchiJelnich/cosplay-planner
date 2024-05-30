@@ -129,7 +129,7 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerViewD"
-                    android:paddingTop="50dp"
+                    android:paddingTop="10sp"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:layout_weight="3"/>
