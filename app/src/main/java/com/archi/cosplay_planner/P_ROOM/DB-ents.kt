@@ -1,5 +1,6 @@
 package com.archi.cosplay_planner.P_ROOM
 
+import android.net.Uri
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -68,4 +69,11 @@ data class MaterialsPlanned(
 data class MaterialQuanPair (
     val M: Int,
     val Q : Int
+)
+
+@Entity
+data class CosplayPhoto(
+    @PrimaryKey(autoGenerate = true) var photoID: Int,
+    @ColumnInfo(name = "costumeID", defaultValue = "0") val costumeID: Int?,
+    @ColumnInfo(name = "photo", defaultValue = "0") val photo: String?,
 )

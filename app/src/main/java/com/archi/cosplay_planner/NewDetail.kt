@@ -187,6 +187,10 @@ class DetailActivity : AppCompatActivity() {
         {
             setTheme(R.style.Theme_Cosplayplanner_blue)
         }
+        else {
+            setTheme(R.style.Theme_Cosplayplanner_pink)
+        }
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.l_new_detail)
         val costume_id = intent.extras?.get("costume_id") as Int

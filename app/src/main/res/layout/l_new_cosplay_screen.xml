@@ -95,15 +95,14 @@
             android:layout_width="match_parent"
             android:orientation="horizontal"
             android:background="@color/tran"
+            android:layout_weight="1"
             android:layout_gravity="bottom"
             android:layout_height="0dp"
-            android:layout_weight="1"
             android:gravity="center">
 
             <ImageView
                 android:layout_width="40sp"
                 android:layout_height="40sp"
-                android:paddingTop="40sp"
                 android:layout_gravity="end"
                 android:background="@color/tran"
                 android:src="@drawable/plus"

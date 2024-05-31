@@ -177,6 +177,10 @@ class MainActivity : AppCompatActivity()  {
         {
             setTheme(R.style.Theme_Cosplayplanner_blue)
         }
+        else {
+            setTheme(R.style.Theme_Cosplayplanner_pink)
+        }
+
 
         val language = loadLanguage(this)
         if (language!=null)
@@ -343,6 +347,7 @@ lifecycleScope.launch {
                 var db = AppDatabase.getInstance(applicationContext)
                 val eventDao = db.EventsDao()
                 val costumeDao = db.CostumeDao()
+                val photoDao = db.PhotoDAO()
                 val detailDao = db.DetailDao()
                 val MaterialsPlannedDao = db.MaterialsPlannedDao()
                 var repos_e = ReposEvent(eventDao, costume.costumeID)
@@ -360,6 +365,7 @@ lifecycleScope.launch {
                             MaterialsPlannedDao.deleteByDetail(ID)
                         }
                         detailDao.deleteByCostumeID(costume.costumeID)
+                        photoDao.deleteByID(costume.costumeID)
                         repos = Repos(CostumeDao, filter)
                         val newAdapter = MainRV(
                             repos.allCosplay,
@@ -399,7 +405,7 @@ lifecycleScope.launch {
                         }
                         detailDao.deleteByCostumeID(costume.costumeID)
                         eventDao.deleteByCostumeID(costume.costumeID)
-
+                        photoDao.deleteByID(costume.costumeID)
                         repos = Repos(CostumeDao, filter)
                         val newAdapter = MainRV(
                             repos.allCosplay,
@@ -421,6 +427,7 @@ lifecycleScope.launch {
                         }
                         detailDao.deleteByCostumeID(costume.costumeID)
                         eventDao.updateWhenDelete(costume.costumeID)
+                        photoDao.deleteByID(costume.costumeID)
                         repos = Repos(CostumeDao, filter)
                         val newAdapter = MainRV(
                             repos.allCosplay,

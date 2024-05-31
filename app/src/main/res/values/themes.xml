@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.Cosplayplanner" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:background">@color/pink_t</item>
+        <item name="android:background">@color/white_t</item>
     </style>>
 
     <style name="Theme.Cosplayplanner_blue" parent="Theme.AppCompat.NoActionBar">
         <item name="android:background">@color/blue_t</item>
+    </style>>
+
+    <style name="Theme.Cosplayplanner_pink" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:background">@color/pink_t</item>
     </style>>
 
     <style name="BasicText">
@@ -16,6 +20,10 @@
         <item name="android:paddingTop">30sp</item>
         <item name="android:paddingBottom">15sp</item>
         <item name="android:textSize">30sp</item>
+    </style>>
+
+    <style name="roundedImage">
+        <item name="android:radius">30sp</item>
     </style>>
 
 </resources>

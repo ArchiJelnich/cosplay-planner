@@ -123,4 +123,18 @@ interface MaterialsPlannedDao {
 
 }
 
+@Dao
+interface PhotoDAO {
+    @Insert
+    fun insertPhoto(vararg cosplayphoto: CosplayPhoto)
 
+    @Query("SELECT * FROM CosplayPhoto WHERE costumeID = :cosplayID")
+    fun getByID(cosplayID: Int):  List<CosplayPhoto>
+
+    @Update
+    fun update(CosplayPhoto: CosplayPhoto)
+
+    @Query("DELETE FROM CosplayPhoto WHERE costumeID = :cosplayID")
+    fun deleteByID(cosplayID: Int)
+
+}

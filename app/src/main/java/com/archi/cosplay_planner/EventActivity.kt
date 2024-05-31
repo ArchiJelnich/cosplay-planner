@@ -55,6 +55,10 @@ class EventActivity : AppCompatActivity() {
         {
             setTheme(R.style.Theme_Cosplayplanner_blue)
         }
+        else {
+            setTheme(R.style.Theme_Cosplayplanner_pink)
+        }
+
         super.onCreate(savedInstanceState)
         db = AppDatabase.getInstance(applicationContext)
         val binding = LEventsScreenBinding.inflate(layoutInflater)

@@ -58,6 +58,9 @@ class SettingActivity : AppCompatActivity() {
         {
             setTheme(R.style.Theme_Cosplayplanner_blue)
         }
+        else {
+            setTheme(R.style.Theme_Cosplayplanner_pink)
+        }
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.l_setting_screen)

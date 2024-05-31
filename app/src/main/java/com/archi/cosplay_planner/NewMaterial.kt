@@ -137,6 +137,10 @@ class NewMaterial : AppCompatActivity() {
         {
             setTheme(R.style.Theme_Cosplayplanner_blue)
         }
+        else {
+            setTheme(R.style.Theme_Cosplayplanner_pink)
+        }
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.l_new_material)
         val detailID = intent.extras?.get("detail_id") as Int

@@ -6,13 +6,14 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(
-    entities = [Costume::class, Events::class, Detail::class, Materials::class, MaterialsPlanned::class],version = 1)
+    entities = [Costume::class, Events::class, Detail::class, Materials::class, MaterialsPlanned::class, CosplayPhoto::class],version = 1)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun CostumeDao(): CostumeDao
     abstract fun EventsDao(): EventsDao
     abstract fun DetailDao(): DetailDao
     abstract fun MaterialsDao(): MaterialsDao
     abstract fun MaterialsPlannedDao(): MaterialsPlannedDao
+    abstract fun PhotoDAO(): PhotoDAO
 
 
     companion object {

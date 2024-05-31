@@ -177,9 +177,11 @@
 
             <ImageView
                 android:id="@+id/image_avatar"
-                android:background="@color/tran"
-                android:layout_width="100sp"
-                android:layout_height="100sp"
+                android:layout_width="200sp"
+                android:layout_height="200sp"
+                android:scaleType="centerCrop"
+                android:background="@drawable/rounded"
+                android:onClick="@{ec_handlers::onClickImage}"
                 android:src="@drawable/sparkle" />
         </LinearLayout>
 

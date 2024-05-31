@@ -140,6 +140,10 @@ class NewBMaterial : AppCompatActivity() {
         {
             setTheme(R.style.Theme_Cosplayplanner_blue)
         }
+        else {
+            setTheme(R.style.Theme_Cosplayplanner_pink)
+        }
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.l_bmaterial_edit_screen)
         val binding = LBmaterialEditScreenBinding.inflate(layoutInflater)

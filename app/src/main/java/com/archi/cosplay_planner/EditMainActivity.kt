@@ -1,20 +1,30 @@
 package com.archi.cosplay_planner
 
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.checkSelfPermission
+import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -22,6 +32,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.archi.cosplay_planner.P_Infra.InputCheckerText
 import com.archi.cosplay_planner.P_ROOM.AppDatabase
+import com.archi.cosplay_planner.P_ROOM.CosplayPhoto
 import com.archi.cosplay_planner.P_ROOM.Costume
 import com.archi.cosplay_planner.P_ROOM.ReposDetail
 import com.archi.cosplay_planner.P_ROOM.ReposEvent
@@ -31,14 +42,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 
 class EditMainActivity : AppCompatActivity() {
-
-
+companion object{
+    lateinit var selectImageLauncher: ActivityResultLauncher<Intent>
+}
     private val handlers = Handlers(this)
+
     class Handlers  (private val context: Context) {
         @OptIn(DelicateCoroutinesApi::class)
         fun onClickAdd(view: View) {
@@ -47,6 +61,8 @@ class EditMainActivity : AppCompatActivity() {
             val c_id = (view.rootView as View).findViewById<View>(R.id.c_id) as EditText
             val c_p = (view.rootView as View).findViewById<View>(R.id.c_p) as TextView
             val c_s = (view.rootView as View).findViewById<View>(R.id.c_s) as Spinner
+            val avatar = (view.rootView as View).findViewById<View>(R.id.image_avatar) as ImageView
+
             val statuses = context.resources.getStringArray(R.array.C_status)
             var status = 0
 
@@ -152,20 +168,19 @@ class EditMainActivity : AppCompatActivity() {
 
 
 
-
-
+            if (avatar.contentDescription!=null)
+            {
+                Log.d("MyLog", " " + avatar.contentDescription)
+            }
 
 
         }
 
-        fun onClickAddPhoto(view: View){
-
-         val REQUST_GALLERY = 101
-         val activity = context as Activity
-         val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            activity.startActivityForResult(intent, REQUST_GALLERY)
+        fun onClickImage(view: View){
+                val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                EditMainActivity.selectImageLauncher.launch(intent)
         }
+
 
         fun onClickAddDetail(view: View){
 
@@ -249,12 +264,48 @@ class EditMainActivity : AppCompatActivity() {
         }
     }
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         if (loadTheme(this)=="blue")
         {
             setTheme(R.style.Theme_Cosplayplanner_blue)
         }
+        else {
+            setTheme(R.style.Theme_Cosplayplanner_pink)
+        }
+
+        selectImageLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                result.data?.data?.let { uri ->
+                    findViewById<ImageView>(R.id.image_avatar).setImageURI(uri)
+                    val c_id = findViewById<View>(R.id.c_id) as EditText
+                    val db: AppDatabase = AppDatabase.getInstance(this)
+                    val PhotoDAO = db.PhotoDAO()
+                    val PhotoToUpdate = CosplayPhoto(
+                        photoID = 0,
+                        costumeID = c_id.text.toString().toInt(),
+                        photo = uri.toString()
+                    )
+
+
+                    if (PhotoDAO.getByID(c_id.text.toString().toInt()).size==0)
+                    {
+                        PhotoDAO.insertPhoto(PhotoToUpdate)
+                    }
+                    else {
+                        PhotoToUpdate.photoID=PhotoDAO.getByID(c_id.text.toString().toInt())[0].photoID
+                        PhotoDAO.update(PhotoToUpdate)
+                    }
+
+
+                }
+            }
+        }
+
+
+
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.l_main_edit_screen)
@@ -265,6 +316,12 @@ class EditMainActivity : AppCompatActivity() {
         val costume_character = costume.character!!
         val costume_status = costume.status!!
         val costume_progress = costume.progress!!
+
+
+
+
+
+
 
 
         val binding = LMainEditScreenBinding.inflate(layoutInflater)
@@ -386,16 +443,30 @@ class EditMainActivity : AppCompatActivity() {
 
 
 
+        val PhotoDAO = db.PhotoDAO()
+
+
+      if (PhotoDAO.getByID(costume_id).size!=0)
+        {
+            var avatar = findViewById<ImageView>(R.id.image_avatar)
+            var uri = PhotoDAO.getByID(costume_id)[0].photo?.toUri()
+            avatar.setImageURI(uri)
+            //Log.d("MyLogs", "There are saved photo..." + PhotoDAO.getByID(costume_id)[0].photo)
+            //Log.d("MyLogs", "There are saved photo..." + uri)
+
+        }
+
+
+
+
+
+
     }
 
 
 
 
 }
-
-
-
-
 
 
 

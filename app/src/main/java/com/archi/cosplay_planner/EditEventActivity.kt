@@ -1,34 +1,35 @@
 package com.archi.cosplay_planner
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.DatePicker
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.runtime.toMutableStateMap
+import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.lifecycle.ViewModel
 import com.archi.cosplay_planner.P_Infra.InputCheckerText
 import com.archi.cosplay_planner.P_Infra.sort_value_from_date
 import com.archi.cosplay_planner.P_Infra.string_to_data
 import com.archi.cosplay_planner.P_ROOM.AppDatabase
-import com.archi.cosplay_planner.P_ROOM.CostumeDao
 import com.archi.cosplay_planner.P_ROOM.Events
 import com.archi.cosplay_planner.P_ROOM.Repos
 import com.archi.cosplay_planner.databinding.LEventsEditScreenBinding
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -140,11 +141,6 @@ class EditEventActivity : AppCompatActivity() {
 
 
 
-
-
-
-
-
                 }
 
         @SuppressLint("SimpleDateFormat")
@@ -226,6 +222,14 @@ class EditEventActivity : AppCompatActivity() {
         }
 
 
+        fun onClickAvatar(view: View){
+            val image_avatar = (view.rootView as View).findViewById<View>(R.id.image_avatar) as ImageView
+
+
+
+
+        }
+
 
         fun hideKeyboard(view: View) {
 
@@ -240,6 +244,9 @@ class EditEventActivity : AppCompatActivity() {
         if (loadTheme(this)=="blue")
         {
             setTheme(R.style.Theme_Cosplayplanner_blue)
+        }
+        else {
+            setTheme(R.style.Theme_Cosplayplanner_pink)
         }
 
         super.onCreate(savedInstanceState)
@@ -338,6 +345,9 @@ class EditEventActivity : AppCompatActivity() {
         val event_date_obj = string_to_data(event_date)
         Log.v("MyLog", "object " + event_date_obj)
         datePicker.updateDate(event_date_obj.year, event_date_obj.month, event_date_obj.day)
+
+
+
 
 
 
