@@ -68,6 +68,8 @@ interface DetailDao {
     fun delete(detail: Detail)
     @Query("SELECT * FROM Detail WHERE costumeID = :costumeID")
     fun getByCostume(costumeID: Int):  List<Detail>
+    @Query("SELECT * FROM Detail WHERE detailID = :detailID")
+    fun getByID(detailID: Int):  List<Detail>
     @Query("SELECT detailID FROM Detail WHERE costumeID = :costumeID")
     fun getIDByCostume(costumeID: Int):  List<Int>
     @Query("DELETE FROM Detail WHERE costumeID = :costumeID")

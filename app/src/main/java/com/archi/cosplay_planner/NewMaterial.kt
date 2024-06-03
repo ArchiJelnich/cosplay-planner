@@ -113,8 +113,15 @@ class NewMaterial : AppCompatActivity() {
 
                 Log.d("MyLog","Q " + nm_unit.text.toString())
 
+                var DetailDao = db.DetailDao()
+                var detail = DetailDao.getByID(d_id.text.toString().toInt())
 
-                val intent = Intent(context, MainActivity::class.java)
+
+
+                val intent = Intent(context, DetailActivity::class.java)
+                intent.putExtra("costume_id", detail[0].costumeID)
+                intent.putExtra("detail", detail[0])
+                intent.putExtra("edit_flag", 1)
                 context.startActivity(intent)
 
 
@@ -136,7 +143,13 @@ class NewMaterial : AppCompatActivity() {
                     Log.d("MyLog","Q " + nm_unit.text.toString())
 
 
-                    val intent = Intent(context, MainActivity::class.java)
+                    var DetailDao = db.DetailDao()
+                    var detail = DetailDao.getByID(d_id.text.toString().toInt())
+
+                    val intent = Intent(context, DetailActivity::class.java)
+                    intent.putExtra("costume_id", detail[0].costumeID)
+                    intent.putExtra("detail", detail[0])
+                    intent.putExtra("edit_flag", 1)
                     context.startActivity(intent)
             }
 
