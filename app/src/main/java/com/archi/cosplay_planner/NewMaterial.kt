@@ -78,13 +78,38 @@ class NewMaterial : AppCompatActivity() {
 
             GlobalScope.launch {
 
-                val materialPtoadd = MaterialsPlanned(
-                    materialPlannedID = 0,
-                    materialID = c_id.text.toString().toInt(),
-                    quantity = nm_unit.text.toString().toInt(),
-                    detailID = d_id.text.toString().toInt()
-                )
-                MaterialsPlannedDao.insertAll(materialPtoadd)
+            var checkedMaterial =  MaterialsPlannedDao.getByMaterialandDetail(c_id.text.toString().toInt(), d_id.text.toString().toInt())
+
+                if (checkedMaterial.size!=0)
+                {
+
+
+                    val q = checkedMaterial[0].quantity?.plus((nm_unit.text.toString().toInt()))
+                    Log.d("MyLog", "checkedMaterial " + checkedMaterial[0] )
+                    Log.d("MyLog", "q " + q )
+                    Log.d("MyLog", "checkedMaterial[0].quantity " + checkedMaterial[0].quantity )
+                    Log.d("MyLog", "nm_unit.text.toString().toInt() " + nm_unit.text.toString().toInt() )
+
+                    val materialPtoadd = MaterialsPlanned(
+                        materialPlannedID = checkedMaterial[0].materialPlannedID,
+                        materialID = c_id.text.toString().toInt(),
+                        quantity = q,
+                        detailID = d_id.text.toString().toInt()
+                    )
+
+                    MaterialsPlannedDao.updateMaterialP(materialPtoadd)
+                }
+
+                else {
+                    val materialPtoadd = MaterialsPlanned(
+                        materialPlannedID = 0,
+                        materialID = c_id.text.toString().toInt(),
+                        quantity = nm_unit.text.toString().toInt(),
+                        detailID = d_id.text.toString().toInt()
+                    )
+                    MaterialsPlannedDao.insertAll(materialPtoadd)
+
+                }
 
                 Log.d("MyLog","Q " + nm_unit.text.toString())
 

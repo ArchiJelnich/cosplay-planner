@@ -237,7 +237,10 @@ class DetailActivity : AppCompatActivity() {
         {
             Log.d ("MyLog", "We are editing")
             val lay_id : ImageView = findViewById(R.id.lay_id)
-            lay_id.visibility = View.VISIBLE
+
+            val materialDao = db.MaterialsDao()
+            if (materialDao.getAll().size!=0){
+            lay_id.visibility = View.VISIBLE}
 
             var detail =  intent.extras?.get("detail") as Detail
             current_vm = DetailViewModel(detail.detail.toString(), detail.costumeID.toString().toInt())
