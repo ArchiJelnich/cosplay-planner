@@ -32,6 +32,7 @@ import com.archi.cosplay_planner.P_Infra.sort_value_from_date
 import com.archi.cosplay_planner.P_ROOM.AppDatabase
 import com.archi.cosplay_planner.P_ROOM.Detail
 import com.archi.cosplay_planner.P_ROOM.Events
+import com.archi.cosplay_planner.P_ROOM.Materials
 import com.archi.cosplay_planner.P_ROOM.MaterialsPlanned
 import com.archi.cosplay_planner.P_ROOM.MaterialsPlannedDao
 import com.archi.cosplay_planner.P_ROOM.ReposBMaterial
@@ -297,42 +298,11 @@ class DetailActivity : AppCompatActivity() {
                 recyclerView.adapter = adapter
 
                adapter.onBMaterialPClickListener = { position, material ->
-                    val intent = Intent(this@DetailActivity, NewMaterial::class.java)
-                    intent.putExtra("material", material)
-                    intent.putExtra("edit_flag", 1)
-                   val detail_id = d_id.text.toString().toInt()
-                   intent.putExtra("detail_id", detail_id)
-                    this@DetailActivity.startActivity(intent)
+                   onMaterialonBMaterialPClickListener(material, this@DetailActivity, d_id)
                }
                 adapter.onBMaterialPLongClickListener = { position, material ->
-                    Log.v("MyLog", "clicked " + position)
-                    Log.v("MyLog", "clicked " + material)
-
-                    val builder = AlertDialog.Builder(this@DetailActivity)
-
-
-                     //builder.setTitle(R.string.str_delete_material)
-                     val message = getString(R.string.str_delete_material)
-                     builder.setMessage(message)
-
-                     builder.setPositiveButton(R.string.str_yes) { dialog, which ->
-                         //Log.v("MyLog", "Yes")
-                         materialPDao.deleteBymaterialIP(material.materialPlannedID)
-                         repos = ReposBPMaterial(materialPDao, detail.detailID)
-                         val newAdapter = MaterialPlannedRV(repos.MaterialP, repos_all.allMaterial)
-                         recyclerView.adapter = newAdapter
-
-                     }
-
-                     builder.setNegativeButton(R.string.str_no) { dialog, which ->
-                         //Log.v("MyLog", "No")
-                     }
-
-                     builder.show()
-
+                    onMaterialonBMaterialPClickListenerLong(this@DetailActivity, material, materialPDao, detail, repos_all, recyclerView, d_id)
                     true
-
-
                 }
 
 
@@ -352,4 +322,38 @@ class DetailActivity : AppCompatActivity() {
         }
 
 class DetailViewModel(var detail_name: String, var costume_id: Int ) : ViewModel() {
+}
+
+fun onMaterialonBMaterialPClickListener(material : MaterialsPlanned, context: Context, d_id: TextView)
+{
+    val intent = Intent(context, NewMaterial::class.java)
+    intent.putExtra("material", material)
+    intent.putExtra("edit_flag", 1)
+    val detail_id = d_id.text.toString().toInt()
+    intent.putExtra("detail_id", detail_id)
+    context.startActivity(intent)
+}
+
+fun onMaterialonBMaterialPClickListenerLong(context: Context, material: MaterialsPlanned, materialPDao : MaterialsPlannedDao, detail : Detail, repos_all : ReposBMaterial, recyclerView : RecyclerView, d_id : TextView )
+{
+    val builder = AlertDialog.Builder(context)
+    val message = context.getString(R.string.str_delete_material)
+    builder.setMessage(message)
+    builder.setPositiveButton(R.string.str_yes) { dialog, which ->
+        //Log.v("MyLog", "Yes")
+        materialPDao.deleteBymaterialIP(material.materialPlannedID)
+        var repos = ReposBPMaterial(materialPDao, detail.detailID)
+        val adapter = MaterialPlannedRV(repos.MaterialP, repos_all.allMaterial)
+        recyclerView.adapter = adapter
+        adapter.onBMaterialPClickListener = { position, material ->
+            onMaterialonBMaterialPClickListener(material, context, d_id)
+        }
+        adapter.onBMaterialPLongClickListener = { position, material ->
+            onMaterialonBMaterialPClickListenerLong(context, material, materialPDao, detail, repos_all, recyclerView, d_id)
+            true
+        }
+    }
+    builder.setNegativeButton(R.string.str_no) { dialog, which ->
+    }
+    builder.show()
 }

@@ -34,6 +34,9 @@ import com.archi.cosplay_planner.P_Infra.InputCheckerText
 import com.archi.cosplay_planner.P_ROOM.AppDatabase
 import com.archi.cosplay_planner.P_ROOM.CosplayPhoto
 import com.archi.cosplay_planner.P_ROOM.Costume
+import com.archi.cosplay_planner.P_ROOM.Detail
+import com.archi.cosplay_planner.P_ROOM.DetailDao
+import com.archi.cosplay_planner.P_ROOM.MaterialsPlannedDao
 import com.archi.cosplay_planner.P_ROOM.ReposDetail
 import com.archi.cosplay_planner.P_ROOM.ReposEvent
 import com.archi.cosplay_planner.databinding.LMainEditScreenBinding
@@ -368,12 +371,9 @@ companion object{
 
             recyclerView.adapter = adapter
 
-            adapter.onEventClickListener = { position, event ->
-
-                val intent = Intent(this@EditMainActivity, EditEventActivity::class.java)
-                intent.putExtra("event", event)
-                this@EditMainActivity.startActivity(intent)
-            }
+            //adapter.onEventClickListener = { position, event ->
+            //    EventsonEventClickListener( event, this@EditMainActivity)
+            //}
 
 
         }
@@ -383,7 +383,7 @@ companion object{
 
             var repos = ReposDetail(detailDao, costume_id)
             //recyclerView.adapter = EventRV(repos.allEvents, 0)
-            val adapter = DetailRV(repos.filteredDetails)
+            var adapter = DetailRV(repos.filteredDetails)
             val recyclerView: RecyclerView = findViewById(R.id.recyclerViewD)
             recyclerView.layoutManager = LinearLayoutManager(this@EditMainActivity)
             //recyclerView.addItemDecoration(DividerItemDecoration(this@EditMainActivity, LinearLayoutManager.VERTICAL))
@@ -395,46 +395,13 @@ companion object{
             recyclerView.adapter = adapter
 
 
+
             adapter.onDetailClickListener = { position, detail ->
-
-
-                val intent = Intent(this@EditMainActivity, DetailActivity::class.java)
-
-                intent.putExtra("costume_id", costume_id)
-
-
-                intent.putExtra("edit_flag", 1)
-                intent.putExtra("detail", detail)
-                this@EditMainActivity.startActivity(intent)
+                omnCostume(this@EditMainActivity, detail, costume_id)
             }
 
             adapter.onDetailLongClickListener = {position, detail ->
-                val builder = AlertDialog.Builder(this@EditMainActivity)
-
-
-                builder.setTitle(R.string.str_delete_detail)
-                val message = getString(R.string.str_delete_detail_message)
-                builder.setMessage(message + " " + detail.detail)
-
-                builder.setPositiveButton(R.string.str_yes) { dialog, which ->
-                    //Log.v("MyLog", "Yes")
-                    detailDao.delete(detail)
-                    MaterialsPlannedDao.deleteByDetail(detail.detailID)
-
-
-
-                    //adapter.notifyItemRemoved(position)
-                    repos = ReposDetail(detailDao, costume_id)
-                    val newAdapter = DetailRV(repos.filteredDetails)
-                    recyclerView.adapter = newAdapter
-
-                }
-
-                builder.setNegativeButton(R.string.str_no) { dialog, which ->
-                    //Log.v("MyLog", "No")
-                }
-
-                builder.show()
+                onCostumeLong(this@EditMainActivity, detail, detailDao, MaterialsPlannedDao, costume_id, recyclerView)
                 true
             }
 
@@ -494,4 +461,40 @@ suspend fun showAlertDialog(context: Context, mess : String, title : String): Bo
         builder.show()
         Log.v("MYDEBUG", "Corrrr")
     }
+}
+
+fun omnCostume(context: Context, detail :Detail, costume_id : Int)
+{
+    val intent = Intent(context, DetailActivity::class.java)
+    intent.putExtra("costume_id", costume_id)
+    intent.putExtra("edit_flag", 1)
+    intent.putExtra("detail", detail)
+    context.startActivity(intent)
+}
+
+fun onCostumeLong(context: Context, detail : Detail, detailDao : DetailDao, MaterialsPlannedDao : MaterialsPlannedDao, costume_id : Int, recyclerView : RecyclerView){
+    val builder = AlertDialog.Builder(context)
+    builder.setTitle(R.string.str_delete_detail)
+    val message = context.getString(R.string.str_delete_detail_message)
+    builder.setMessage(message + " " + detail.detail)
+    builder.setPositiveButton(R.string.str_yes) { dialog, which ->
+        detailDao.delete(detail)
+        MaterialsPlannedDao.deleteByDetail(detail.detailID)
+        var repos = ReposDetail(detailDao, costume_id)
+        var adapter = DetailRV(repos.filteredDetails)
+        recyclerView.adapter = adapter
+
+        adapter.onDetailClickListener = { position, detail ->
+            omnCostume(context, detail, costume_id)
+        }
+        adapter.onDetailLongClickListener = {position, detail ->
+            onCostumeLong(context, detail, detailDao, MaterialsPlannedDao, costume_id, recyclerView)
+            true
+        }
+    }
+
+    builder.setNegativeButton(R.string.str_no) { dialog, which ->
+    }
+
+    builder.show()
 }
