@@ -318,12 +318,19 @@ class EditEventActivity : AppCompatActivity() {
 
             adapter_sp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner_costume.adapter = adapter_sp
+
+            Log.d("MyLog", "Spinner event_costume " + event_costume)
+            Log.d("MyLog", "Spinner names_list " + names)
+
             if (event_costume==-1)
             {
                 spinner_costume.setSelection(names_list.size-1)
             }
             else {
-                spinner_costume.setSelection(event_costume-1)
+                val founded_key = names.filterValues { it == event_costume }.keys
+                val founded_key_arr = founded_key.toTypedArray()
+               val founded_name = names_list.indexOf(founded_key_arr[0])
+                spinner_costume.setSelection(founded_name)
             }
 
 
