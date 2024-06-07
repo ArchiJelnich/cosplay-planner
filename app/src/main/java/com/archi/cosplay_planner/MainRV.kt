@@ -73,6 +73,8 @@ class MainRV(private val costumes_a: List<Costume>, private val costumes_f: List
         }
 
         holder.itemView.setOnClickListener {
+            Log.v("MyLogCosplay", "clicked " + position)
+            Log.v("MyLogCosplay", "clicked " + costumes[position])
             onEventClickListener?.invoke(holder.adapterPosition, costumes[position])
 
         }

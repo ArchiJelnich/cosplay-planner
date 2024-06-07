@@ -155,6 +155,11 @@ class MainActivity : AppCompatActivity()  {
             filter = sharedPreferences.getInt("filter", -1)
             var db = AppDatabase.getInstance(context)
             val CostumeDao = db.CostumeDao()
+            val photoDao = db.PhotoDAO()
+            val detailDao = db.DetailDao()
+            val eventDao = db.EventsDao()
+            val costumeDao = db.CostumeDao()
+            val MaterialsPlannedDao = db.MaterialsPlannedDao()
             val repos = Repos(CostumeDao, filter)
             val recycler_view_late = (view.rootView as View).findViewById<RecyclerView>(R.id.recyclerView)
             val adapter = MainRV(repos.allCosplay, repos.filteredCosplay_f, repos.filteredCosplay_p, repos.filteredCosplay_h, filter)
@@ -162,11 +167,14 @@ class MainActivity : AppCompatActivity()  {
 
             recycler_view_late.adapter = adapter
             Log.v("MyDebug", "Filter after " + filter)
+
             adapter.onEventClickListener = { position, costume ->
-                //Log.v("MyLog", "clicked " + position)
-                val intent = Intent(context, EditMainActivity::class.java)
-                intent.putExtra("costume", costume)
-                context.startActivity(intent)
+                onCostume(context, costume)
+            }
+
+            adapter.onEventLongClickListener = { position, costume ->
+                onCostumeLong(context, eventDao, costume, costumeDao, detailDao, MaterialsPlannedDao, photoDao, filter, recycler_view_late)
+                true
             }
 
 
@@ -389,8 +397,6 @@ class MyViewModel(var header: String, var progress: String, var finished: String
 
 fun onCostume(context: Context, costume : Costume)
 {
-    //Log.v("MyLog", "clicked " + position)
-    Log.v("MyLog", "clicked " + costume)
     val intent = Intent(context, EditMainActivity::class.java)
     intent.putExtra("costume", costume)
     context.startActivity(intent)
