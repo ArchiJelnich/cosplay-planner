@@ -180,8 +180,18 @@ companion object{
         }
 
         fun onClickImage(view: View){
-                val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            if (hasStoragePermission(context)) {
+                val intent =
+                    Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                 EditMainActivity.selectImageLauncher.launch(intent)
+            }
+            else {
+                var activity = context as Activity
+                requestPermissions(activity,
+                    arrayOf(READ_EXTERNAL_STORAGE),
+                    200)
+            }
+
         }
 
 
@@ -413,7 +423,7 @@ companion object{
         val PhotoDAO = db.PhotoDAO()
 
 
-      if (PhotoDAO.getByID(costume_id).size!=0)
+      if (PhotoDAO.getByID(costume_id).size!=0 && hasStoragePermission(this))
         {
             var avatar = findViewById<ImageView>(R.id.image_avatar)
             var uri = PhotoDAO.getByID(costume_id)[0].photo?.toUri()
@@ -498,3 +508,11 @@ fun onCostumeLong(context: Context, detail : Detail, detailDao : DetailDao, Mate
 
     builder.show()
 }
+
+fun hasStoragePermission(context: Context): Boolean {
+    return ContextCompat.checkSelfPermission(
+        context,
+        android.Manifest.permission.READ_EXTERNAL_STORAGE
+    ) == PackageManager.PERMISSION_GRANTED
+}
+
