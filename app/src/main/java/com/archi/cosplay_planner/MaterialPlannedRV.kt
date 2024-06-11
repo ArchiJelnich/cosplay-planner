@@ -15,13 +15,15 @@ import com.archi.cosplay_planner.P_ROOM.Events
 import com.archi.cosplay_planner.P_Infra.check_if_in_future
 import com.archi.cosplay_planner.P_Infra.fulldata_to_string
 import com.archi.cosplay_planner.P_Infra.string_to_data
+import com.archi.cosplay_planner.P_ROOM.AppDatabase
 import com.archi.cosplay_planner.P_ROOM.Detail
 import com.archi.cosplay_planner.P_ROOM.Materials
+import com.archi.cosplay_planner.P_ROOM.MaterialsDao
 import com.archi.cosplay_planner.P_ROOM.MaterialsPlanned
 import com.archi.cosplay_planner.P_ROOM.ReposBPMaterial
 
 
-class MaterialPlannedRV(private val materials: List<MaterialsPlanned>, private val all_materials: List<Materials>,): RecyclerView.Adapter<MaterialPlannedRV.BMaterialPlannedViewHolder>() {
+class MaterialPlannedRV(private val materials: List<MaterialsPlanned>, private val all_materials: List<Materials>, var materialDao : MaterialsDao): RecyclerView.Adapter<MaterialPlannedRV.BMaterialPlannedViewHolder>() {
 
     var onBMaterialPClickListener: ((position: Int, event : MaterialsPlanned) -> Unit)? = null
     var onBMaterialPLongClickListener: ((position: Int, event: MaterialsPlanned) -> Boolean)? = null
@@ -45,8 +47,14 @@ class MaterialPlannedRV(private val materials: List<MaterialsPlanned>, private v
 
 
     override fun onBindViewHolder(holder: BMaterialPlannedViewHolder, position: Int) {
+
+        Log.d("MyLogMaterials", "materials " + materials[position].materialID)
+        Log.d("MyLogMaterials", "all " + materialDao.getAll())
+
+
         holder.material_unit.text = materials[position].quantity.toString()
-        holder.material_name.text = all_materials[materials[position].materialID!!].material.toString()
+        holder.material_name.text =
+            materials[position].materialID?.let { materialDao.getNameByID(it)[0].toString() }
 
 
         holder.itemView.setOnClickListener {

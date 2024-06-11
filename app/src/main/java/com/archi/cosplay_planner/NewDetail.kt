@@ -293,7 +293,7 @@ class DetailActivity : AppCompatActivity() {
                 var repos_all = ReposBMaterial(materialDao)
 
                 Log.d("MyTag", "Repos=" + repos.toString())
-                val adapter = MaterialPlannedRV(repos.MaterialP, repos_all.allMaterial)
+                val adapter = MaterialPlannedRV(repos.MaterialP, repos_all.allMaterial, materialDao)
 
                 recyclerView.adapter = adapter
 
@@ -337,13 +337,15 @@ fun onMaterialonBMaterialPClickListener(material : MaterialsPlanned, context: Co
 fun onMaterialonBMaterialPClickListenerLong(context: Context, material: MaterialsPlanned, materialPDao : MaterialsPlannedDao, detail : Detail, repos_all : ReposBMaterial, recyclerView : RecyclerView, d_id : TextView )
 {
     val builder = AlertDialog.Builder(context)
+    val db: AppDatabase = AppDatabase.getInstance(context)
+    val materialDao = db.MaterialsDao()
     val message = context.getString(R.string.str_delete_material)
     builder.setMessage(message)
     builder.setPositiveButton(R.string.str_yes) { dialog, which ->
         //Log.v("MyLog", "Yes")
         materialPDao.deleteBymaterialIP(material.materialPlannedID)
         var repos = ReposBPMaterial(materialPDao, detail.detailID)
-        val adapter = MaterialPlannedRV(repos.MaterialP, repos_all.allMaterial)
+        val adapter = MaterialPlannedRV(repos.MaterialP, repos_all.allMaterial, materialDao )
         recyclerView.adapter = adapter
         adapter.onBMaterialPClickListener = { position, material ->
             onMaterialonBMaterialPClickListener(material, context, d_id)

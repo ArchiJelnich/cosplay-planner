@@ -1,6 +1,7 @@
 package com.archi.cosplay_planner
 
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -74,6 +75,8 @@ class DetailRV(private val details: List<Detail>): RecyclerView.Adapter<DetailRV
 
 
         holder.itemView.setOnClickListener {
+            Log.d("MyLog", "position " + position)
+            Log.d("MyLog", "detail_position " + details[position])
             onDetailClickListener?.invoke(holder.adapterPosition, details[position])
 
         }

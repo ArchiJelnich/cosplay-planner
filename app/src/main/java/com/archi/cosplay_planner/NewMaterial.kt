@@ -209,13 +209,26 @@ class NewMaterial : AppCompatActivity() {
             material.unit?.let { material_unit.add(it) }
         }
 
+        lateinit var material_name : List<String>
 
         if (edit_flag==1)
         {
             var current_material = intent.extras?.get("material") as MaterialsPlanned
-            current_material.materialID?.let { spinner_name.setSelection(it) }
+            Log.d("MyLog", "material" + current_material)
+
+            //current_material.materialID?.let { spinner_name.setSelection(it) }
             spinner_name.isEnabled = false
-            text_unit.text = material_unit[current_material.materialID!!]
+
+
+
+            if (current_material.materialID!=null)
+            {
+                text_unit.text = materialDao.getUnitByID(current_material.materialID!!)[0]
+                Log.d("MyLog", "materialDao.getUnitByID(current_material.materialID!!)[0] " + materialDao.getUnitByID(current_material.materialID!!)[0])
+                material_name = materialDao.getNameByID(current_material.materialID!!)
+            }
+
+
             c_id.text = current_material.materialID.toString()
             d_id.text = current_material.detailID.toString()
             mp_id.text = current_material.materialPlannedID.toString()
@@ -223,28 +236,41 @@ class NewMaterial : AppCompatActivity() {
         }
 
 
+                var adapter_name = ArrayAdapter(
+                    this,
+                    android.R.layout.simple_spinner_item,
+                    materials_names)
 
-            var adapter_name = ArrayAdapter(
-                this,
-                android.R.layout.simple_spinner_item,
-                materials_names
-            )
+                if (edit_flag==1)
+                {
+                    adapter_name = ArrayAdapter(this, android.R.layout.simple_spinner_item, material_name )
+                }
+
+
+
             adapter_name.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner_name.adapter = adapter_name
 
-            spinner_name?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+        if (edit_flag ==0) {
+            spinner_name?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                 }
 
-                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    Log.d("MyLog", "Selected!" + position)
-                    text_unit.text = material_unit[position]
-                    Log.d("MyLog", "Unit name!" + material_unit[position])
-                    c_id.text = (position+1).toString()
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    c_id.text=materialDao.getIDbyName(spinner_name.selectedItem.toString())[0].toString()
+                    text_unit.text=materialDao.getUnitByID(c_id.text.toString().toInt())[0].toString()
+
+                    //text_unit.text = material_unit[position]
+                    //c_id.text = (position + 1).toString()
                 }
 
             }
-
+        }
 
 
 

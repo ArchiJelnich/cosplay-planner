@@ -98,6 +98,9 @@ interface MaterialsDao {
     @Query("SELECT unit FROM Materials WHERE materialID = :materialID")
     fun getUnitByID(materialID: Int):  List<String>
 
+    @Query("SELECT materialID FROM Materials WHERE material = :material")
+    fun getIDbyName(material: String):  List<Int>
+
     @Update
     fun updateMaterial(materials: Materials)
 }
