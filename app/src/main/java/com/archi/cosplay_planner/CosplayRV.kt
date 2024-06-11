@@ -8,11 +8,10 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.archi.cosplay_planner.P_ROOM.Costume
-import com.archi.cosplay_planner.P_ROOM.Events
+import com.archi.cosplay_planner.roomDatabase.Costume
 
 
-class MainRV(private val costumes_a: List<Costume>, private val costumes_f: List<Costume>, private val costumes_p: List<Costume>, private val costumes_h: List<Costume>, private val filter: Int): RecyclerView.Adapter<MainRV.MyViewHolder>() {
+class CosplayRV(private val costumes_a: List<Costume>, private val costumes_f: List<Costume>, private val costumes_p: List<Costume>, private val costumes_h: List<Costume>, private val filter: Int): RecyclerView.Adapter<CosplayRV.MyViewHolder>() {
 
     var onEventClickListener: ((position: Int, costume : Costume) -> Unit)? = null
     var onEventLongClickListener: ((position: Int, event: Costume) -> Boolean)? = null

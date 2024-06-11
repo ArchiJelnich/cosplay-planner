@@ -1,6 +1,5 @@
-package com.archi.cosplay_planner.P_ROOM
+package com.archi.cosplay_planner.roomDatabase
 
-import android.net.Uri
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -31,7 +30,7 @@ data class Events(
     // 2 - Photoshoot
     @ColumnInfo(name = "place", defaultValue = "Mystery") val place: String?,
     @ColumnInfo(name = "date", defaultValue = "Mystery") val date: String?,
-    @ColumnInfo(name = "date_sorted", defaultValue = "Mystery") val date_sorted: Int?,
+    @ColumnInfo(name = "dateSorted", defaultValue = "Mystery") val dateSorted: Int?,
     @ColumnInfo(name = "costumeID", defaultValue = "0") val costumeID: Int?,
 ) : Serializable
 @Entity

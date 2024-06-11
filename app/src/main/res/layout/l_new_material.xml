@@ -9,7 +9,7 @@
 
         <variable
             name="nm_handlers"
-            type="com.archi.cosplay_planner.NewMaterial.Handlers"/>
+            type="com.archi.cosplay_planner.MaterialPlanned.Handlers"/>
     </data>
 
     <LinearLayout

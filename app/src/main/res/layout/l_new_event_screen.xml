@@ -8,7 +8,7 @@
 
         <variable
             name="ne_handlers"
-            type="com.archi.cosplay_planner.NewEventActivity.Handlers"/>
+            type="com.archi.cosplay_planner.EventNew.Handlers"/>
     </data>
 
     <LinearLayout

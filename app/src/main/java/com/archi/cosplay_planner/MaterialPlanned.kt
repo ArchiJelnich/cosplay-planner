@@ -1,10 +1,8 @@
 package com.archi.cosplay_planner
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -19,26 +17,16 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.archi.cosplay_planner.P_Infra.InputCheckerText
-import com.archi.cosplay_planner.P_Infra.IntCheckerNum
-import com.archi.cosplay_planner.P_Infra.sort_value_from_date
-import com.archi.cosplay_planner.P_ROOM.AppDatabase
-import com.archi.cosplay_planner.P_ROOM.Detail
-import com.archi.cosplay_planner.P_ROOM.Events
-import com.archi.cosplay_planner.P_ROOM.MaterialsPlanned
-import com.archi.cosplay_planner.P_ROOM.MaterialsPlannedDao
-import com.archi.cosplay_planner.P_ROOM.ReposBMaterial
-import com.archi.cosplay_planner.P_ROOM.ReposBPMaterial
-import com.archi.cosplay_planner.databinding.LNewDetailBinding
+import com.archi.cosplay_planner.infra.intCheckerNum
+import com.archi.cosplay_planner.roomDatabase.AppDatabase
+import com.archi.cosplay_planner.roomDatabase.MaterialsPlanned
+import com.archi.cosplay_planner.roomDatabase.ReposBMaterial
 import com.archi.cosplay_planner.databinding.LNewMaterialBinding
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 
-class NewMaterial : AppCompatActivity() {
+class MaterialPlanned : AppCompatActivity() {
 
 
 
@@ -58,7 +46,7 @@ class NewMaterial : AppCompatActivity() {
                 nm_unit.setText("0")
             }
 
-            if (!IntCheckerNum(nm_unit.text.toString()))
+            if (!intCheckerNum(nm_unit.text.toString()))
             {
                 Toast.makeText(context, "How...:", Toast.LENGTH_SHORT).show()
                 nm_unit.setText("0")
@@ -78,7 +66,7 @@ class NewMaterial : AppCompatActivity() {
 
             GlobalScope.launch {
 
-            var checkedMaterial =  MaterialsPlannedDao.getByMaterialandDetail(c_id.text.toString().toInt(), d_id.text.toString().toInt())
+            var checkedMaterial =  MaterialsPlannedDao.getByMaterialAndDetail(c_id.text.toString().toInt(), d_id.text.toString().toInt())
 
                 if (checkedMaterial.size!=0)
                 {
@@ -97,7 +85,7 @@ class NewMaterial : AppCompatActivity() {
                         detailID = d_id.text.toString().toInt()
                     )
 
-                    MaterialsPlannedDao.updateMaterialP(materialPtoadd)
+                    MaterialsPlannedDao.update(materialPtoadd)
                 }
 
                 else {
@@ -118,7 +106,7 @@ class NewMaterial : AppCompatActivity() {
 
 
 
-                val intent = Intent(context, DetailActivity::class.java)
+                val intent = Intent(context, DetailEditNew::class.java)
                 intent.putExtra("costume_id", detail[0].costumeID)
                 intent.putExtra("detail", detail[0])
                 intent.putExtra("edit_flag", 1)
@@ -138,7 +126,7 @@ class NewMaterial : AppCompatActivity() {
                         quantity = nm_unit.text.toString().toInt(),
                         detailID = d_id.text.toString().toInt()
                     )
-                    MaterialsPlannedDao.updateMaterialP(materialPtoadd)
+                    MaterialsPlannedDao.update(materialPtoadd)
 
                     Log.d("MyLog","Q " + nm_unit.text.toString())
 
@@ -146,7 +134,7 @@ class NewMaterial : AppCompatActivity() {
                     var DetailDao = db.DetailDao()
                     var detail = DetailDao.getByID(d_id.text.toString().toInt())
 
-                    val intent = Intent(context, DetailActivity::class.java)
+                    val intent = Intent(context, DetailEditNew::class.java)
                     intent.putExtra("costume_id", detail[0].costumeID)
                     intent.putExtra("detail", detail[0])
                     intent.putExtra("edit_flag", 1)
@@ -173,10 +161,10 @@ class NewMaterial : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         if (loadTheme(this)=="blue")
         {
-            setTheme(R.style.Theme_Cosplayplanner_blue)
+            setTheme(R.style.Theme_CosplayPlannerBlue)
         }
         else {
-            setTheme(R.style.Theme_Cosplayplanner_pink)
+            setTheme(R.style.Theme_CosplayPlannerPink)
         }
 
         super.onCreate(savedInstanceState)

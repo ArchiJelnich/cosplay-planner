@@ -1,7 +1,5 @@
 package com.archi.cosplay_planner
 
-import android.R.attr.label
-import android.R.attr.text
 import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -17,26 +15,21 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.archi.cosplay_planner.P_Infra.CreateReport
-import com.archi.cosplay_planner.P_Infra.InputCheckerText
-import com.archi.cosplay_planner.P_ROOM.AppDatabase
-import com.archi.cosplay_planner.P_ROOM.Materials
-import com.archi.cosplay_planner.P_ROOM.MaterialsDao
-import com.archi.cosplay_planner.P_ROOM.MaterialsPlannedDao
-import com.archi.cosplay_planner.P_ROOM.ReposBMaterial
-import com.archi.cosplay_planner.P_ROOM.ReposBMaterial_filter
+import com.archi.cosplay_planner.infra.CreateReport
+import com.archi.cosplay_planner.infra.inputCheckerText
+import com.archi.cosplay_planner.roomDatabase.AppDatabase
+import com.archi.cosplay_planner.roomDatabase.Materials
+import com.archi.cosplay_planner.roomDatabase.MaterialsDao
+import com.archi.cosplay_planner.roomDatabase.MaterialsPlannedDao
+import com.archi.cosplay_planner.roomDatabase.ReposBMaterial
+import com.archi.cosplay_planner.roomDatabase.ReposBMaterialFilter
 import com.archi.cosplay_planner.databinding.LBasematerialScreenBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 
 class MaterialBase : AppCompatActivity() {
@@ -47,22 +40,22 @@ class MaterialBase : AppCompatActivity() {
     class Handler (private val context: Context) {
 
         fun onClickToCosplay(view: View) {
-            val intent = Intent(context, MainActivity::class.java)
+            val intent = Intent(context, CosplayScreen::class.java)
             context.startActivity(intent)
         }
 
         fun onClickToSettings(view: View) {
-            val intent = Intent(context, SettingActivity::class.java)
+            val intent = Intent(context, SettingScreen::class.java)
             context.startActivity(intent)
         }
 
         fun onClickToEvents(view: View) {
-            val intent = Intent(context, EventActivity::class.java)
+            val intent = Intent(context, EventScreen::class.java)
             context.startActivity(intent)
         }
 
         fun onClickNewMaterial(view: View) {
-            val intent = Intent(context, NewBMaterial::class.java)
+            val intent = Intent(context, MaterialBaseEditNew::class.java)
             intent.putExtra("edit_flag", 0)
             context.startActivity(intent)
         }
@@ -93,13 +86,13 @@ class MaterialBase : AppCompatActivity() {
             val t_filter = (view.rootView as View).findViewById<EditText>(R.id.text_filter)
             var t_filter_text = t_filter.text.toString()
 
-            if (InputCheckerText(t_filter_text).second==1)
+            if (inputCheckerText(t_filter_text).second==1)
             {
                 t_filter_text = ""
             }
             else
             {
-                t_filter_text = InputCheckerText(t_filter_text).first
+                t_filter_text = inputCheckerText(t_filter_text).first
             }
 
 
@@ -116,7 +109,7 @@ class MaterialBase : AppCompatActivity() {
                 recyclerView.adapter = adapter
 
                 adapter.onBMaterialClickListener = { position, material ->
-                    val intent = Intent(context, NewBMaterial::class.java)
+                    val intent = Intent(context, MaterialBaseEditNew::class.java)
                     intent.putExtra("material", material)
                     intent.putExtra("edit_flag", 1)
                     context.startActivity(intent)
@@ -130,12 +123,12 @@ class MaterialBase : AppCompatActivity() {
             }
             else
             {
-                var repos = ReposBMaterial_filter(materialDao, t_filter_text)
-                var adapter = MaterialBaseRV(repos.filtereMaterial)
+                var repos = ReposBMaterialFilter(materialDao, t_filter_text)
+                var adapter = MaterialBaseRV(repos.filterMaterial)
                 recyclerView.adapter = adapter
 
                 adapter.onBMaterialClickListener = { position, material ->
-                    val intent = Intent(context, NewBMaterial::class.java)
+                    val intent = Intent(context, MaterialBaseEditNew::class.java)
                     intent.putExtra("material", material)
                     intent.putExtra("edit_flag", 1)
                     context.startActivity(intent)
@@ -160,10 +153,10 @@ class MaterialBase : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         if (loadTheme(this)=="blue")
         {
-            setTheme(R.style.Theme_Cosplayplanner_blue)
+            setTheme(R.style.Theme_CosplayPlannerBlue)
         }
         else {
-            setTheme(R.style.Theme_Cosplayplanner_pink)
+            setTheme(R.style.Theme_CosplayPlannerPink)
         }
 
         super.onCreate(savedInstanceState)
@@ -216,7 +209,7 @@ class MaterialBaseViewModel() : ViewModel() {
 }
 
 fun onMaterialBaseonBMaterialClickListener(material : Materials, context: Context){
-    val intent = Intent(context, NewBMaterial::class.java)
+    val intent = Intent(context, MaterialBaseEditNew::class.java)
     intent.putExtra("material", material)
     intent.putExtra("edit_flag", 1)
     context.startActivity(intent)

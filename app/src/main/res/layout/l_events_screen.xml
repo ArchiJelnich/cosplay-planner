@@ -8,7 +8,7 @@
             type="com.archi.cosplay_planner.EventViewModel" />
         <variable
             name="handlers"
-            type="com.archi.cosplay_planner.EventActivity.Handler"/>
+            type="com.archi.cosplay_planner.EventScreen.Handler"/>
     </data>
 
 

@@ -1,19 +1,16 @@
 package com.archi.cosplay_planner
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.text.Layout
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
@@ -21,28 +18,24 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.archi.cosplay_planner.P_Infra.InputCheckerText
-import com.archi.cosplay_planner.P_Infra.sort_value_from_date
-import com.archi.cosplay_planner.P_ROOM.AppDatabase
-import com.archi.cosplay_planner.P_ROOM.Detail
-import com.archi.cosplay_planner.P_ROOM.Events
-import com.archi.cosplay_planner.P_ROOM.Materials
-import com.archi.cosplay_planner.P_ROOM.MaterialsPlanned
-import com.archi.cosplay_planner.P_ROOM.MaterialsPlannedDao
-import com.archi.cosplay_planner.P_ROOM.ReposBMaterial
-import com.archi.cosplay_planner.P_ROOM.ReposBPMaterial
+import com.archi.cosplay_planner.infra.inputCheckerText
+import com.archi.cosplay_planner.roomDatabase.AppDatabase
+import com.archi.cosplay_planner.roomDatabase.Detail
+import com.archi.cosplay_planner.roomDatabase.MaterialsPlanned
+import com.archi.cosplay_planner.roomDatabase.MaterialsPlannedDao
+import com.archi.cosplay_planner.roomDatabase.ReposBMaterial
+import com.archi.cosplay_planner.roomDatabase.ReposBPMaterial
 import com.archi.cosplay_planner.databinding.LNewDetailBinding
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 
-class DetailActivity : AppCompatActivity() {
+class DetailEditNew : AppCompatActivity() {
 
 
 
@@ -83,14 +76,14 @@ class DetailActivity : AppCompatActivity() {
                     d_n.setText(R.string.str_Event_name)
                 }
 
-                if (InputCheckerText(d_n.text.toString()).second != 0)
+                if (inputCheckerText(d_n.text.toString()).second != 0)
                 {
-                    Toast.makeText(context, "Detail:" + InputCheckerText(d_n.text.toString()).first, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Detail:" + inputCheckerText(d_n.text.toString()).first, Toast.LENGTH_SHORT).show()
                 }
 
 
 
-                if (InputCheckerText(d_n.text.toString()).second == 0)
+                if (inputCheckerText(d_n.text.toString()).second == 0)
                     {
 
 
@@ -105,7 +98,7 @@ class DetailActivity : AppCompatActivity() {
 
                             val detailToAd = Detail(
                                 detailID = 0,
-                                detail = InputCheckerText(d_n.text.toString()).first,
+                                detail = inputCheckerText(d_n.text.toString()).first,
                                 type = type,
                                 progress = progress,
                                 costumeID = c_id.text.toString().toInt()
@@ -115,7 +108,7 @@ class DetailActivity : AppCompatActivity() {
                             Log.d("MyDebug", "Here:" + detailDao.getAll())
 
 
-                            val intent = Intent(context, EditMainActivity::class.java)
+                            val intent = Intent(context, CosplayEditActivity::class.java)
                             intent.putExtra("costume", costume)
                             context.startActivity(intent)
 
@@ -135,7 +128,7 @@ class DetailActivity : AppCompatActivity() {
 
                             val detailToUp = Detail(
                                 detailID = d_id.text.toString().toInt(),
-                                detail = InputCheckerText(d_n.text.toString()).first,
+                                detail = inputCheckerText(d_n.text.toString()).first,
                                 type = type,
                                 progress = progress,
                                 costumeID = c_id.text.toString().toInt()
@@ -143,7 +136,7 @@ class DetailActivity : AppCompatActivity() {
                             detailDao.updateDetail(detailToUp)
                             val costume = detailToUp.costumeID?.let { costumeDao.getByID(it) }
                             Log.d("MyDebug", "Here:" + detailDao.getAll())
-                            val intent = Intent(context, EditMainActivity::class.java)
+                            val intent = Intent(context, CosplayEditActivity::class.java)
                             intent.putExtra("costume", costume)
                             context.startActivity(intent)
 
@@ -169,7 +162,7 @@ class DetailActivity : AppCompatActivity() {
 
                 val d_id = (view.rootView as View).findViewById<View>(R.id.d_id) as TextView
                 val detail_id = d_id.text.toString().toInt()
-                val intent = Intent(context, NewMaterial::class.java)
+                val intent = Intent(context, MaterialPlanned::class.java)
                 intent.putExtra("detail_id", detail_id)
                 intent.putExtra("edit_flag", 0)
                 intent.putExtra("material_id", -1)
@@ -186,10 +179,10 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         if (loadTheme(this)=="blue")
         {
-            setTheme(R.style.Theme_Cosplayplanner_blue)
+            setTheme(R.style.Theme_CosplayPlannerBlue)
         }
         else {
-            setTheme(R.style.Theme_Cosplayplanner_pink)
+            setTheme(R.style.Theme_CosplayPlannerPink)
         }
 
         super.onCreate(savedInstanceState)
@@ -253,8 +246,8 @@ class DetailActivity : AppCompatActivity() {
             detail.progress?.let { d_p.setSelection(it) }
             d_id.text = detail.detailID.toString()
             val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
-            val divider = DividerItemDecoration(this@DetailActivity, DividerItemDecoration.VERTICAL)
-            divider.setDrawable(ContextCompat.getDrawable(this@DetailActivity,R.drawable.divider)!!)
+            val divider = DividerItemDecoration(this@DetailEditNew, DividerItemDecoration.VERTICAL)
+            divider.setDrawable(ContextCompat.getDrawable(this@DetailEditNew,R.drawable.divider)!!)
             recyclerView.addItemDecoration(divider)
 
             recyclerView.layoutManager = LinearLayoutManager(this)
@@ -293,15 +286,15 @@ class DetailActivity : AppCompatActivity() {
                 var repos_all = ReposBMaterial(materialDao)
 
                 Log.d("MyTag", "Repos=" + repos.toString())
-                val adapter = MaterialPlannedRV(repos.MaterialP, repos_all.allMaterial, materialDao)
+                val adapter = MaterialPlannedRV(repos.materialsPlannedList, repos_all.allMaterial, materialDao)
 
                 recyclerView.adapter = adapter
 
                adapter.onBMaterialPClickListener = { position, material ->
-                   onMaterialonBMaterialPClickListener(material, this@DetailActivity, d_id)
+                   onMaterialonBMaterialPClickListener(material, this@DetailEditNew, d_id)
                }
                 adapter.onBMaterialPLongClickListener = { position, material ->
-                    onMaterialonBMaterialPClickListenerLong(this@DetailActivity, material, materialPDao, detail, repos_all, recyclerView, d_id)
+                    onMaterialonBMaterialPClickListenerLong(this@DetailEditNew, material, materialPDao, detail, repos_all, recyclerView, d_id)
                     true
                 }
 
@@ -326,7 +319,7 @@ class DetailViewModel(var detail_name: String, var costume_id: Int ) : ViewModel
 
 fun onMaterialonBMaterialPClickListener(material : MaterialsPlanned, context: Context, d_id: TextView)
 {
-    val intent = Intent(context, NewMaterial::class.java)
+    val intent = Intent(context, MaterialPlanned::class.java)
     intent.putExtra("material", material)
     intent.putExtra("edit_flag", 1)
     val detail_id = d_id.text.toString().toInt()
@@ -343,9 +336,9 @@ fun onMaterialonBMaterialPClickListenerLong(context: Context, material: Material
     builder.setMessage(message)
     builder.setPositiveButton(R.string.str_yes) { dialog, which ->
         //Log.v("MyLog", "Yes")
-        materialPDao.deleteBymaterialIP(material.materialPlannedID)
+        materialPDao.deleteByMaterialPlannedID(material.materialPlannedID)
         var repos = ReposBPMaterial(materialPDao, detail.detailID)
-        val adapter = MaterialPlannedRV(repos.MaterialP, repos_all.allMaterial, materialDao )
+        val adapter = MaterialPlannedRV(repos.materialsPlannedList, repos_all.allMaterial, materialDao )
         recyclerView.adapter = adapter
         adapter.onBMaterialPClickListener = { position, material ->
             onMaterialonBMaterialPClickListener(material, context, d_id)

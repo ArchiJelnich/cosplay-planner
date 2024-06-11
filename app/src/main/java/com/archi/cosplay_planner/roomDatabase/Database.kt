@@ -1,4 +1,4 @@
-package com.archi.cosplay_planner.P_ROOM
+package com.archi.cosplay_planner.roomDatabase
 
 import android.content.Context
 import androidx.room.Database

@@ -10,10 +10,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
-import com.archi.cosplay_planner.P_ROOM.Events
-import com.archi.cosplay_planner.P_Infra.check_if_in_future
-import com.archi.cosplay_planner.P_Infra.fulldata_to_string
-import com.archi.cosplay_planner.P_Infra.string_to_data
+import com.archi.cosplay_planner.infra.checkIfInFuture
+import com.archi.cosplay_planner.roomDatabase.Events
+import com.archi.cosplay_planner.infra.fullDateToString
+import com.archi.cosplay_planner.infra.stringToData
 
 
 class EventRV(private val events: List<Events>, val filter: Int): RecyclerView.Adapter<EventRV.EventViewHolder>() {
@@ -55,11 +55,11 @@ class EventRV(private val events: List<Events>, val filter: Int): RecyclerView.A
 
         //holder.type.text = events[position].type.toString()
         var date = events[position].date.toString()
-        val ob_date = string_to_data(date)
-        date = fulldata_to_string(ob_date)
+        val ob_date = stringToData(date)
+        date = fullDateToString(ob_date)
         holder.date.text = date
 
-        when (check_if_in_future(date))
+        when (checkIfInFuture(date))
         {
             2 -> holder.name.setBackgroundResource(R.drawable.rounded_white)
             1 -> holder.name.setBackgroundResource(R.drawable.rounded_red)

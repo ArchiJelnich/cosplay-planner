@@ -9,7 +9,7 @@
 
     <variable
         name="handlers"
-        type="com.archi.cosplay_planner.MainActivity.Handler"/>
+        type="com.archi.cosplay_planner.CosplayScreen.Handler"/>
 </data>
 
 

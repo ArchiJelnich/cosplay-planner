@@ -3,9 +3,7 @@ package com.archi.cosplay_planner
 
 import android.content.Context
 import android.content.Intent
-import android.content.res.Resources
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -15,34 +13,34 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.archi.cosplay_planner.P_ROOM.AppDatabase
-import com.archi.cosplay_planner.P_ROOM.Events
-import com.archi.cosplay_planner.P_ROOM.EventsDao
-import com.archi.cosplay_planner.P_ROOM.ReposEvent
+import com.archi.cosplay_planner.roomDatabase.AppDatabase
+import com.archi.cosplay_planner.roomDatabase.Events
+import com.archi.cosplay_planner.roomDatabase.EventsDao
+import com.archi.cosplay_planner.roomDatabase.ReposEvent
 import com.archi.cosplay_planner.databinding.LEventsScreenBinding
 import kotlinx.coroutines.launch
 
 
-class EventActivity : AppCompatActivity() {
+class EventScreen : AppCompatActivity() {
     private lateinit var db: AppDatabase
-    private val handlers = EventActivity.Handler(this)
+    private val handlers = EventScreen.Handler(this)
 
     class Handler (private val context: Context) {
 
 
         fun onClickNewEvent(view: View) {
-            val intent = Intent(context, NewEventActivity::class.java)
+            val intent = Intent(context, EventNew::class.java)
             context.startActivity(intent)
             //Log.v("MYDEBUG", "Corrrr")
         }
 
         fun onClickToCosplay(view: View) {
-            val intent = Intent(context, MainActivity::class.java)
+            val intent = Intent(context, CosplayScreen::class.java)
             context.startActivity(intent)
         }
 
         fun onClickToSettings(view: View) {
-            val intent = Intent(context, SettingActivity::class.java)
+            val intent = Intent(context, SettingScreen::class.java)
             context.startActivity(intent)
         }
 
@@ -56,10 +54,10 @@ class EventActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         if (loadTheme(this)=="blue")
         {
-            setTheme(R.style.Theme_Cosplayplanner_blue)
+            setTheme(R.style.Theme_CosplayPlannerBlue)
         }
         else {
-            setTheme(R.style.Theme_Cosplayplanner_pink)
+            setTheme(R.style.Theme_CosplayPlannerPink)
         }
 
         super.onCreate(savedInstanceState)
@@ -84,18 +82,18 @@ class EventActivity : AppCompatActivity() {
             var repos = ReposEvent(eventDao, 0)
             //recyclerView.adapter = EventRV(repos.allEvents, 0)
             var adapter = EventRV(repos.allEvents, 0)
-            val divider = DividerItemDecoration(this@EventActivity, DividerItemDecoration.VERTICAL)
-            divider.setDrawable(ContextCompat.getDrawable(this@EventActivity,R.drawable.divider)!!)
+            val divider = DividerItemDecoration(this@EventScreen, DividerItemDecoration.VERTICAL)
+            divider.setDrawable(ContextCompat.getDrawable(this@EventScreen,R.drawable.divider)!!)
             recyclerView.addItemDecoration(divider)
             recyclerView.adapter = adapter
 
             adapter.onEventClickListener = { position, event ->
                 //Log.v("MyLog", "clicked " + position)
-                EventsonEventClickListener(event, this@EventActivity)
+                EventsonEventClickListener(event, this@EventScreen)
             }
 
             adapter.onEventLongClickListener = { position, event ->
-                EventsonEventClickListenerLong(this@EventActivity, event, eventDao, recyclerView)
+                EventsonEventClickListenerLong(this@EventScreen, event, eventDao, recyclerView)
                 true
             }
 

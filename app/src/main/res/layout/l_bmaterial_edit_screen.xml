@@ -8,7 +8,7 @@
 
         <variable
             name="nbm_handlers"
-            type="com.archi.cosplay_planner.NewBMaterial.Handlers"/>
+            type="com.archi.cosplay_planner.MaterialBaseEditNew.Handlers"/>
     </data>
 
     <LinearLayout

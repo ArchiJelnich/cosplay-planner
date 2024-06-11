@@ -1,7 +1,6 @@
 package com.archi.cosplay_planner
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -9,30 +8,20 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.ArrayAdapter
 import android.widget.EditText
-import android.widget.Spinner
-import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
-import com.archi.cosplay_planner.P_Infra.InputCheckerText
-import com.archi.cosplay_planner.P_Infra.sort_value_from_date
-import com.archi.cosplay_planner.P_ROOM.AppDatabase
-import com.archi.cosplay_planner.P_ROOM.Detail
-import com.archi.cosplay_planner.P_ROOM.Events
-import com.archi.cosplay_planner.P_ROOM.Materials
-import com.archi.cosplay_planner.P_ROOM.MaterialsDao
-import com.archi.cosplay_planner.P_ROOM.ReposBMaterial
+import com.archi.cosplay_planner.infra.inputCheckerText
+import com.archi.cosplay_planner.roomDatabase.AppDatabase
+import com.archi.cosplay_planner.roomDatabase.Materials
 import com.archi.cosplay_planner.databinding.LBmaterialEditScreenBinding
-import com.archi.cosplay_planner.databinding.LBmaterialRvBinding
-import com.archi.cosplay_planner.databinding.LNewDetailBinding
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 
-class NewBMaterial : AppCompatActivity() {
+class MaterialBaseEditNew : AppCompatActivity() {
 
 
 
@@ -45,7 +34,7 @@ class NewBMaterial : AppCompatActivity() {
             val m_id = (view.rootView as View).findViewById<View>(R.id.m_id) as EditText
             val db: AppDatabase = AppDatabase.getInstance(context)
             val materialDao = db.MaterialsDao()
-            var getByName = materialDao.getByName(InputCheckerText(m_n.text.toString()).first)
+            var getByName = materialDao.getIDByName(inputCheckerText(m_n.text.toString()).first)
 
 
 
@@ -54,25 +43,25 @@ class NewBMaterial : AppCompatActivity() {
             } else {
 
 
-                if (InputCheckerText(m_n.text.toString()).second != 0) {
+                if (inputCheckerText(m_n.text.toString()).second != 0) {
                     Toast.makeText(
                         context,
-                        "Material name:" + InputCheckerText(m_n.text.toString()).first,
+                        "Material name:" + inputCheckerText(m_n.text.toString()).first,
                         Toast.LENGTH_SHORT
                     ).show()
                 }
 
-                if (InputCheckerText(m_u.text.toString()).second != 0) {
+                if (inputCheckerText(m_u.text.toString()).second != 0) {
                     Toast.makeText(
                         context,
-                        "Material unit:" + InputCheckerText(m_u.text.toString()).first,
+                        "Material unit:" + inputCheckerText(m_u.text.toString()).first,
                         Toast.LENGTH_SHORT
                     ).show()
                 }
 
 
 
-                if (InputCheckerText(m_n.text.toString()).second == 0 && InputCheckerText(m_u.text.toString()).second == 0) {
+                if (inputCheckerText(m_n.text.toString()).second == 0 && inputCheckerText(m_u.text.toString()).second == 0) {
 
 
                     if (m_id.text.toString().toInt() == -1) {
@@ -82,8 +71,8 @@ class NewBMaterial : AppCompatActivity() {
 
                             val materialToAd = Materials(
                                 materialID = 0,
-                                material = InputCheckerText(m_n.text.toString()).first,
-                                unit = InputCheckerText(m_u.text.toString()).first
+                                material = inputCheckerText(m_n.text.toString()).first,
+                                unit = inputCheckerText(m_u.text.toString()).first
                             )
                             materialDao.insertAll(materialToAd)
                             Log.d("MyLog", "insertAll")
@@ -101,8 +90,8 @@ class NewBMaterial : AppCompatActivity() {
 
                             val materialToAd = Materials(
                                 materialID = m_id.text.toString().toInt(),
-                                material = InputCheckerText(m_n.text.toString()).first,
-                                unit = InputCheckerText(m_u.text.toString()).first
+                                material = inputCheckerText(m_n.text.toString()).first,
+                                unit = inputCheckerText(m_u.text.toString()).first
                             )
 
                             materialDao.updateMaterial(materialToAd)
@@ -138,10 +127,10 @@ class NewBMaterial : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         if (loadTheme(this)=="blue")
         {
-            setTheme(R.style.Theme_Cosplayplanner_blue)
+            setTheme(R.style.Theme_CosplayPlannerBlue)
         }
         else {
-            setTheme(R.style.Theme_Cosplayplanner_pink)
+            setTheme(R.style.Theme_CosplayPlannerPink)
         }
 
         super.onCreate(savedInstanceState)

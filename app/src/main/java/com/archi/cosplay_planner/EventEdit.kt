@@ -1,13 +1,11 @@
 package com.archi.cosplay_planner
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -19,14 +17,13 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.lifecycle.ViewModel
-import com.archi.cosplay_planner.P_Infra.InputCheckerText
-import com.archi.cosplay_planner.P_Infra.sort_value_from_date
-import com.archi.cosplay_planner.P_Infra.string_to_data
-import com.archi.cosplay_planner.P_ROOM.AppDatabase
-import com.archi.cosplay_planner.P_ROOM.Events
-import com.archi.cosplay_planner.P_ROOM.Repos
+import com.archi.cosplay_planner.infra.inputCheckerText
+import com.archi.cosplay_planner.infra.sortValueFromDate
+import com.archi.cosplay_planner.infra.stringToData
+import com.archi.cosplay_planner.roomDatabase.AppDatabase
+import com.archi.cosplay_planner.roomDatabase.Events
+import com.archi.cosplay_planner.roomDatabase.Repos
 import com.archi.cosplay_planner.databinding.LEventsEditScreenBinding
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -83,18 +80,18 @@ class EditEventActivity : AppCompatActivity() {
             }
 
 
-            if (InputCheckerText(e_n.text.toString()).second != 0)
+            if (inputCheckerText(e_n.text.toString()).second != 0)
             {
-                Toast.makeText(context, "Name:" + InputCheckerText(e_n.text.toString()).first, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Name:" + inputCheckerText(e_n.text.toString()).first, Toast.LENGTH_SHORT).show()
             }
 
-            if (InputCheckerText(e_p.text.toString()).second != 0)
+            if (inputCheckerText(e_p.text.toString()).second != 0)
             {
-                Toast.makeText(context, "Place:" + InputCheckerText(e_p.text.toString()).first, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Place:" + inputCheckerText(e_p.text.toString()).first, Toast.LENGTH_SHORT).show()
             }
 
 
-            if ((InputCheckerText(e_p.text.toString()).second == 0) && (InputCheckerText(e_n.text.toString()).second)==0) {
+            if ((inputCheckerText(e_p.text.toString()).second == 0) && (inputCheckerText(e_n.text.toString()).second)==0) {
                 //Toast.makeText(context, "Nice" + InputCheckerText(e_f.text.toString()).first.toString() + " " + InputCheckerText(e_c.text.toString()).first.toString(), Toast.LENGTH_SHORT).show()
 
                 val db: AppDatabase = AppDatabase.getInstance(context)
@@ -121,16 +118,16 @@ class EditEventActivity : AppCompatActivity() {
 
                     val EventToUpdate = Events(
                         eventID = event_id.toInt(),
-                        event = InputCheckerText(e_n.text.toString()).first,
-                        place = InputCheckerText(e_p.text.toString()).first,
+                        event = inputCheckerText(e_n.text.toString()).first,
+                        place = inputCheckerText(e_p.text.toString()).first,
                         date = date,
                         costumeID = cosplay_id.toInt(),
                         type = type,
-                        date_sorted = sort_value_from_date(date)
+                        dateSorted = sortValueFromDate(date)
                     )
                     eventDao.updateEvent(EventToUpdate)
 
-                    val intent = Intent(context, EventActivity::class.java)
+                    val intent = Intent(context, EventScreen::class.java)
                     context.startActivity(intent)
 
 
@@ -243,10 +240,10 @@ class EditEventActivity : AppCompatActivity() {
 
         if (loadTheme(this)=="blue")
         {
-            setTheme(R.style.Theme_Cosplayplanner_blue)
+            setTheme(R.style.Theme_CosplayPlannerBlue)
         }
         else {
-            setTheme(R.style.Theme_Cosplayplanner_pink)
+            setTheme(R.style.Theme_CosplayPlannerPink)
         }
 
         super.onCreate(savedInstanceState)
@@ -270,7 +267,7 @@ class EditEventActivity : AppCompatActivity() {
         val event_date = event.date!!
         val event_place = event.place!!
         val event_costume = event.costumeID!!
-        val event_date_sortes = event.date_sorted!!
+        val event_date_sortes = event.dateSorted!!
         val costume_name = getString(R.string.str_no)
 
         Log.v("MyLogSpinner", "string event_costume" + event_costume)
@@ -348,9 +345,7 @@ class EditEventActivity : AppCompatActivity() {
 
 
         val datePicker: DatePicker = findViewById(R.id.datePicker1)
-        Log.v("MyLog", "string " + event_date)
-        val event_date_obj = string_to_data(event_date)
-        Log.v("MyLog", "object " + event_date_obj)
+        val event_date_obj = stringToData(event_date)
         datePicker.updateDate(event_date_obj.year, event_date_obj.month, event_date_obj.day)
 
 

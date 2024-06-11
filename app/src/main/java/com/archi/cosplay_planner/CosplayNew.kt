@@ -10,9 +10,9 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
-import com.archi.cosplay_planner.P_ROOM.AppDatabase
-import com.archi.cosplay_planner.P_ROOM.Costume
-import com.archi.cosplay_planner.P_Infra.InputCheckerText
+import com.archi.cosplay_planner.roomDatabase.AppDatabase
+import com.archi.cosplay_planner.roomDatabase.Costume
+import com.archi.cosplay_planner.infra.inputCheckerText
 import com.archi.cosplay_planner.databinding.LNewCosplayScreenBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-class NewCosplayActivity : AppCompatActivity() {
+class CosplayNewActivity : AppCompatActivity() {
 
     private val handlers = Handlers(this)
 
@@ -40,18 +40,18 @@ class NewCosplayActivity : AppCompatActivity() {
 
             Log.v("MYLOG", "Clicked");
 
-         if (InputCheckerText(e_f.text.toString()).second != 0)
+         if (inputCheckerText(e_f.text.toString()).second != 0)
           {
-                   Toast.makeText(context, "Fandom:" + InputCheckerText(e_f.text.toString()).first, Toast.LENGTH_SHORT).show()
+                   Toast.makeText(context, "Fandom:" + inputCheckerText(e_f.text.toString()).first, Toast.LENGTH_SHORT).show()
                  }
 
-           if (InputCheckerText(e_c.text.toString()).second != 0)
+           if (inputCheckerText(e_c.text.toString()).second != 0)
            {
-               Toast.makeText(context, "Character:" + InputCheckerText(e_c.text.toString()).first, Toast.LENGTH_SHORT).show()
+               Toast.makeText(context, "Character:" + inputCheckerText(e_c.text.toString()).first, Toast.LENGTH_SHORT).show()
             }
 
 
-            if ((InputCheckerText(e_f.text.toString()).second == 0) && (InputCheckerText(e_c.text.toString()).second)==0)
+            if ((inputCheckerText(e_f.text.toString()).second == 0) && (inputCheckerText(e_c.text.toString()).second)==0)
             {
                 //Toast.makeText(context, "Nice" + InputCheckerText(e_f.text.toString()).first.toString() + " " + InputCheckerText(e_c.text.toString()).first.toString(), Toast.LENGTH_SHORT).show()
 
@@ -62,9 +62,9 @@ class NewCosplayActivity : AppCompatActivity() {
 
                 GlobalScope.launch  {
                     Log.v("MYDEBUG", "In corut")
-                    var character = InputCheckerText(e_c.text.toString()).first
+                    var character = inputCheckerText(e_c.text.toString()).first
 
-                    if (costumeDao.getByCharacter(character).size!=0)
+                    if (costumeDao.getCostumeIDByCharacter(character).size!=0)
                     {
                         withContext(Dispatchers.Main) {
                             Toast.makeText(context, "Character name is not unique", Toast.LENGTH_SHORT).show()
@@ -75,14 +75,14 @@ class NewCosplayActivity : AppCompatActivity() {
 
                     val CostumeToAdd = Costume(
                         costumeID = 0,
-                        fandom = InputCheckerText(e_f.text.toString()).first,
+                        fandom = inputCheckerText(e_f.text.toString()).first,
                         character = character,
                         status = 0,
                         progress = 0
                     )
                     costumeDao.insertAll(CostumeToAdd)
 
-                    val intent = Intent(context, MainActivity::class.java)
+                    val intent = Intent(context, CosplayScreen::class.java)
                     context.startActivity(intent)
 
 
@@ -107,10 +107,10 @@ class NewCosplayActivity : AppCompatActivity() {
         Log.v("MYLOG", "OnCreate");
         if (loadTheme(this)=="blue")
         {
-            setTheme(R.style.Theme_Cosplayplanner_blue)
+            setTheme(R.style.Theme_CosplayPlannerBlue)
         }
         else {
-            setTheme(R.style.Theme_Cosplayplanner_pink)
+            setTheme(R.style.Theme_CosplayPlannerPink)
         }
 
         super.onCreate(savedInstanceState)

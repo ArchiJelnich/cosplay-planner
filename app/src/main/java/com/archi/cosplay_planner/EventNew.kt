@@ -14,16 +14,16 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
-import com.archi.cosplay_planner.P_ROOM.AppDatabase
-import com.archi.cosplay_planner.P_ROOM.Events
-import com.archi.cosplay_planner.P_Infra.InputCheckerText
-import com.archi.cosplay_planner.P_Infra.sort_value_from_date
+import com.archi.cosplay_planner.roomDatabase.AppDatabase
+import com.archi.cosplay_planner.roomDatabase.Events
+import com.archi.cosplay_planner.infra.inputCheckerText
+import com.archi.cosplay_planner.infra.sortValueFromDate
 import com.archi.cosplay_planner.databinding.LNewEventScreenBinding
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 
-class NewEventActivity : AppCompatActivity() {
+class EventNew : AppCompatActivity() {
 
     private val handlers = Handlers(this)
     class Handlers  (private val context: Context) {
@@ -64,18 +64,18 @@ class NewEventActivity : AppCompatActivity() {
            }
 
 
-           if (InputCheckerText(e_n.text.toString()).second != 0)
+           if (inputCheckerText(e_n.text.toString()).second != 0)
            {
-               Toast.makeText(context, "Fandom:" + InputCheckerText(e_n.text.toString()).first, Toast.LENGTH_SHORT).show()
+               Toast.makeText(context, "Fandom:" + inputCheckerText(e_n.text.toString()).first, Toast.LENGTH_SHORT).show()
            }
 
-           if (InputCheckerText(e_p.text.toString()).second != 0)
+           if (inputCheckerText(e_p.text.toString()).second != 0)
            {
-               Toast.makeText(context, "Character:" + InputCheckerText(e_p.text.toString()).first, Toast.LENGTH_SHORT).show()
+               Toast.makeText(context, "Character:" + inputCheckerText(e_p.text.toString()).first, Toast.LENGTH_SHORT).show()
            }
 
 
-           if ((InputCheckerText(e_p.text.toString()).second == 0) && (InputCheckerText(e_n.text.toString()).second)==0) {
+           if ((inputCheckerText(e_p.text.toString()).second == 0) && (inputCheckerText(e_n.text.toString()).second)==0) {
                //Toast.makeText(context, "Nice" + InputCheckerText(e_f.text.toString()).first.toString() + " " + InputCheckerText(e_c.text.toString()).first.toString(), Toast.LENGTH_SHORT).show()
 
                val db: AppDatabase = AppDatabase.getInstance(context)
@@ -93,16 +93,16 @@ class NewEventActivity : AppCompatActivity() {
 
                    val eventToAd = Events(
                        eventID = 0,
-                       event = InputCheckerText(e_n.text.toString()).first,
-                       place = InputCheckerText(e_p.text.toString()).first,
+                       event = inputCheckerText(e_n.text.toString()).first,
+                       place = inputCheckerText(e_p.text.toString()).first,
                        date = date,
                        costumeID = costumeID,
                        type = type,
-                       date_sorted = sort_value_from_date(date)
+                       dateSorted = sortValueFromDate(date)
                    )
                    eventDao.insertAll(eventToAd)
 
-                   val intent = Intent(context, EventActivity::class.java)
+                   val intent = Intent(context, EventScreen::class.java)
                    context.startActivity(intent)
 
 
@@ -135,10 +135,10 @@ class NewEventActivity : AppCompatActivity() {
 
         if (loadTheme(this)=="blue")
         {
-            setTheme(R.style.Theme_Cosplayplanner_blue)
+            setTheme(R.style.Theme_CosplayPlannerBlue)
         }
         else {
-            setTheme(R.style.Theme_Cosplayplanner_pink)
+            setTheme(R.style.Theme_CosplayPlannerPink)
         }
 
         super.onCreate(savedInstanceState)

@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -21,36 +20,33 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat.requestPermissions
-import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.archi.cosplay_planner.P_Infra.InputCheckerText
-import com.archi.cosplay_planner.P_ROOM.AppDatabase
-import com.archi.cosplay_planner.P_ROOM.CosplayPhoto
-import com.archi.cosplay_planner.P_ROOM.Costume
-import com.archi.cosplay_planner.P_ROOM.Detail
-import com.archi.cosplay_planner.P_ROOM.DetailDao
-import com.archi.cosplay_planner.P_ROOM.MaterialsPlannedDao
-import com.archi.cosplay_planner.P_ROOM.ReposDetail
-import com.archi.cosplay_planner.P_ROOM.ReposEvent
+import com.archi.cosplay_planner.infra.inputCheckerText
+import com.archi.cosplay_planner.roomDatabase.AppDatabase
+import com.archi.cosplay_planner.roomDatabase.CosplayPhoto
+import com.archi.cosplay_planner.roomDatabase.Costume
+import com.archi.cosplay_planner.roomDatabase.Detail
+import com.archi.cosplay_planner.roomDatabase.DetailDao
+import com.archi.cosplay_planner.roomDatabase.MaterialsPlannedDao
+import com.archi.cosplay_planner.roomDatabase.ReposDetail
+import com.archi.cosplay_planner.roomDatabase.ReposEvent
 import com.archi.cosplay_planner.databinding.LMainEditScreenBinding
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.File
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 
-class EditMainActivity : AppCompatActivity() {
+class CosplayEditActivity : AppCompatActivity() {
 companion object{
     lateinit var selectImageLauncher: ActivityResultLauncher<Intent>
 }
@@ -83,25 +79,25 @@ companion object{
                 c_c.setText(R.string.str_New_Char)
             }
 
-            if (InputCheckerText(c_f.text.toString()).second != 0)
+            if (inputCheckerText(c_f.text.toString()).second != 0)
             {
-                Toast.makeText(context, "Fandom:" + InputCheckerText(c_f.text.toString()).first, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Fandom:" + inputCheckerText(c_f.text.toString()).first, Toast.LENGTH_SHORT).show()
             }
 
-            if (InputCheckerText(c_c.text.toString()).second != 0)
+            if (inputCheckerText(c_c.text.toString()).second != 0)
             {
-                Toast.makeText(context, "Character:" + InputCheckerText(c_c.text.toString()).first, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Character:" + inputCheckerText(c_c.text.toString()).first, Toast.LENGTH_SHORT).show()
             }
 
 
 
 
-            if ((InputCheckerText(c_f.text.toString()).second == 0) && (InputCheckerText(c_c.text.toString()).second)==0) {
+            if ((inputCheckerText(c_f.text.toString()).second == 0) && (inputCheckerText(c_c.text.toString()).second)==0) {
 
                 val db: AppDatabase = AppDatabase.getInstance(context)
                 val costumeDao = db.CostumeDao()
                 val costume_id = c_id.text.toString()
-                var character = InputCheckerText(c_c.text.toString()).first
+                var character = inputCheckerText(c_c.text.toString()).first
                 val detailDao = db.DetailDao()
                 var repos = ReposDetail(detailDao, costume_id.toInt())
 
@@ -111,7 +107,7 @@ companion object{
                 GlobalScope.launch {
 
                 withContext(Dispatchers.Main){
-                if (repos.costume_progress == 100 && status == 0) {
+                if (repos.costumeProgress == 100 && status == 0) {
                     //val builder = AlertDialog.Builder(context)
                     //builder.setTitle(R.string.str_change_status)
                     //builder.setCancelable(false)
@@ -132,7 +128,7 @@ companion object{
 
                 }
 
-                if (repos.costume_progress != 100 && status == 1) {
+                if (repos.costumeProgress != 100 && status == 1) {
                     var d_result = showAlertDialog(context, context.getString(R.string.str_change_status), context.getString(R.string.str_change_not_all_finished))
                     if (d_result)
                     {
@@ -143,7 +139,7 @@ companion object{
 
 
 
-                    if (costumeDao.getByCharacter(character).size!=0 && !costumeDao.getByCharacter(character).contains(c_id.text.toString().toInt()))
+                    if (costumeDao.getCostumeIDByCharacter(character).size!=0 && !costumeDao.getCostumeIDByCharacter(character).contains(c_id.text.toString().toInt()))
                     {
                         withContext(Dispatchers.Main) {
                             Toast.makeText(context, "Character name is not unique", Toast.LENGTH_SHORT).show()
@@ -158,14 +154,14 @@ companion object{
 
                     val CostumeToUpdate = Costume(
                         costumeID = costume_id.toInt(),
-                        fandom = InputCheckerText(c_f.text.toString()).first,
+                        fandom = inputCheckerText(c_f.text.toString()).first,
                         character = character,
                         status = status,
-                        progress = repos.costume_progress
+                        progress = repos.costumeProgress
                     )
 
                     costumeDao.updateCostume(CostumeToUpdate)
-                    val intent = Intent(context, MainActivity::class.java)
+                    val intent = Intent(context, CosplayScreen::class.java)
                     context.startActivity(intent)
                 }}
 
@@ -183,7 +179,7 @@ companion object{
             if (hasStoragePermission(context)) {
                 val intent =
                     Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                EditMainActivity.selectImageLauncher.launch(intent)
+                CosplayEditActivity.selectImageLauncher.launch(intent)
             }
             else {
                 var activity = context as Activity
@@ -220,30 +216,30 @@ companion object{
                 c_c.setText(R.string.str_New_Char)
             }
 
-            if (InputCheckerText(c_f.text.toString()).second != 0)
+            if (inputCheckerText(c_f.text.toString()).second != 0)
             {
-                Toast.makeText(context, "Fandom:" + InputCheckerText(c_f.text.toString()).first, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Fandom:" + inputCheckerText(c_f.text.toString()).first, Toast.LENGTH_SHORT).show()
             }
 
-            if (InputCheckerText(c_c.text.toString()).second != 0)
+            if (inputCheckerText(c_c.text.toString()).second != 0)
             {
-                Toast.makeText(context, "Character:" + InputCheckerText(c_c.text.toString()).first, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Character:" + inputCheckerText(c_c.text.toString()).first, Toast.LENGTH_SHORT).show()
             }
 
 
 
 
-            if ((InputCheckerText(c_f.text.toString()).second == 0) && (InputCheckerText(c_c.text.toString()).second)==0) {
+            if ((inputCheckerText(c_f.text.toString()).second == 0) && (inputCheckerText(c_c.text.toString()).second)==0) {
 
                 val db: AppDatabase = AppDatabase.getInstance(context)
                 val costumeDao = db.CostumeDao()
                 val costume_id = c_id.text.toString()
-                var character = InputCheckerText(c_c.text.toString()).first
+                var character = inputCheckerText(c_c.text.toString()).first
 
 
                 GlobalScope.launch {
 
-                    if (costumeDao.getByCharacter(character).size!=0 && !costumeDao.getByCharacter(character).contains(c_id.text.toString().toInt()))
+                    if (costumeDao.getCostumeIDByCharacter(character).size!=0 && !costumeDao.getCostumeIDByCharacter(character).contains(c_id.text.toString().toInt()))
                     {
                         withContext(Dispatchers.Main) {
                             Toast.makeText(context, "Character name is not unique", Toast.LENGTH_SHORT).show()
@@ -257,7 +253,7 @@ companion object{
 
                     val CostumeToUpdate = Costume(
                         costumeID = costume_id.toInt(),
-                        fandom = InputCheckerText(c_f.text.toString()).first,
+                        fandom = inputCheckerText(c_f.text.toString()).first,
                         character = character,
                         status = status,
                         progress = c_p.text.toString().toInt()
@@ -270,7 +266,7 @@ companion object{
 
 
             val costume_id = c_id.text.toString().toInt()
-            val intent = Intent(context, DetailActivity::class.java)
+            val intent = Intent(context, DetailEditNew::class.java)
             intent.putExtra("costume_id", costume_id)
             intent.putExtra("edit_flag", 0)
             context.startActivity(intent)
@@ -283,10 +279,10 @@ companion object{
 
         if (loadTheme(this)=="blue")
         {
-            setTheme(R.style.Theme_Cosplayplanner_blue)
+            setTheme(R.style.Theme_CosplayPlannerBlue)
         }
         else {
-            setTheme(R.style.Theme_Cosplayplanner_pink)
+            setTheme(R.style.Theme_CosplayPlannerPink)
         }
 
         selectImageLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -374,9 +370,9 @@ companion object{
             //recyclerView.adapter = EventRV(repos.allEvents, 0)
             val adapter = EventRV(repos.filteredEvents, costume_id)
             val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
-            recyclerView.layoutManager = LinearLayoutManager(this@EditMainActivity)
-            val divider = DividerItemDecoration(this@EditMainActivity,DividerItemDecoration.VERTICAL)
-            divider.setDrawable(ContextCompat.getDrawable(this@EditMainActivity,R.drawable.divider)!!)
+            recyclerView.layoutManager = LinearLayoutManager(this@CosplayEditActivity)
+            val divider = DividerItemDecoration(this@CosplayEditActivity,DividerItemDecoration.VERTICAL)
+            divider.setDrawable(ContextCompat.getDrawable(this@CosplayEditActivity,R.drawable.divider)!!)
             recyclerView.addItemDecoration(divider)
 
             recyclerView.adapter = adapter
@@ -395,11 +391,11 @@ companion object{
             //recyclerView.adapter = EventRV(repos.allEvents, 0)
             var adapter = DetailRV(repos.filteredDetails)
             val recyclerView: RecyclerView = findViewById(R.id.recyclerViewD)
-            recyclerView.layoutManager = LinearLayoutManager(this@EditMainActivity)
+            recyclerView.layoutManager = LinearLayoutManager(this@CosplayEditActivity)
             //recyclerView.addItemDecoration(DividerItemDecoration(this@EditMainActivity, LinearLayoutManager.VERTICAL))
 
-            val divider = DividerItemDecoration(this@EditMainActivity,DividerItemDecoration.VERTICAL)
-            divider.setDrawable(ContextCompat.getDrawable(this@EditMainActivity,R.drawable.divider)!!)
+            val divider = DividerItemDecoration(this@CosplayEditActivity,DividerItemDecoration.VERTICAL)
+            divider.setDrawable(ContextCompat.getDrawable(this@CosplayEditActivity,R.drawable.divider)!!)
             recyclerView.addItemDecoration(divider)
 
             recyclerView.adapter = adapter
@@ -407,11 +403,11 @@ companion object{
 
 
             adapter.onDetailClickListener = { position, detail ->
-                omnCostume(this@EditMainActivity, detail, costume_id)
+                omnCostume(this@CosplayEditActivity, detail, costume_id)
             }
 
             adapter.onDetailLongClickListener = {position, detail ->
-                onCostumeLong(this@EditMainActivity, detail, detailDao, MaterialsPlannedDao, costume_id, recyclerView)
+                onCostumeLong(this@CosplayEditActivity, detail, detailDao, MaterialsPlannedDao, costume_id, recyclerView)
                 true
             }
 
@@ -475,7 +471,7 @@ suspend fun showAlertDialog(context: Context, mess : String, title : String): Bo
 
 fun omnCostume(context: Context, detail :Detail, costume_id : Int)
 {
-    val intent = Intent(context, DetailActivity::class.java)
+    val intent = Intent(context, DetailEditNew::class.java)
     intent.putExtra("costume_id", costume_id)
     intent.putExtra("edit_flag", 1)
     intent.putExtra("detail", detail)

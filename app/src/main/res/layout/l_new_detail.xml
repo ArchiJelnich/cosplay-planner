@@ -8,7 +8,7 @@
 
         <variable
             name="d_handlers"
-            type="com.archi.cosplay_planner.DetailActivity.Handlers"/>
+            type="com.archi.cosplay_planner.DetailEditNew.Handlers"/>
     </data>
 
     <LinearLayout

@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.archi.cosplay_planner.P_ROOM.Detail
+import com.archi.cosplay_planner.roomDatabase.Detail
 
 
 class DetailRV(private val details: List<Detail>): RecyclerView.Adapter<DetailRV.DetailViewHolder>() {
@@ -56,27 +56,10 @@ class DetailRV(private val details: List<Detail>): RecyclerView.Adapter<DetailRV
             else -> holder.type.setBackgroundResource(R.drawable.t_other)
         }
 
-        //holder.type.text = details[position].type.toString()
-        //holder.progress.text = details[position].progress.toString()
-
-        //holder.type.text = events[position].type.toString()
-        //var date = events[position].date.toString()
-        //val ob_date = string_to_data(date)
-       // date = fulldata_to_string(ob_date)
-        //holder.date.text = date
-
-        //when (check_if_in_future(date))
-        //{
-        //    2 -> holder.name.setBackgroundResource(R.color.white_t)
-        //    1 -> holder.name.setBackgroundResource(R.color.red_t)
-
-        //}
 
 
 
         holder.itemView.setOnClickListener {
-            Log.d("MyLog", "position " + position)
-            Log.d("MyLog", "detail_position " + details[position])
             onDetailClickListener?.invoke(holder.adapterPosition, details[position])
 
         }

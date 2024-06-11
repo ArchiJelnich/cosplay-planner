@@ -15,20 +15,20 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.archi.cosplay_planner.P_ROOM.AppDatabase
-import com.archi.cosplay_planner.P_ROOM.Costume
-import com.archi.cosplay_planner.P_ROOM.CostumeDao
-import com.archi.cosplay_planner.P_ROOM.DetailDao
-import com.archi.cosplay_planner.P_ROOM.EventsDao
-import com.archi.cosplay_planner.P_ROOM.MaterialsPlannedDao
-import com.archi.cosplay_planner.P_ROOM.PhotoDAO
-import com.archi.cosplay_planner.P_ROOM.Repos
-import com.archi.cosplay_planner.P_ROOM.ReposEvent
+import com.archi.cosplay_planner.roomDatabase.AppDatabase
+import com.archi.cosplay_planner.roomDatabase.Costume
+import com.archi.cosplay_planner.roomDatabase.CostumeDao
+import com.archi.cosplay_planner.roomDatabase.DetailDao
+import com.archi.cosplay_planner.roomDatabase.EventsDao
+import com.archi.cosplay_planner.roomDatabase.MaterialsPlannedDao
+import com.archi.cosplay_planner.roomDatabase.PhotoDAO
+import com.archi.cosplay_planner.roomDatabase.Repos
+import com.archi.cosplay_planner.roomDatabase.ReposEvent
 import com.archi.cosplay_planner.databinding.LMainScreenBinding
 import kotlinx.coroutines.launch
 
 
-class MainActivity : AppCompatActivity()  {
+class CosplayScreen : AppCompatActivity()  {
 
 
     private lateinit var db: AppDatabase
@@ -69,18 +69,18 @@ class MainActivity : AppCompatActivity()  {
 
             // val navController = findNavController(Activity(), R.id.nav_graf)
            // navController.navigate(
-            val intent = Intent(context, NewCosplayActivity::class.java)
+            val intent = Intent(context, CosplayNewActivity::class.java)
             context.startActivity(intent)
 
         }
 
         fun onClickToEvents(view: View) {
-            val intent = Intent(context, EventActivity::class.java)
+            val intent = Intent(context, EventScreen::class.java)
             context.startActivity(intent)
         }
 
         fun onClickToSettings(view: View) {
-            val intent = Intent(context, SettingActivity::class.java)
+            val intent = Intent(context, SettingScreen::class.java)
             context.startActivity(intent)
         }
 
@@ -162,7 +162,7 @@ class MainActivity : AppCompatActivity()  {
             val MaterialsPlannedDao = db.MaterialsPlannedDao()
             val repos = Repos(CostumeDao, filter)
             val recycler_view_late = (view.rootView as View).findViewById<RecyclerView>(R.id.recyclerView)
-            val adapter = MainRV(repos.allCosplay, repos.filteredCosplay_f, repos.filteredCosplay_p, repos.filteredCosplay_h, filter)
+            val adapter = CosplayRV(repos.allCosplay, repos.filteredCosplayFinished, repos.filteredCosplayProgress, repos.filteredCosplayOnHold, filter)
 
 
             recycler_view_late.adapter = adapter
@@ -189,10 +189,10 @@ class MainActivity : AppCompatActivity()  {
     override fun onCreate(savedInstanceState: Bundle?) {
         if (loadTheme(this)=="blue")
         {
-            setTheme(R.style.Theme_Cosplayplanner_blue)
+            setTheme(R.style.Theme_CosplayPlannerBlue)
         }
         else {
-            setTheme(R.style.Theme_Cosplayplanner_pink)
+            setTheme(R.style.Theme_CosplayPlannerPink)
         }
 
 
@@ -344,19 +344,19 @@ lifecycleScope.launch {
             //Log.v("MYDEBUG", "Corrrr")
 
             var repos = Repos(CostumeDao, filter)
-            var adapter = MainRV(repos.allCosplay, repos.filteredCosplay_f, repos.filteredCosplay_p, repos.filteredCosplay_h, filter)
-            val divider = DividerItemDecoration(this@MainActivity, DividerItemDecoration.VERTICAL)
-            divider.setDrawable(ContextCompat.getDrawable(this@MainActivity,R.drawable.divider)!!)
+            var adapter = CosplayRV(repos.allCosplay, repos.filteredCosplayFinished, repos.filteredCosplayProgress, repos.filteredCosplayOnHold, filter)
+            val divider = DividerItemDecoration(this@CosplayScreen, DividerItemDecoration.VERTICAL)
+            divider.setDrawable(ContextCompat.getDrawable(this@CosplayScreen,R.drawable.divider)!!)
             recyclerView.addItemDecoration(divider)
 
             recyclerView.adapter = adapter
 
            adapter.onEventClickListener = { position, costume ->
-                onCostume(this@MainActivity, costume)
+                onCostume(this@CosplayScreen, costume)
             }
 
             adapter.onEventLongClickListener = { position, costume ->
-                onCostumeLong(this@MainActivity, eventDao, costume, costumeDao, detailDao, MaterialsPlannedDao, photoDao, filter, recyclerView)
+                onCostumeLong(this@CosplayScreen, eventDao, costume, costumeDao, detailDao, MaterialsPlannedDao, photoDao, filter, recyclerView)
                 true
             }
 
@@ -397,7 +397,7 @@ class MyViewModel(var header: String, var progress: String, var finished: String
 
 fun onCostume(context: Context, costume : Costume)
 {
-    val intent = Intent(context, EditMainActivity::class.java)
+    val intent = Intent(context, CosplayEditActivity::class.java)
     intent.putExtra("costume", costume)
     context.startActivity(intent)
 }
@@ -423,11 +423,11 @@ fun onCostumeLong(context: Context, eventDao : EventsDao, costume: Costume, cost
             detailDao.deleteByCostumeID(costume.costumeID)
             photoDao.deleteByID(costume.costumeID)
             var repos = Repos(costumeDao, filter)
-            val adapter = MainRV(
+            val adapter = CosplayRV(
                 repos.allCosplay,
-                repos.filteredCosplay_f,
-                repos.filteredCosplay_p,
-                repos.filteredCosplay_h,
+                repos.filteredCosplayFinished,
+                repos.filteredCosplayProgress,
+                repos.filteredCosplayOnHold,
                 filter
             )
             recyclerView.adapter = adapter
@@ -470,11 +470,11 @@ fun onCostumeLong(context: Context, eventDao : EventsDao, costume: Costume, cost
             eventDao.deleteByCostumeID(costume.costumeID)
             photoDao.deleteByID(costume.costumeID)
             var repos = Repos(costumeDao, filter)
-            val adapter = MainRV(
+            val adapter = CosplayRV(
                 repos.allCosplay,
-                repos.filteredCosplay_f,
-                repos.filteredCosplay_p,
-                repos.filteredCosplay_h,
+                repos.filteredCosplayFinished,
+                repos.filteredCosplayProgress,
+                repos.filteredCosplayOnHold,
                 filter
             )
             recyclerView.adapter = adapter
@@ -499,11 +499,11 @@ fun onCostumeLong(context: Context, eventDao : EventsDao, costume: Costume, cost
             eventDao.updateWhenDelete(costume.costumeID)
             photoDao.deleteByID(costume.costumeID)
             var repos = Repos(costumeDao, filter)
-            var adapter = MainRV(
+            var adapter = CosplayRV(
                 repos.allCosplay,
-                repos.filteredCosplay_f,
-                repos.filteredCosplay_p,
-                repos.filteredCosplay_h,
+                repos.filteredCosplayFinished,
+                repos.filteredCosplayProgress,
+                repos.filteredCosplayOnHold,
                 filter
             )
             recyclerView.adapter = adapter

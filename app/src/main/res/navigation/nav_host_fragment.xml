@@ -6,11 +6,11 @@
 
     <activity
         android:id="@+id/mainActivity"
-        android:name="com.archi.cosplay_planner.MainActivity"
+        android:name="com.archi.cosplay_planner.CosplayScreen"
         android:label="MainActivity" />
     <activity
         android:id="@+id/newCosplayActivity"
-        android:name="com.archi.cosplay_planner.NewCosplayActivity"
+        android:name="com.archi.cosplay_planner.CosplayNewActivity"
         android:label="NewCosplayActivity" />
     <action
         android:id="@+id/to_new"

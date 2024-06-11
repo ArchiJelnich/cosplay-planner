@@ -1,16 +1,11 @@
 package com.archi.cosplay_planner
 
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.app.LocaleManager
 import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
-import android.os.LocaleList
 import android.preference.PreferenceManager
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -18,29 +13,24 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.app.LocaleManagerCompat.getApplicationLocales
-import androidx.core.os.LocaleListCompat
-import androidx.core.view.isGone
-import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModel
-import com.archi.cosplay_planner.P_ROOM.AppDatabase
+import com.archi.cosplay_planner.roomDatabase.AppDatabase
 import com.archi.cosplay_planner.databinding.LSettingScreenBinding
 import java.util.Locale
 
-class SettingActivity : AppCompatActivity() {
+class SettingScreen : AppCompatActivity() {
 
     private lateinit var db: AppDatabase
-    private val handlers = SettingActivity.Handler(this)
+    private val handlers = SettingScreen.Handler(this)
 
     class Handler (private val context: Context) {
         fun onClickToCosplay(view: View) {
-            val intent = Intent(context, MainActivity::class.java)
+            val intent = Intent(context, CosplayScreen::class.java)
             context.startActivity(intent)
         }
 
         fun onClickToEvents(view: View) {
-            val intent = Intent(context, EventActivity::class.java)
+            val intent = Intent(context, EventScreen::class.java)
             context.startActivity(intent)
         }
 
@@ -56,10 +46,10 @@ class SettingActivity : AppCompatActivity() {
 
         if (loadTheme(this)=="blue")
         {
-            setTheme(R.style.Theme_Cosplayplanner_blue)
+            setTheme(R.style.Theme_CosplayPlanner)
         }
         else {
-            setTheme(R.style.Theme_Cosplayplanner_pink)
+            setTheme(R.style.Theme_CosplayPlanner)
         }
 
         super.onCreate(savedInstanceState)
@@ -105,14 +95,14 @@ class SettingActivity : AppCompatActivity() {
                 }
 
 
-                if (loadTheme(this@SettingActivity) !=selectedTheme)
+                if (loadTheme(this@SettingScreen) !=selectedTheme)
                 {
 
-                    saveTheme(this@SettingActivity, selectedTheme)
+                    saveTheme(this@SettingScreen, selectedTheme)
                     if (selectedTheme=="pink") {
-                        setTheme(R.style.Theme_Cosplayplanner)
+                        setTheme(R.style.Theme_CosplayPlannerPink)
                     }
-                    else setTheme(R.style.Theme_Cosplayplanner_blue)
+                    else setTheme(R.style.Theme_CosplayPlannerBlue)
                     recreate()
                 }
 
@@ -159,10 +149,10 @@ class SettingActivity : AppCompatActivity() {
                 }
 
 
-                if (loadLanguage(this@SettingActivity)!=selectedLanguage)
+                if (loadLanguage(this@SettingScreen)!=selectedLanguage)
                 {
-                    setAppLocale(this@SettingActivity, selectedLanguage)
-                    saveLanguage(this@SettingActivity, selectedLanguage)
+                    setAppLocale(this@SettingScreen, selectedLanguage)
+                    saveLanguage(this@SettingScreen, selectedLanguage)
                     recreate()
                 }
 
