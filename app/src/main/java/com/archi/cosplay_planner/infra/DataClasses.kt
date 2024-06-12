@@ -43,7 +43,7 @@ fun stringToData(string: String): DateClass.FullDate {
 }
 
 fun sortValueFromDate(string: String): Int {
-    var value = 0
+    val value: Int
     val tempArray: List<String> = string.split(".")
     val date = DateClass.FullDate(tempArray[0].toInt(), tempArray[1].toInt(), tempArray[2].toInt())
     value = date.year*365 + date.month*31 + date.day

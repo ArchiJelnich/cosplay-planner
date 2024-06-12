@@ -23,6 +23,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.archi.cosplay_planner.databinding.DetailEditNewBinding
 import com.archi.cosplay_planner.infra.inputCheckerText
 import com.archi.cosplay_planner.roomDatabase.AppDatabase
 import com.archi.cosplay_planner.roomDatabase.Detail
@@ -30,7 +31,6 @@ import com.archi.cosplay_planner.roomDatabase.MaterialsPlanned
 import com.archi.cosplay_planner.roomDatabase.MaterialsPlannedDao
 import com.archi.cosplay_planner.roomDatabase.ReposBMaterial
 import com.archi.cosplay_planner.roomDatabase.ReposBPMaterial
-import com.archi.cosplay_planner.databinding.LNewDetailBinding
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -186,15 +186,15 @@ class DetailEditNew : AppCompatActivity() {
         }
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.l_new_detail)
+        setContentView(R.layout.detail_edit_new)
         val costume_id = intent.extras?.get("costume_id") as Int
-        Log.d("MyLog", "Costume_id " + costume_id + " " + costume_id::class.java.typeName)
-        val binding = LNewDetailBinding.inflate(layoutInflater)
+
+
+        val binding = DetailEditNewBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         var current_vm = DetailViewModel(getString(R.string.str_Cosplay_details), costume_id)
         db = AppDatabase.getInstance(applicationContext)
-        val materialPDao = db.MaterialsPlannedDao()
 
         binding.viewModel = current_vm
         binding.dHandlers = handlers
@@ -206,9 +206,7 @@ class DetailEditNew : AppCompatActivity() {
             R.array.D_type,
             android.R.layout.simple_spinner_item
         ).also { adapter ->
-            // Specify the layout to use when the list of choices appears.
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner.
             spinner.adapter = adapter
         }
 
@@ -236,7 +234,7 @@ class DetailEditNew : AppCompatActivity() {
             if (materialDao.getAll().size!=0){
             lay_id.visibility = View.VISIBLE}
 
-            var detail =  intent.extras?.get("detail") as Detail
+            val detail =  intent.extras?.get("detail") as Detail
             current_vm = DetailViewModel(detail.detail.toString(), detail.costumeID.toString().toInt())
             binding.viewModel = current_vm
             val d_t = findViewById<View>(R.id.d_t) as Spinner
@@ -258,35 +256,11 @@ class DetailEditNew : AppCompatActivity() {
 
 
                 val materialPDao = db.MaterialsPlannedDao()
-                val materialDao = db.MaterialsDao()
 
-                /*
-                var mP = MaterialsPlanned(
-                    materialPlannedID = 0,
-                    materialID = 1,
-                    quantity = 1,
-                    detailID = 2
-                )
+                val repos = ReposBPMaterial(materialPDao, detail.detailID)
+                val repos_all = ReposBMaterial(materialDao)
 
-               materialPDao.insertAll(mP)
-
-                mP = MaterialsPlanned(
-                    materialPlannedID = 0,
-                    materialID = 4,
-                    quantity = 100,
-                    detailID = 2
-                )
-
-                materialPDao.insertAll(mP)
-*/
-
-                //materialPDao.delete()
-
-                var repos = ReposBPMaterial(materialPDao, detail.detailID)
-                var repos_all = ReposBMaterial(materialDao)
-
-                Log.d("MyTag", "Repos=" + repos.toString())
-                val adapter = MaterialPlannedRV(repos.materialsPlannedList, repos_all.allMaterial, materialDao)
+                val adapter = MaterialPlannedRV(repos.materialsPlannedList, materialDao)
 
                 recyclerView.adapter = adapter
 
@@ -337,8 +311,8 @@ fun onMaterialonBMaterialPClickListenerLong(context: Context, material: Material
     builder.setPositiveButton(R.string.str_yes) { dialog, which ->
         //Log.v("MyLog", "Yes")
         materialPDao.deleteByMaterialPlannedID(material.materialPlannedID)
-        var repos = ReposBPMaterial(materialPDao, detail.detailID)
-        val adapter = MaterialPlannedRV(repos.materialsPlannedList, repos_all.allMaterial, materialDao )
+        val repos = ReposBPMaterial(materialPDao, detail.detailID)
+        val adapter = MaterialPlannedRV(repos.materialsPlannedList, materialDao )
         recyclerView.adapter = adapter
         adapter.onBMaterialPClickListener = { position, material ->
             onMaterialonBMaterialPClickListener(material, context, d_id)

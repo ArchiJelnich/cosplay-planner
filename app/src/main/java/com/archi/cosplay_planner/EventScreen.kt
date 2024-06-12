@@ -13,11 +13,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.archi.cosplay_planner.databinding.EventScreenBinding
 import com.archi.cosplay_planner.roomDatabase.AppDatabase
 import com.archi.cosplay_planner.roomDatabase.Events
 import com.archi.cosplay_planner.roomDatabase.EventsDao
 import com.archi.cosplay_planner.roomDatabase.ReposEvent
-import com.archi.cosplay_planner.databinding.LEventsScreenBinding
 import kotlinx.coroutines.launch
 
 
@@ -31,7 +31,6 @@ class EventScreen : AppCompatActivity() {
         fun onClickNewEvent(view: View) {
             val intent = Intent(context, EventNew::class.java)
             context.startActivity(intent)
-            //Log.v("MYDEBUG", "Corrrr")
         }
 
         fun onClickToCosplay(view: View) {
@@ -62,7 +61,7 @@ class EventScreen : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         db = AppDatabase.getInstance(applicationContext)
-        val binding = LEventsScreenBinding.inflate(layoutInflater)
+        val binding = EventScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.handlers = handlers
 
@@ -77,10 +76,8 @@ class EventScreen : AppCompatActivity() {
 
 
         lifecycleScope.launch {
-            //Log.v("MYDEBUG", "Corrrr")
 
             var repos = ReposEvent(eventDao, 0)
-            //recyclerView.adapter = EventRV(repos.allEvents, 0)
             var adapter = EventRV(repos.allEvents, 0)
             val divider = DividerItemDecoration(this@EventScreen, DividerItemDecoration.VERTICAL)
             divider.setDrawable(ContextCompat.getDrawable(this@EventScreen,R.drawable.divider)!!)
@@ -88,7 +85,6 @@ class EventScreen : AppCompatActivity() {
             recyclerView.adapter = adapter
 
             adapter.onEventClickListener = { position, event ->
-                //Log.v("MyLog", "clicked " + position)
                 EventsonEventClickListener(event, this@EventScreen)
             }
 
@@ -122,7 +118,6 @@ fun EventsonEventClickListenerLong(context: Context, event : Events, eventDao : 
     val message = context.getString(R.string.str_delete_event_message)
     builder.setMessage(message + " " + event.event)
     builder.setPositiveButton(R.string.str_yes) { dialog, which ->
-        //Log.v("MyLog", "Yes")
         eventDao.delete(event)
         var repos = ReposEvent(eventDao, 0)
         val adapter = EventRV(repos.allEvents, 0)

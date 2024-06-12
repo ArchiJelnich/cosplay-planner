@@ -13,10 +13,10 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
+import com.archi.cosplay_planner.databinding.MaterialBaseEditNewBinding
 import com.archi.cosplay_planner.infra.inputCheckerText
 import com.archi.cosplay_planner.roomDatabase.AppDatabase
 import com.archi.cosplay_planner.roomDatabase.Materials
-import com.archi.cosplay_planner.databinding.LBmaterialEditScreenBinding
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -134,8 +134,8 @@ class MaterialBaseEditNew : AppCompatActivity() {
         }
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.l_bmaterial_edit_screen)
-        val binding = LBmaterialEditScreenBinding.inflate(layoutInflater)
+        setContentView(R.layout.material_base_edit_new)
+        val binding = MaterialBaseEditNewBinding.inflate(layoutInflater)
         setContentView(binding.root)
         var current_vm = NewBMaterialViewModel(getString(R.string.str_material_name), getString(R.string.str_material_unit), -1)
 

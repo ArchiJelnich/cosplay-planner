@@ -2,7 +2,7 @@ package com.archi.cosplay_planner.infra
 
     fun inputCheckerText(string: String): Pair<String, Int> {
         var status = 0
-        var newString = string
+        var newString: String
         val regex = Regex("\n\\s*\n")
         newString = string.replace(regex, " ")
         newString = newString.replace("*", "")

@@ -17,11 +17,11 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
+import com.archi.cosplay_planner.databinding.MaterialEditNewBinding
 import com.archi.cosplay_planner.infra.intCheckerNum
 import com.archi.cosplay_planner.roomDatabase.AppDatabase
 import com.archi.cosplay_planner.roomDatabase.MaterialsPlanned
 import com.archi.cosplay_planner.roomDatabase.ReposBMaterial
-import com.archi.cosplay_planner.databinding.LNewMaterialBinding
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -35,7 +35,6 @@ class MaterialPlanned : AppCompatActivity() {
     class Handlers  (private val context: Context) {
         fun onClickAdd(view: View) {
 
-            val nm_n = (view.rootView as View).findViewById<View>(R.id.nm_n) as Spinner
             val nm_unit = (view.rootView as View).findViewById<View>(R.id.nm_unit) as EditText
             val c_id = (view.rootView as View).findViewById<View>(R.id.c_id) as TextView
             val d_id = (view.rootView as View).findViewById<View>(R.id.d_id) as TextView
@@ -66,7 +65,7 @@ class MaterialPlanned : AppCompatActivity() {
 
             GlobalScope.launch {
 
-            var checkedMaterial =  MaterialsPlannedDao.getByMaterialAndDetail(c_id.text.toString().toInt(), d_id.text.toString().toInt())
+            val checkedMaterial =  MaterialsPlannedDao.getByMaterialAndDetail(c_id.text.toString().toInt(), d_id.text.toString().toInt())
 
                 if (checkedMaterial.size!=0)
                 {
@@ -101,8 +100,8 @@ class MaterialPlanned : AppCompatActivity() {
 
                 Log.d("MyLog","Q " + nm_unit.text.toString())
 
-                var DetailDao = db.DetailDao()
-                var detail = DetailDao.getByID(d_id.text.toString().toInt())
+                val detailDao = db.DetailDao()
+                val detail = detailDao.getByID(d_id.text.toString().toInt())
 
 
 
@@ -115,9 +114,7 @@ class MaterialPlanned : AppCompatActivity() {
 
 
             }}
-            else {
 
-            }
                 GlobalScope.launch {
 
                     val materialPtoadd = MaterialsPlanned(
@@ -131,8 +128,8 @@ class MaterialPlanned : AppCompatActivity() {
                     Log.d("MyLog","Q " + nm_unit.text.toString())
 
 
-                    var DetailDao = db.DetailDao()
-                    var detail = DetailDao.getByID(d_id.text.toString().toInt())
+                    val DetailDao = db.DetailDao()
+                    val detail = DetailDao.getByID(d_id.text.toString().toInt())
 
                     val intent = Intent(context, DetailEditNew::class.java)
                     intent.putExtra("costume_id", detail[0].costumeID)
@@ -168,18 +165,18 @@ class MaterialPlanned : AppCompatActivity() {
         }
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.l_new_material)
+        setContentView(R.layout.material_edit_new)
         val detailID = intent.extras?.get("detail_id") as Int
-        val binding = LNewMaterialBinding.inflate(layoutInflater)
+        val binding = MaterialEditNewBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        var material_id = 0
-        var current_vm = NewMaterialViewModel(material_id)
+        val material_id = 0
+        val current_vm = NewMaterialViewModel(material_id)
         binding.viewModel = current_vm
         binding.nmHandlers = handlers
         val edit_flag =  intent.extras?.get("edit_flag") as Int
         db = AppDatabase.getInstance(applicationContext)
         val materialDao = db.MaterialsDao()
-        var repos = ReposBMaterial(materialDao)
+        val repos = ReposBMaterial(materialDao)
         val spinner_name: Spinner = findViewById(R.id.nm_n)
         val materials_names = mutableListOf<String>()
         val material_unit = mutableListOf<String>()
@@ -201,19 +198,16 @@ class MaterialPlanned : AppCompatActivity() {
 
         if (edit_flag==1)
         {
-            var current_material = intent.extras?.get("material") as MaterialsPlanned
-            Log.d("MyLog", "material" + current_material)
+            val current_material = intent.extras?.get("material") as MaterialsPlanned
 
-            //current_material.materialID?.let { spinner_name.setSelection(it) }
             spinner_name.isEnabled = false
 
 
 
             if (current_material.materialID!=null)
             {
-                text_unit.text = materialDao.getUnitByID(current_material.materialID!!)[0]
-                Log.d("MyLog", "materialDao.getUnitByID(current_material.materialID!!)[0] " + materialDao.getUnitByID(current_material.materialID!!)[0])
-                material_name = materialDao.getNameByID(current_material.materialID!!)
+                text_unit.text = materialDao.getUnitByID(current_material.materialID)[0]
+                material_name = materialDao.getNameByID(current_material.materialID)
             }
 
 
@@ -240,7 +234,7 @@ class MaterialPlanned : AppCompatActivity() {
             spinner_name.adapter = adapter_name
 
         if (edit_flag ==0) {
-            spinner_name?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            spinner_name.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                 }
 
@@ -251,10 +245,8 @@ class MaterialPlanned : AppCompatActivity() {
                     id: Long
                 ) {
                     c_id.text=materialDao.getIDbyName(spinner_name.selectedItem.toString())[0].toString()
-                    text_unit.text=materialDao.getUnitByID(c_id.text.toString().toInt())[0].toString()
+                    text_unit.text=materialDao.getUnitByID(c_id.text.toString().toInt())[0]
 
-                    //text_unit.text = material_unit[position]
-                    //c_id.text = (position + 1).toString()
                 }
 
             }

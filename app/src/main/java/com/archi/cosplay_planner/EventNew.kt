@@ -14,11 +14,11 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
+import com.archi.cosplay_planner.databinding.EventNewBinding
 import com.archi.cosplay_planner.roomDatabase.AppDatabase
 import com.archi.cosplay_planner.roomDatabase.Events
 import com.archi.cosplay_planner.infra.inputCheckerText
 import com.archi.cosplay_planner.infra.sortValueFromDate
-import com.archi.cosplay_planner.databinding.LNewEventScreenBinding
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -76,12 +76,10 @@ class EventNew : AppCompatActivity() {
 
 
            if ((inputCheckerText(e_p.text.toString()).second == 0) && (inputCheckerText(e_n.text.toString()).second)==0) {
-               //Toast.makeText(context, "Nice" + InputCheckerText(e_f.text.toString()).first.toString() + " " + InputCheckerText(e_c.text.toString()).first.toString(), Toast.LENGTH_SHORT).show()
 
                val db: AppDatabase = AppDatabase.getInstance(context)
                val eventDao = db.EventsDao()
                val costumeID = -1
-               val steps = ""
                val date = e_d.dayOfMonth.toString()+"."+(e_d.month).toString()+"."+e_d.year.toString()
 
 
@@ -142,9 +140,9 @@ class EventNew : AppCompatActivity() {
         }
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.l_new_event_screen)
+        setContentView(R.layout.event_new)
 
-        val binding = LNewEventScreenBinding.inflate(layoutInflater)
+        val binding = EventNewBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val currentVm = NewEViewModel("","", "", "")
@@ -161,9 +159,7 @@ class EventNew : AppCompatActivity() {
             R.array.Ev_Types,
             android.R.layout.simple_spinner_item
         ).also { adapter ->
-            // Specify the layout to use when the list of choices appears.
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner.
             spinner.adapter = adapter
         }
 

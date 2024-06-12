@@ -7,12 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.archi.cosplay_planner.roomDatabase.Materials
 import com.archi.cosplay_planner.roomDatabase.MaterialsDao
 import com.archi.cosplay_planner.roomDatabase.MaterialsPlanned
 
 
-class MaterialPlannedRV(private val materials: List<MaterialsPlanned>, private val all_materials: List<Materials>, var materialDao : MaterialsDao): RecyclerView.Adapter<MaterialPlannedRV.BMaterialPlannedViewHolder>() {
+class MaterialPlannedRV(private val materials: List<MaterialsPlanned>, var materialDao : MaterialsDao): RecyclerView.Adapter<MaterialPlannedRV.BMaterialPlannedViewHolder>() {
 
     var onBMaterialPClickListener: ((position: Int, event : MaterialsPlanned) -> Unit)? = null
     var onBMaterialPLongClickListener: ((position: Int, event: MaterialsPlanned) -> Boolean)? = null
@@ -29,7 +28,7 @@ class MaterialPlannedRV(private val materials: List<MaterialsPlanned>, private v
 
         val itemView =
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.l_bmaterial_rv, parent, false)
+                .inflate(R.layout.material_base_rv, parent, false)
 
         return BMaterialPlannedViewHolder(itemView)
     }
@@ -37,13 +36,12 @@ class MaterialPlannedRV(private val materials: List<MaterialsPlanned>, private v
 
     override fun onBindViewHolder(holder: BMaterialPlannedViewHolder, position: Int) {
 
-        Log.d("MyLogMaterials", "materials " + materials[position].materialID)
-        Log.d("MyLogMaterials", "all " + materialDao.getAll())
-
+        Log.d("MyLog", "materials[position] " + materials[position])
+        Log.d("MyLog", "materialsDao " + materialDao.getAll())
 
         holder.material_unit.text = materials[position].quantity.toString()
         holder.material_name.text =
-            materials[position].materialID?.let { materialDao.getNameByID(it)[0].toString() }
+                materials[position].materialID?.let { materialDao.getNameByID(it)[0].toString() }
 
 
         holder.itemView.setOnClickListener {

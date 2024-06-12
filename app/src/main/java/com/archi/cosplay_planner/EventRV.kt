@@ -25,8 +25,6 @@ class EventRV(private val events: List<Events>, val filter: Int): RecyclerView.A
         val name: TextView = itemView.findViewById(R.id.event_name)
         val type: ImageView = itemView.findViewById(R.id.event_type)
         val date: TextView = itemView.findViewById(R.id.event_date)
-        val image: ImageView = itemView.findViewById(R.id.imageView)
-
 
     }
 
@@ -36,7 +34,7 @@ class EventRV(private val events: List<Events>, val filter: Int): RecyclerView.A
 
         val itemView =
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.l_events_rv, parent, false)
+                .inflate(R.layout.event_rv, parent, false)
         return EventViewHolder(itemView)
     }
 
@@ -52,8 +50,6 @@ class EventRV(private val events: List<Events>, val filter: Int): RecyclerView.A
             else -> holder.type.setBackgroundResource(R.drawable.t_party)
         }
 
-
-        //holder.type.text = events[position].type.toString()
         var date = events[position].date.toString()
         val ob_date = stringToData(date)
         date = fullDateToString(ob_date)

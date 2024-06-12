@@ -1,7 +1,5 @@
 package com.archi.cosplay_planner
 
-
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,7 +27,7 @@ class DetailRV(private val details: List<Detail>): RecyclerView.Adapter<DetailRV
 
         val itemView =
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.l_detail_rv, parent, false)
+                .inflate(R.layout.detail_rv, parent, false)
         return DetailViewHolder(itemView)
     }
 

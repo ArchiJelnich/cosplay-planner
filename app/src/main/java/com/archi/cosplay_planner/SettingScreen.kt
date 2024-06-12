@@ -10,18 +10,15 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
-import com.archi.cosplay_planner.roomDatabase.AppDatabase
-import com.archi.cosplay_planner.databinding.LSettingScreenBinding
+import com.archi.cosplay_planner.databinding.SettingScreenBinding
 import java.util.Locale
 
 class SettingScreen : AppCompatActivity() {
 
-    private lateinit var db: AppDatabase
-    private val handlers = SettingScreen.Handler(this)
+    private val handlers = Handler(this)
 
     class Handler (private val context: Context) {
         fun onClickToCosplay(view: View) {
@@ -46,30 +43,27 @@ class SettingScreen : AppCompatActivity() {
 
         if (loadTheme(this)=="blue")
         {
-            setTheme(R.style.Theme_CosplayPlanner)
+            setTheme(R.style.Theme_CosplayPlannerBlue)
         }
         else {
-            setTheme(R.style.Theme_CosplayPlanner)
+            setTheme(R.style.Theme_CosplayPlannerPink)
         }
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.l_setting_screen)
-        val binding = LSettingScreenBinding.inflate(layoutInflater)
+        setContentView(R.layout.setting_screen)
+        val binding = SettingScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.sHandlers = handlers
 
         val spinner_theme: Spinner = findViewById(R.id.s_t)
         val spinner_language: Spinner = findViewById(R.id.s_l)
-        val text_language: TextView = findViewById(R.id.t_l)
 
         ArrayAdapter.createFromResource(
             this,
             R.array.S_theme,
             android.R.layout.simple_spinner_item
         ).also { adapter ->
-            // Specify the layout to use when the list of choices appears.
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner.
             spinner_theme.adapter = adapter
         }
 
@@ -97,7 +91,6 @@ class SettingScreen : AppCompatActivity() {
 
                 if (loadTheme(this@SettingScreen) !=selectedTheme)
                 {
-
                     saveTheme(this@SettingScreen, selectedTheme)
                     if (selectedTheme=="pink") {
                         setTheme(R.style.Theme_CosplayPlannerPink)
@@ -106,7 +99,6 @@ class SettingScreen : AppCompatActivity() {
                     recreate()
                 }
 
-                //recreate()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -120,9 +112,7 @@ class SettingScreen : AppCompatActivity() {
             R.array.S_language,
             android.R.layout.simple_spinner_item
         ).also { adapter ->
-            // Specify the layout to use when the list of choices appears.
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner.
             spinner_language.adapter = adapter
         }
 
@@ -163,28 +153,7 @@ class SettingScreen : AppCompatActivity() {
                 TODO("Not yet implemented")
             }
         }
-        //spinner_language.setSelection(0)
-        //spinner_language.isGone = true
-        //text_language.isGone = true
 
-
-        /*Log.d("MyLog", "s " + loadLanguage(applicationContext) + " and c " +  getResources().getConfiguration().getLocales().get(0))
-        saveLanguage(applicationContext, "ru_RU")
-        var ruLocale = Locale("ru","RU")
-        setAppLocale(applicationContext, ruLocale)
-        //restartActivity(this)
-        Log.d("MyLog", "s " + loadLanguage(applicationContext) + " and c " +  getResources().getConfiguration().getLocales().get(0))
-*/
-
-       // if (savedLanguage != currentLanguage) {
-       //     if (savedLanguage != null) {
-       //         saveLanguage(applicationContext, savedLanguage)
-       //     }
-       //     if (savedLanguage != null) {
-       //         setAppLocale(applicationContext, savedLanguage)
-       //     }
-       //     restartActivity(this)
-       // }
 
 
 
@@ -212,18 +181,6 @@ fun loadLanguage(context: Context): String? {
 }
 
 fun setAppLocale(context: Context, myLocate: String) {
-    /*val locale = Locale(myLocate)
-    Locale.setDefault(locale)
-    val config = Configuration()
-    config.setLocale(locale)
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        context.createConfigurationContext(config)
-    } else {
-        context.resources.updateConfiguration(config, context.resources.displayMetrics)
-    }
-    saveLanguage(context, myLocate)
-*/
-
     val locale = Locale(myLocate)
     Locale.setDefault(locale)
     val resources = context.resources

@@ -1,6 +1,6 @@
 package com.archi.cosplay_planner.roomDatabase
 
-class Repos (costumeDao: CostumeDao, val filter: Int) {
+class Repos (costumeDao: CostumeDao) {
 
       var allCosplay: List<Costume> = costumeDao.getAll()
       var filteredCosplayProgress: List<Costume> = costumeDao.getInProgress()
@@ -9,7 +9,7 @@ class Repos (costumeDao: CostumeDao, val filter: Int) {
 
 }
 
-class ReposEvent (private val eventsDao: EventsDao, private val filter: Int) {
+class ReposEvent (eventsDao: EventsDao, filter: Int) {
 
       var allEvents: List<Events> = eventsDao.getAll().sortedByDescending { it.dateSorted}
       var filteredEvents: List<Events> = eventsDao.getByCostume(filter).sortedByDescending { it.dateSorted}
@@ -17,7 +17,7 @@ class ReposEvent (private val eventsDao: EventsDao, private val filter: Int) {
 
 }
 
-class ReposDetail (private val detailDao: DetailDao, private val costumeID: Int) {
+class ReposDetail (detailDao: DetailDao, costumeID: Int) {
 
       var filteredDetails: List<Detail> = detailDao.getByCostume(costumeID).sortedByDescending { it.progress}
       var costumeProgress = progression()
@@ -41,18 +41,18 @@ private fun progression(): Int {
 }
 
 
-class ReposBMaterial (private val materialsDao: MaterialsDao) {
+class ReposBMaterial ( materialsDao: MaterialsDao) {
 
       var allMaterial: List<Materials> = materialsDao.getAll()
 }
 
-class ReposBMaterialFilter (private val materialsDao: MaterialsDao, private val filter : String) {
+class ReposBMaterialFilter (materialsDao: MaterialsDao, filter : String) {
 
       private var newFilter = "%$filter%"
       var filterMaterial: List<Materials> = materialsDao.getFiltered(newFilter)
 }
 
-class ReposBPMaterial (private val materialsPlannedDao: MaterialsPlannedDao, private val detailID: Int) {
+class ReposBPMaterial (materialsPlannedDao: MaterialsPlannedDao, detailID: Int) {
       var materialsPlannedList: List<MaterialsPlanned> = materialsPlannedDao.getByDetail(detailID)
 }
 

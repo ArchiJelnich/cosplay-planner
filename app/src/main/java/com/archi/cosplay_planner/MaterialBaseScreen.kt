@@ -20,6 +20,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.archi.cosplay_planner.databinding.MaterialBaseScreenBinding
 import com.archi.cosplay_planner.infra.CreateReport
 import com.archi.cosplay_planner.infra.inputCheckerText
 import com.archi.cosplay_planner.roomDatabase.AppDatabase
@@ -28,7 +29,6 @@ import com.archi.cosplay_planner.roomDatabase.MaterialsDao
 import com.archi.cosplay_planner.roomDatabase.MaterialsPlannedDao
 import com.archi.cosplay_planner.roomDatabase.ReposBMaterial
 import com.archi.cosplay_planner.roomDatabase.ReposBMaterialFilter
-import com.archi.cosplay_planner.databinding.LBasematerialScreenBinding
 import kotlinx.coroutines.launch
 
 
@@ -63,8 +63,8 @@ class MaterialBase : AppCompatActivity() {
         fun onClickLoad(view: View) {
             val builder = AlertDialog.Builder(context)
             builder.setTitle(R.string.str_material_planned)
-            var db = AppDatabase.getInstance(context)
-            var message = CreateReport(db)
+            val db = AppDatabase.getInstance(context)
+            val message = CreateReport(db)
 
 
 
@@ -86,26 +86,23 @@ class MaterialBase : AppCompatActivity() {
             val t_filter = (view.rootView as View).findViewById<EditText>(R.id.text_filter)
             var t_filter_text = t_filter.text.toString()
 
-            if (inputCheckerText(t_filter_text).second==1)
-            {
-                t_filter_text = ""
-            }
-            else
-            {
-                t_filter_text = inputCheckerText(t_filter_text).first
+            t_filter_text = if (inputCheckerText(t_filter_text).second==1) {
+                ""
+            } else {
+                inputCheckerText(t_filter_text).first
             }
 
 
 
-            var db = AppDatabase.getInstance(context)
+            val db = AppDatabase.getInstance(context)
             val materialDao = db.MaterialsDao()
             val recyclerView: RecyclerView = (view.rootView as View).findViewById(R.id.recyclerViewEvent)
             recyclerView.layoutManager = LinearLayoutManager(context)
 
             if (t_filter_text=="")
             {
-                var repos = ReposBMaterial(materialDao)
-                var adapter = MaterialBaseRV(repos.allMaterial)
+                val repos = ReposBMaterial(materialDao)
+                val adapter = MaterialBaseRV(repos.allMaterial)
                 recyclerView.adapter = adapter
 
                 adapter.onBMaterialClickListener = { position, material ->
@@ -123,8 +120,8 @@ class MaterialBase : AppCompatActivity() {
             }
             else
             {
-                var repos = ReposBMaterialFilter(materialDao, t_filter_text)
-                var adapter = MaterialBaseRV(repos.filterMaterial)
+                val repos = ReposBMaterialFilter(materialDao, t_filter_text)
+                val adapter = MaterialBaseRV(repos.filterMaterial)
                 recyclerView.adapter = adapter
 
                 adapter.onBMaterialClickListener = { position, material ->
@@ -134,7 +131,6 @@ class MaterialBase : AppCompatActivity() {
                     context.startActivity(intent)
                 }
                 adapter.onBMaterialLongClickListener = { position, material ->
-                    Log.v("MyLog", "clicked " + position)
                     true
 
 
@@ -160,9 +156,9 @@ class MaterialBase : AppCompatActivity() {
         }
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.l_basematerial_screen)
+        setContentView(R.layout.material_base_screen)
         db = AppDatabase.getInstance(applicationContext)
-        val binding = LBasematerialScreenBinding.inflate(layoutInflater)
+        val binding = MaterialBaseScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.mbHandlers = handlers
 
@@ -178,7 +174,7 @@ class MaterialBase : AppCompatActivity() {
 
         lifecycleScope.launch {
 
-            var repos = ReposBMaterial(materialDao)
+            val repos = ReposBMaterial(materialDao)
             val adapter = MaterialBaseRV(repos.allMaterial)
             recyclerView.adapter = adapter
 
@@ -229,10 +225,8 @@ fun onMaterialBaseonBMaterialClickListenerLong(context: Context, materialPlanned
         builder.setMessage(message + " " + material.material)
 
         builder.setPositiveButton(R.string.str_yes) { dialog, which ->
-            //Log.v("MyLog", "Yes")
             materialDao.delete(material)
-            //adapter.notifyItemRemoved(position)
-            var repos = ReposBMaterial(materialDao)
+            val repos = ReposBMaterial(materialDao)
             val adapter = MaterialBaseRV(repos.allMaterial)
             recyclerView.adapter = adapter
             adapter.onBMaterialClickListener = { position, material ->
@@ -249,7 +243,6 @@ fun onMaterialBaseonBMaterialClickListenerLong(context: Context, materialPlanned
         }
 
         builder.setNegativeButton(R.string.str_no) { dialog, which ->
-            //Log.v("MyLog", "No")
         }
 
         builder.show()

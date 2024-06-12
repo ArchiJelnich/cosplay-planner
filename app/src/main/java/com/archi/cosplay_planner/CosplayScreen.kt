@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.archi.cosplay_planner.databinding.CosplayScreenBinding
 import com.archi.cosplay_planner.roomDatabase.AppDatabase
 import com.archi.cosplay_planner.roomDatabase.Costume
 import com.archi.cosplay_planner.roomDatabase.CostumeDao
@@ -24,7 +25,6 @@ import com.archi.cosplay_planner.roomDatabase.MaterialsPlannedDao
 import com.archi.cosplay_planner.roomDatabase.PhotoDAO
 import com.archi.cosplay_planner.roomDatabase.Repos
 import com.archi.cosplay_planner.roomDatabase.ReposEvent
-import com.archi.cosplay_planner.databinding.LMainScreenBinding
 import kotlinx.coroutines.launch
 
 
@@ -32,7 +32,7 @@ class CosplayScreen : AppCompatActivity()  {
 
 
     private lateinit var db: AppDatabase
-    private val handlers = Handler(this)
+    private val handlers = CosplayScreen.Handler(this)
 
 
 
@@ -94,7 +94,7 @@ class CosplayScreen : AppCompatActivity()  {
 
             val sharedPreferences =
                 PreferenceManager.getDefaultSharedPreferences(context)
-            var editor = sharedPreferences.edit()
+            val editor = sharedPreferences.edit()
 
 
 
@@ -107,14 +107,12 @@ class CosplayScreen : AppCompatActivity()  {
             val t_h = (view.rootView as View).findViewById<View>(R.id.text_h)
 
 
-            Log.v("MyDebug", "Filter before " + filter)
-
 
             when (view.id) {
 
                 R.id.text_p -> {
                     if (filter==0) {editor.putInt("filter", -1)
-                        t_p.setBackgroundResource(0);
+                        t_p.setBackgroundResource(0)
                     }
                     else {editor.putInt("filter",0)
                         t_p.setBackgroundResource(R.drawable.rounded_green)
@@ -153,20 +151,19 @@ class CosplayScreen : AppCompatActivity()  {
           //  Log.v("MyDebug", "Hm " + sharedPreferences.getInt("filter", -1))
            // com.archi.cosplay_planner.MainActivity.rv()
             filter = sharedPreferences.getInt("filter", -1)
-            var db = AppDatabase.getInstance(context)
+            val db = AppDatabase.getInstance(context)
             val CostumeDao = db.CostumeDao()
             val photoDao = db.PhotoDAO()
             val detailDao = db.DetailDao()
             val eventDao = db.EventsDao()
             val costumeDao = db.CostumeDao()
             val MaterialsPlannedDao = db.MaterialsPlannedDao()
-            val repos = Repos(CostumeDao, filter)
+            val repos = Repos(CostumeDao)
             val recycler_view_late = (view.rootView as View).findViewById<RecyclerView>(R.id.recyclerView)
             val adapter = CosplayRV(repos.allCosplay, repos.filteredCosplayFinished, repos.filteredCosplayProgress, repos.filteredCosplayOnHold, filter)
 
 
             recycler_view_late.adapter = adapter
-            Log.v("MyDebug", "Filter after " + filter)
 
             adapter.onEventClickListener = { position, costume ->
                 onCostume(context, costume)
@@ -201,13 +198,6 @@ class CosplayScreen : AppCompatActivity()  {
         {
             setAppLocale(this, language)
         }
-        Log.v("MyLog", "language:" + language);
-
-
-
-        //editor.putInt("filter",-1)
-       // editor.apply()
-
 
 
 
@@ -224,7 +214,7 @@ class CosplayScreen : AppCompatActivity()  {
         //val binding: LMainScreenBinding = LMainScreenBinding.bind(R.layout.l_main_screen)
 
 
-        val binding = LMainScreenBinding.inflate(layoutInflater)
+        val binding = CosplayScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
 
@@ -333,7 +323,7 @@ lifecycleScope.launch {
        // var editor = sharedPref.edit()
         val filter = sharedPref.getInt("filter", -1)
         Log.v("MYDEBUG", "Filter in main" + filter)
-        var db = AppDatabase.getInstance(applicationContext)
+        val db = AppDatabase.getInstance(applicationContext)
         val eventDao = db.EventsDao()
         val costumeDao = db.CostumeDao()
         val photoDao = db.PhotoDAO()
@@ -343,8 +333,8 @@ lifecycleScope.launch {
         lifecycleScope.launch {
             //Log.v("MYDEBUG", "Corrrr")
 
-            var repos = Repos(CostumeDao, filter)
-            var adapter = CosplayRV(repos.allCosplay, repos.filteredCosplayFinished, repos.filteredCosplayProgress, repos.filteredCosplayOnHold, filter)
+            val repos = Repos(CostumeDao)
+            val adapter = CosplayRV(repos.allCosplay, repos.filteredCosplayFinished, repos.filteredCosplayProgress, repos.filteredCosplayOnHold, filter)
             val divider = DividerItemDecoration(this@CosplayScreen, DividerItemDecoration.VERTICAL)
             divider.setDrawable(ContextCompat.getDrawable(this@CosplayScreen,R.drawable.divider)!!)
             recyclerView.addItemDecoration(divider)
@@ -406,7 +396,7 @@ fun onCostumeLong(context: Context, eventDao : EventsDao, costume: Costume, cost
     val builder = AlertDialog.Builder(context)
     builder.setTitle(R.string.str_delete_event)
     val message = context.getString(R.string.str_delete_costume_message)
-    var repos_e = ReposEvent(eventDao, costume.costumeID)
+    val repos_e = ReposEvent(eventDao, costume.costumeID)
 
 
     if (repos_e.filteredEvents.size == 0)
@@ -415,14 +405,14 @@ fun onCostumeLong(context: Context, eventDao : EventsDao, costume: Costume, cost
 
         builder.setPositiveButton(R.string.str_yes) { dialog, which ->
             costumeDao.delete(costume)
-            var detailID = detailDao.getIDByCostume(costume.costumeID)
+            val detailID = detailDao.getIDByCostume(costume.costumeID)
             for (ID in detailID)
             {
                 MaterialsPlannedDao.deleteByDetail(ID)
             }
             detailDao.deleteByCostumeID(costume.costumeID)
             photoDao.deleteByID(costume.costumeID)
-            var repos = Repos(costumeDao, filter)
+            val repos = Repos(costumeDao)
             val adapter = CosplayRV(
                 repos.allCosplay,
                 repos.filteredCosplayFinished,
@@ -461,7 +451,7 @@ fun onCostumeLong(context: Context, eventDao : EventsDao, costume: Costume, cost
 
         builder.setPositiveButton(R.string.str_del_del) { dialog, which ->
             costumeDao.delete(costume)
-            var detailID = detailDao.getIDByCostume(costume.costumeID)
+            val detailID = detailDao.getIDByCostume(costume.costumeID)
             for (ID in detailID)
             {
                 MaterialsPlannedDao.deleteByDetail(ID)
@@ -469,7 +459,7 @@ fun onCostumeLong(context: Context, eventDao : EventsDao, costume: Costume, cost
             detailDao.deleteByCostumeID(costume.costumeID)
             eventDao.deleteByCostumeID(costume.costumeID)
             photoDao.deleteByID(costume.costumeID)
-            var repos = Repos(costumeDao, filter)
+            val repos = Repos(costumeDao)
             val adapter = CosplayRV(
                 repos.allCosplay,
                 repos.filteredCosplayFinished,
@@ -490,7 +480,7 @@ fun onCostumeLong(context: Context, eventDao : EventsDao, costume: Costume, cost
 
         builder.setNeutralButton(R.string.str_del_update) { dialog, which ->
             costumeDao.delete(costume)
-            var detailID = detailDao.getIDByCostume(costume.costumeID)
+            val detailID = detailDao.getIDByCostume(costume.costumeID)
             for (ID in detailID)
             {
                 MaterialsPlannedDao.deleteByDetail(ID)
@@ -498,8 +488,8 @@ fun onCostumeLong(context: Context, eventDao : EventsDao, costume: Costume, cost
             detailDao.deleteByCostumeID(costume.costumeID)
             eventDao.updateWhenDelete(costume.costumeID)
             photoDao.deleteByID(costume.costumeID)
-            var repos = Repos(costumeDao, filter)
-            var adapter = CosplayRV(
+            val repos = Repos(costumeDao)
+            val adapter = CosplayRV(
                 repos.allCosplay,
                 repos.filteredCosplayFinished,
                 repos.filteredCosplayProgress,

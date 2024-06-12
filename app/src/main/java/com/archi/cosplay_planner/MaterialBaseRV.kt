@@ -26,7 +26,7 @@ class MaterialBaseRV(private val materials: List<Materials>): RecyclerView.Adapt
 
         val itemView =
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.l_bmaterial_rv, parent, false)
+                .inflate(R.layout.material_base_rv, parent, false)
         return BMaterialViewHolder(itemView)
     }
 

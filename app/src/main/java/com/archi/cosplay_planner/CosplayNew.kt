@@ -13,11 +13,12 @@ import androidx.lifecycle.ViewModel
 import com.archi.cosplay_planner.roomDatabase.AppDatabase
 import com.archi.cosplay_planner.roomDatabase.Costume
 import com.archi.cosplay_planner.infra.inputCheckerText
-import com.archi.cosplay_planner.databinding.LNewCosplayScreenBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import androidx.databinding.DataBindingUtil
+import com.archi.cosplay_planner.databinding.CosplayNewBinding
 
 
 class CosplayNewActivity : AppCompatActivity() {
@@ -38,7 +39,6 @@ class CosplayNewActivity : AppCompatActivity() {
             }
 
 
-            Log.v("MYLOG", "Clicked");
 
          if (inputCheckerText(e_f.text.toString()).second != 0)
           {
@@ -62,7 +62,7 @@ class CosplayNewActivity : AppCompatActivity() {
 
                 GlobalScope.launch  {
                     Log.v("MYDEBUG", "In corut")
-                    var character = inputCheckerText(e_c.text.toString()).first
+                    val character = inputCheckerText(e_c.text.toString()).first
 
                     if (costumeDao.getCostumeIDByCharacter(character).size!=0)
                     {
@@ -104,7 +104,6 @@ class CosplayNewActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.v("MYLOG", "OnCreate");
         if (loadTheme(this)=="blue")
         {
             setTheme(R.style.Theme_CosplayPlannerBlue)
@@ -115,8 +114,7 @@ class CosplayNewActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
 
-
-        val binding = LNewCosplayScreenBinding.inflate(layoutInflater)
+        val binding = CosplayNewBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val currentVm = NewCViewModel("","")

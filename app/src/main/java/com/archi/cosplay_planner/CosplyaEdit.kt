@@ -27,6 +27,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.archi.cosplay_planner.databinding.CosplayEditBinding
 import com.archi.cosplay_planner.infra.inputCheckerText
 import com.archi.cosplay_planner.roomDatabase.AppDatabase
 import com.archi.cosplay_planner.roomDatabase.CosplayPhoto
@@ -36,7 +37,6 @@ import com.archi.cosplay_planner.roomDatabase.DetailDao
 import com.archi.cosplay_planner.roomDatabase.MaterialsPlannedDao
 import com.archi.cosplay_planner.roomDatabase.ReposDetail
 import com.archi.cosplay_planner.roomDatabase.ReposEvent
-import com.archi.cosplay_planner.databinding.LMainEditScreenBinding
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -50,7 +50,7 @@ class CosplayEditActivity : AppCompatActivity() {
 companion object{
     lateinit var selectImageLauncher: ActivityResultLauncher<Intent>
 }
-    private val handlers = Handlers(this)
+    private val handlers = CosplayEditActivity.Handlers(this)
 
     class Handlers  (private val context: Context) {
         @OptIn(DelicateCoroutinesApi::class)
@@ -58,7 +58,6 @@ companion object{
             val c_f = (view.rootView as View).findViewById<View>(R.id.c_f) as EditText
             val c_c = (view.rootView as View).findViewById<View>(R.id.c_c) as EditText
             val c_id = (view.rootView as View).findViewById<View>(R.id.c_id) as EditText
-            val c_p = (view.rootView as View).findViewById<View>(R.id.c_p) as TextView
             val c_s = (view.rootView as View).findViewById<View>(R.id.c_s) as Spinner
             val avatar = (view.rootView as View).findViewById<View>(R.id.image_avatar) as ImageView
 
@@ -66,9 +65,9 @@ companion object{
             var status = 0
 
             when(c_s.getSelectedItem().toString()){
-                statuses[0] ->  status = 0;
-                statuses[1] ->  status = 1;
-                statuses[2] ->  status = 2;
+                statuses[0] ->  status = 0
+                statuses[1] ->  status = 1
+                statuses[2] ->  status = 2
             }
 
             if (c_f.text.isEmpty()) {
@@ -97,9 +96,9 @@ companion object{
                 val db: AppDatabase = AppDatabase.getInstance(context)
                 val costumeDao = db.CostumeDao()
                 val costume_id = c_id.text.toString()
-                var character = inputCheckerText(c_c.text.toString()).first
+                val character = inputCheckerText(c_c.text.toString()).first
                 val detailDao = db.DetailDao()
-                var repos = ReposDetail(detailDao, costume_id.toInt())
+                val repos = ReposDetail(detailDao, costume_id.toInt())
 
 
 
@@ -120,7 +119,7 @@ companion object{
                         //Log.v("MyLog", "No")
                     //}
                     //builder.show()
-                    var d_result = showAlertDialog(context, context.getString(R.string.str_change_status), context.getString(R.string.str_change_all_finished))
+                    val d_result = showAlertDialog(context, context.getString(R.string.str_change_status), context.getString(R.string.str_change_all_finished))
                     if (d_result)
                     {
                         status = 1
@@ -129,7 +128,7 @@ companion object{
                 }
 
                 if (repos.costumeProgress != 100 && status == 1) {
-                    var d_result = showAlertDialog(context, context.getString(R.string.str_change_status), context.getString(R.string.str_change_not_all_finished))
+                    val d_result = showAlertDialog(context, context.getString(R.string.str_change_status), context.getString(R.string.str_change_not_all_finished))
                     if (d_result)
                     {
                         status = 0
@@ -179,10 +178,10 @@ companion object{
             if (hasStoragePermission(context)) {
                 val intent =
                     Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                CosplayEditActivity.selectImageLauncher.launch(intent)
+                selectImageLauncher.launch(intent)
             }
             else {
-                var activity = context as Activity
+                val activity = context as Activity
                 requestPermissions(activity,
                     arrayOf(READ_EXTERNAL_STORAGE),
                     200)
@@ -203,9 +202,9 @@ companion object{
             var status = 0
 
             when(c_s.getSelectedItem().toString()){
-                statuses[0] ->  status = 0;
-                statuses[1] ->  status = 1;
-                statuses[2] ->  status = 2;
+                statuses[0] ->  status = 0
+                statuses[1] ->  status = 1
+                statuses[2] ->  status = 2
             }
 
             if (c_f.text.isEmpty()) {
@@ -234,7 +233,7 @@ companion object{
                 val db: AppDatabase = AppDatabase.getInstance(context)
                 val costumeDao = db.CostumeDao()
                 val costume_id = c_id.text.toString()
-                var character = inputCheckerText(c_c.text.toString()).first
+                val character = inputCheckerText(c_c.text.toString()).first
 
 
                 GlobalScope.launch {
@@ -317,7 +316,7 @@ companion object{
 
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.l_main_edit_screen)
+        setContentView(R.layout.cosplay_edit)
         val costume = intent.extras?.get("costume") as Costume
 
         val costume_id = costume.costumeID
@@ -333,10 +332,10 @@ companion object{
 
 
 
-        val binding = LMainEditScreenBinding.inflate(layoutInflater)
+        val binding = CosplayEditBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        var current_vm = EditMViewModel(costume_id, costume_fandom, costume_character, costume_status, costume_progress)
+        val current_vm = EditMViewModel(costume_id, costume_fandom, costume_character, costume_status, costume_progress)
 
         binding.viewModel = current_vm
         binding.ecHandlers = handlers
@@ -356,7 +355,7 @@ companion object{
         }
         spinner.setSelection(costume_status)
 
-        var db = AppDatabase.getInstance(applicationContext)
+        val db = AppDatabase.getInstance(applicationContext)
         val eventDao = db.EventsDao()
         val detailDao = db.DetailDao()
         val MaterialsPlannedDao = db.MaterialsPlannedDao()
@@ -366,7 +365,7 @@ companion object{
         lifecycleScope.launch {
             //Log.v("MYDEBUG", "Corrrr")
 
-            var repos = ReposEvent(eventDao, costume_id)
+            val repos = ReposEvent(eventDao, costume_id)
             //recyclerView.adapter = EventRV(repos.allEvents, 0)
             val adapter = EventRV(repos.filteredEvents, costume_id)
             val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
@@ -387,9 +386,9 @@ companion object{
         lifecycleScope.launch {
             //Log.v("MYDEBUG", "Corrrr")
 
-            var repos = ReposDetail(detailDao, costume_id)
+            val repos = ReposDetail(detailDao, costume_id)
             //recyclerView.adapter = EventRV(repos.allEvents, 0)
-            var adapter = DetailRV(repos.filteredDetails)
+            val adapter = DetailRV(repos.filteredDetails)
             val recyclerView: RecyclerView = findViewById(R.id.recyclerViewD)
             recyclerView.layoutManager = LinearLayoutManager(this@CosplayEditActivity)
             //recyclerView.addItemDecoration(DividerItemDecoration(this@EditMainActivity, LinearLayoutManager.VERTICAL))
@@ -421,8 +420,8 @@ companion object{
 
       if (PhotoDAO.getByID(costume_id).size!=0 && hasStoragePermission(this))
         {
-            var avatar = findViewById<ImageView>(R.id.image_avatar)
-            var uri = PhotoDAO.getByID(costume_id)[0].photo?.toUri()
+            val avatar = findViewById<ImageView>(R.id.image_avatar)
+            val uri = PhotoDAO.getByID(costume_id)[0].photo?.toUri()
             avatar.setImageURI(uri)
             //Log.d("MyLogs", "There are saved photo..." + PhotoDAO.getByID(costume_id)[0].photo)
             //Log.d("MyLogs", "There are saved photo..." + uri)
@@ -486,8 +485,8 @@ fun onCostumeLong(context: Context, detail : Detail, detailDao : DetailDao, Mate
     builder.setPositiveButton(R.string.str_yes) { dialog, which ->
         detailDao.delete(detail)
         MaterialsPlannedDao.deleteByDetail(detail.detailID)
-        var repos = ReposDetail(detailDao, costume_id)
-        var adapter = DetailRV(repos.filteredDetails)
+        val repos = ReposDetail(detailDao, costume_id)
+        val adapter = DetailRV(repos.filteredDetails)
         recyclerView.adapter = adapter
 
         adapter.onDetailClickListener = { position, detail ->
@@ -508,7 +507,7 @@ fun onCostumeLong(context: Context, detail : Detail, detailDao : DetailDao, Mate
 fun hasStoragePermission(context: Context): Boolean {
     return ContextCompat.checkSelfPermission(
         context,
-        android.Manifest.permission.READ_EXTERNAL_STORAGE
+        READ_EXTERNAL_STORAGE
     ) == PackageManager.PERMISSION_GRANTED
 }
 

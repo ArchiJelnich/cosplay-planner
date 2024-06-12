@@ -19,7 +19,6 @@ class CosplayRV(private val costumes_a: List<Costume>, private val costumes_f: L
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
             val fandom: TextView = itemView.findViewById(R.id.textView)
             val character: TextView = itemView.findViewById(R.id.textView2)
-            val image: ImageView = itemView.findViewById(R.id.imageView)
             val status: ImageView = itemView.findViewById(R.id.i_status)
             val progress_bar: ProgressBar = itemView.findViewById(R.id.progressBar)
         }
@@ -47,7 +46,7 @@ class CosplayRV(private val costumes_a: List<Costume>, private val costumes_f: L
 
         val itemView =
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.l_main_rv, parent, false)
+                .inflate(R.layout.cosplay_rv, parent, false)
         return MyViewHolder(itemView)
     }
 

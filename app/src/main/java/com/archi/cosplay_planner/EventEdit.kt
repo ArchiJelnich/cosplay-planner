@@ -12,19 +12,18 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.DatePicker
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
+import com.archi.cosplay_planner.databinding.EventEditBinding
 import com.archi.cosplay_planner.infra.inputCheckerText
 import com.archi.cosplay_planner.infra.sortValueFromDate
 import com.archi.cosplay_planner.infra.stringToData
 import com.archi.cosplay_planner.roomDatabase.AppDatabase
 import com.archi.cosplay_planner.roomDatabase.Events
 import com.archi.cosplay_planner.roomDatabase.Repos
-import com.archi.cosplay_planner.databinding.LEventsEditScreenBinding
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -50,25 +49,11 @@ class EditEventActivity : AppCompatActivity() {
             val e_id = (view.rootView as View).findViewById<View>(R.id.e_id) as EditText
 
             when(e_t.getSelectedItem().toString()){
-                types[0] ->  type = 0;
-                types[1] ->  type = 1;
-                types[2] ->  type = 2;
+                types[0] ->  type = 0
+                types[1] ->  type = 1
+                types[2] ->  type = 2
             }
 
-
-
-           /* if (e_t.getSelectedItem().toString()==types[0] )
-            {
-                type = 0
-            }
-            if (e_t.getSelectedItem().toString()==types[1] )
-            {
-                type = 1
-            }
-            if (e_t.getSelectedItem().toString()==types[2] )
-            {
-                type = 2
-            }*/
 
 
             if (e_n.text.isEmpty()) {
@@ -92,9 +77,8 @@ class EditEventActivity : AppCompatActivity() {
 
 
             if ((inputCheckerText(e_p.text.toString()).second == 0) && (inputCheckerText(e_n.text.toString()).second)==0) {
-                //Toast.makeText(context, "Nice" + InputCheckerText(e_f.text.toString()).first.toString() + " " + InputCheckerText(e_c.text.toString()).first.toString(), Toast.LENGTH_SHORT).show()
 
-                val db: AppDatabase = AppDatabase.getInstance(context)
+                var db: AppDatabase = AppDatabase.getInstance(context)
                 val eventDao = db.EventsDao()
 
                 val date = e_d.dayOfMonth.toString()+"."+(e_d.month).toString()+"."+e_d.year.toString()
@@ -105,9 +89,9 @@ class EditEventActivity : AppCompatActivity() {
 
                 GlobalScope.launch {
 
-                    val db: AppDatabase = AppDatabase.getInstance(context)
+                    db = AppDatabase.getInstance(context)
                     val costumeDao = db.CostumeDao()
-                    val repos = Repos(costumeDao, 0)
+                    val repos = Repos(costumeDao)
                     var names = repos.allCosplay.map { it.character to it.costumeID}.toMap()
                     names = names + Pair(context.getString(R.string.str_no), -1)
                     cosplay_id = names.getValue(cosplay_id).toString()
@@ -146,7 +130,7 @@ class EditEventActivity : AppCompatActivity() {
 
 
             val e_d = (view.rootView as View).findViewById<View>(R.id.datePicker1) as DatePicker
-            var date = e_d.dayOfMonth.toString()+"."+(e_d.month +1).toString()+"."+e_d.year.toString()
+            val date = e_d.dayOfMonth.toString()+"."+(e_d.month +1).toString()+"."+e_d.year.toString()
             val e_n = (view.rootView as View).findViewById<View>(R.id.e_n) as EditText
             val e_p = (view.rootView as View).findViewById<View>(R.id.e_p) as EditText
 
@@ -154,11 +138,10 @@ class EditEventActivity : AppCompatActivity() {
             val parsedDate = sdf.parse(date)
             val calendar = Calendar.getInstance()
             calendar.time = parsedDate ?: Date()
-            var fullEvent = e_n.text.toString() + " [" + e_p.text.toString() + "]"
+            val fullEvent = e_n.text.toString() + " [" + e_p.text.toString() + "]"
 
-           // val millis = calendar.timeInMillis
 
-            var intent = Intent(Intent.ACTION_EDIT)
+            val intent = Intent(Intent.ACTION_EDIT)
             intent.type = "vnd.android.cursor.item/event"
             intent.putExtra("beginTime", calendar.timeInMillis)
             intent.putExtra("allDay", true)
@@ -167,37 +150,6 @@ class EditEventActivity : AppCompatActivity() {
             intent.putExtra("title", fullEvent)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
             context.startActivity(intent)
-
-           // val intentUri = Uri.parse("content://com.android.calendar/time/$millis")
-            //val intent = Intent(Intent.ACTION_EDIT, intentUri)
-            //intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-
-           // context.startActivity(intent)
-
-
-
-/*
-            val calendarEvent: Calendar = Calendar.getInstance()
-            var intent = Intent(Intent.ACTION_EDIT)
-            intent.type = "vnd.android.cursor.item/event"
-            intent.putExtra("beginTime", calendarEvent.timeInMillis)
-            intent.putExtra("allDay", true)
-            intent.putExtra("rule", "FREQ=YEARLY")
-            intent.putExtra("endTime", calendarEvent.timeInMillis + 60 * 60 * 1000)
-            intent.putExtra("title", "Calendar Event")
-            context.startActivity(intent)
-
-*/
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -213,15 +165,6 @@ class EditEventActivity : AppCompatActivity() {
             intent.setPackage("com.google.android.apps.maps")
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
             context.startActivity(intent)
-
-
-
-        }
-
-
-        fun onClickAvatar(view: View){
-            val image_avatar = (view.rootView as View).findViewById<View>(R.id.image_avatar) as ImageView
-
 
 
 
@@ -247,19 +190,9 @@ class EditEventActivity : AppCompatActivity() {
         }
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.l_events_edit_screen)
+        setContentView(R.layout.event_edit)
 
         val event = intent.extras?.get("event") as Events
-        //val event_id = event.eventID
-
-        /*var event_id = 0
-        var event_type = 0
-        var event_name = " "
-        var event_date = " "
-        var event_place = " "
-        var event_steps = " "
-        var event_costume = 0
-*/
 
         val event_id = event.eventID
         val event_type = event.type!!
@@ -267,15 +200,13 @@ class EditEventActivity : AppCompatActivity() {
         val event_date = event.date!!
         val event_place = event.place!!
         val event_costume = event.costumeID!!
-        val event_date_sortes = event.dateSorted!!
-        val costume_name = getString(R.string.str_no)
 
         Log.v("MyLogSpinner", "string event_costume" + event_costume)
 
-        val binding = LEventsEditScreenBinding.inflate(layoutInflater)
+        val binding = EventEditBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        var current_vm = EditEViewModel(event_type, event_name, event_place, event_date, event_costume, event_id)
+        val current_vm = EditEViewModel(event_type, event_name, event_place, event_date, event_costume, event_id)
 
         binding.viewModel = current_vm
         binding.eeHandlers = handlers
@@ -291,9 +222,7 @@ class EditEventActivity : AppCompatActivity() {
             R.array.Ev_Types,
             android.R.layout.simple_spinner_item
         ).also { adapter ->
-            // Specify the layout to use when the list of choices appears.
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner.
             spinner.adapter = adapter
         }
         spinner.setSelection(event_type)
@@ -301,13 +230,13 @@ class EditEventActivity : AppCompatActivity() {
         val db: AppDatabase = AppDatabase.getInstance(this)
         val costumeDao = db.CostumeDao()
         GlobalScope.launch {
-            val repos = Repos(costumeDao, 0)
+            val repos = Repos(costumeDao)
             var names = repos.allCosplay.map { it.character to it.costumeID}.toMap()
             names = names + Pair(getString(R.string.str_no), -1)
             val names_list = names.keys.toList()
 
 
-            var adapter_sp = ArrayAdapter(
+            val adapter_sp = ArrayAdapter(
                 this@EditEventActivity,
                 android.R.layout.simple_spinner_item,
                 names_list
@@ -316,8 +245,6 @@ class EditEventActivity : AppCompatActivity() {
             adapter_sp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner_costume.adapter = adapter_sp
 
-            Log.d("MyLog", "Spinner event_costume " + event_costume)
-            Log.d("MyLog", "Spinner names_list " + names)
 
             if (event_costume==-1)
             {
