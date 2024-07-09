@@ -33,6 +33,8 @@ import com.archi.cosplay_planner.roomDatabase.ReposBMaterial
 import com.archi.cosplay_planner.roomDatabase.ReposBPMaterial
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import com.archi.cosplay_planner.infra.loadTheme
+
 
 
 class DetailEditNew : AppCompatActivity() {

@@ -19,6 +19,8 @@ import com.archi.cosplay_planner.roomDatabase.AppDatabase
 import com.archi.cosplay_planner.roomDatabase.Materials
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import com.archi.cosplay_planner.infra.loadTheme
+
 
 
 class MaterialBaseEditNew : AppCompatActivity() {

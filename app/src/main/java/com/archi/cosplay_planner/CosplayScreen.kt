@@ -26,6 +26,7 @@ import com.archi.cosplay_planner.roomDatabase.PhotoDAO
 import com.archi.cosplay_planner.roomDatabase.Repos
 import com.archi.cosplay_planner.roomDatabase.ReposEvent
 import kotlinx.coroutines.launch
+import com.archi.cosplay_planner.infra.loadTheme
 
 
 class CosplayScreen : AppCompatActivity()  {

@@ -24,6 +24,8 @@ import com.archi.cosplay_planner.roomDatabase.MaterialsPlanned
 import com.archi.cosplay_planner.roomDatabase.ReposBMaterial
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import com.archi.cosplay_planner.infra.loadTheme
+
 
 
 class MaterialPlanned : AppCompatActivity() {

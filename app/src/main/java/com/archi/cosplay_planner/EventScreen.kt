@@ -19,6 +19,8 @@ import com.archi.cosplay_planner.roomDatabase.Events
 import com.archi.cosplay_planner.roomDatabase.EventsDao
 import com.archi.cosplay_planner.roomDatabase.ReposEvent
 import kotlinx.coroutines.launch
+import com.archi.cosplay_planner.infra.loadTheme
+
 
 
 class EventScreen : AppCompatActivity() {

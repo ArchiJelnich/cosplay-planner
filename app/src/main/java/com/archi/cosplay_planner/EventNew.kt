@@ -21,6 +21,8 @@ import com.archi.cosplay_planner.infra.inputCheckerText
 import com.archi.cosplay_planner.infra.sortValueFromDate
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import com.archi.cosplay_planner.infra.loadTheme
+
 
 
 class EventNew : AppCompatActivity() {

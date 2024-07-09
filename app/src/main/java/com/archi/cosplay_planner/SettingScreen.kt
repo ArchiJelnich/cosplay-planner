@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import com.archi.cosplay_planner.databinding.SettingScreenBinding
 import java.util.Locale
+import com.archi.cosplay_planner.infra.loadTheme
 
 class SettingScreen : AppCompatActivity() {
 
@@ -197,7 +198,3 @@ fun saveTheme(context: Context, themecode: String) {
     preferences.edit().putString("themecode", themecode).apply()
 }
 
-fun loadTheme(context: Context): String? {
-    val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-    return preferences.getString("themecode", "pink")
-}
