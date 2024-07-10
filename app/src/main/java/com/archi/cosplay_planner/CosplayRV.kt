@@ -29,7 +29,6 @@ class CosplayRV(private val costumes_a: List<Costume>, private val costumes_f: L
 
     private fun filtering() : List<Costume>
     {
-        Log.v("MYDEBUG", "Filter " + filter)
         return when (filter) {
             -1 -> costumes_a
             0 -> costumes_p
@@ -37,8 +36,6 @@ class CosplayRV(private val costumes_a: List<Costume>, private val costumes_f: L
             2 -> costumes_h
             else -> costumes_a
         }
-
-
     }
 
 
@@ -53,7 +50,6 @@ class CosplayRV(private val costumes_a: List<Costume>, private val costumes_f: L
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.fandom.text = costumes[position].fandom
         holder.character.text = costumes[position].character
-        //holder.status.text = costumes[position].status.toString()
 
         when(costumes[position].status)
         {
@@ -71,10 +67,7 @@ class CosplayRV(private val costumes_a: List<Costume>, private val costumes_f: L
         }
 
         holder.itemView.setOnClickListener {
-            Log.v("MyLogCosplay", "clicked " + position)
-            Log.v("MyLogCosplay", "clicked " + costumes[position])
             onEventClickListener?.invoke(holder.adapterPosition, costumes[position])
-
         }
 
         holder.itemView.setOnLongClickListener{
@@ -86,7 +79,6 @@ class CosplayRV(private val costumes_a: List<Costume>, private val costumes_f: L
     override fun getItemCount(): Int {
         return costumes.size
     }
-
 
 
     }
