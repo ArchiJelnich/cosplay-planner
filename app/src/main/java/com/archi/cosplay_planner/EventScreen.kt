@@ -1,6 +1,5 @@
 package com.archi.cosplay_planner
 
-
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -14,14 +13,13 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.archi.cosplay_planner.databinding.EventScreenBinding
+import com.archi.cosplay_planner.infra.checkTheme
 import com.archi.cosplay_planner.roomDatabase.AppDatabase
 import com.archi.cosplay_planner.roomDatabase.Events
 import com.archi.cosplay_planner.roomDatabase.EventsDao
 import com.archi.cosplay_planner.roomDatabase.ReposEvent
 import kotlinx.coroutines.launch
 import com.archi.cosplay_planner.infra.loadTheme
-
-
 
 class EventScreen : AppCompatActivity() {
     private lateinit var db: AppDatabase
@@ -53,34 +51,21 @@ class EventScreen : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (loadTheme(this)=="blue")
-        {
-            setTheme(R.style.Theme_CosplayPlannerBlue)
-        }
-        else {
-            setTheme(R.style.Theme_CosplayPlannerPink)
-        }
-
+        checkTheme(this)
         super.onCreate(savedInstanceState)
         db = AppDatabase.getInstance(applicationContext)
         val binding = EventScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.handlers = handlers
-
-
-
-
         val eventDao = db.EventsDao()
         val recyclerView: RecyclerView = findViewById(R.id.recyclerViewEvent)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
 
-
-
         lifecycleScope.launch {
 
-            var repos = ReposEvent(eventDao, 0)
-            var adapter = EventRV(repos.allEvents, 0)
+            val repos = ReposEvent(eventDao, 0)
+            val adapter = EventRV(repos.allEvents, 0)
             val divider = DividerItemDecoration(this@EventScreen, DividerItemDecoration.VERTICAL)
             divider.setDrawable(ContextCompat.getDrawable(this@EventScreen,R.drawable.divider)!!)
             recyclerView.addItemDecoration(divider)
@@ -94,8 +79,6 @@ class EventScreen : AppCompatActivity() {
                 EventsonEventClickListenerLong(this@EventScreen, event, eventDao, recyclerView)
                 true
             }
-
-
 
         }
 

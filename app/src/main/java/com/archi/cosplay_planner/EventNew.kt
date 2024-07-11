@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import com.archi.cosplay_planner.databinding.EventNewBinding
+import com.archi.cosplay_planner.infra.checkTheme
 import com.archi.cosplay_planner.roomDatabase.AppDatabase
 import com.archi.cosplay_planner.roomDatabase.Events
 import com.archi.cosplay_planner.infra.inputCheckerText
@@ -31,16 +32,12 @@ class EventNew : AppCompatActivity() {
     class Handlers  (private val context: Context) {
        fun onClickAdd(view: View) {
 
-
-
-
            val e_n = (view.rootView as View).findViewById<View>(R.id.e_n) as EditText
            val e_p = (view.rootView as View).findViewById<View>(R.id.e_p) as EditText
            val e_t = (view.rootView as View).findViewById<View>(R.id.e_t) as Spinner
            val e_d = (view.rootView as View).findViewById<View>(R.id.datePicker1) as DatePicker
            val types = context.resources.getStringArray(R.array.Ev_Types)
            var type = 0
-
 
            if (e_t.getSelectedItem().toString()==types[0] )
            {
@@ -56,7 +53,6 @@ class EventNew : AppCompatActivity() {
            }
 
 
-
            if (e_n.text.isEmpty()) {
                e_n.setText(R.string.str_Event_name)
            }
@@ -64,7 +60,6 @@ class EventNew : AppCompatActivity() {
            if (e_p.text.isEmpty()) {
                e_p.setText(R.string.str_Event_place)
            }
-
 
            if (inputCheckerText(e_n.text.toString()).second != 0)
            {
@@ -76,7 +71,6 @@ class EventNew : AppCompatActivity() {
                Toast.makeText(context, "Character:" + inputCheckerText(e_p.text.toString()).first, Toast.LENGTH_SHORT).show()
            }
 
-
            if ((inputCheckerText(e_p.text.toString()).second == 0) && (inputCheckerText(e_n.text.toString()).second)==0) {
 
                val db: AppDatabase = AppDatabase.getInstance(context)
@@ -85,11 +79,7 @@ class EventNew : AppCompatActivity() {
                val date = e_d.dayOfMonth.toString()+"."+(e_d.month).toString()+"."+e_d.year.toString()
 
 
-
-
-
                GlobalScope.launch {
-                   Log.v("MYDEBUG", "In corut")
 
                    val eventToAd = Events(
                        eventID = 0,
@@ -105,23 +95,10 @@ class EventNew : AppCompatActivity() {
                    val intent = Intent(context, EventScreen::class.java)
                    context.startActivity(intent)
 
-
                }
            }
 
-
-
-
-
-
-
-
-
-
-
-
-
-           }
+    }
 
         fun hideKeyboard(view: View) {
 
@@ -133,28 +110,14 @@ class EventNew : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        if (loadTheme(this)=="blue")
-        {
-            setTheme(R.style.Theme_CosplayPlannerBlue)
-        }
-        else {
-            setTheme(R.style.Theme_CosplayPlannerPink)
-        }
-
+        checkTheme(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.event_new)
-
         val binding = EventNewBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         val currentVm = NewEViewModel("","", "", "")
-
         binding.viewModel = currentVm
         binding.neHandlers = handlers
-
-
-
-
         val spinner: Spinner = findViewById(R.id.e_t)
         ArrayAdapter.createFromResource(
             this,
@@ -164,31 +127,8 @@ class EventNew : AppCompatActivity() {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner.adapter = adapter
         }
-
-
-
-
-
-
-
-
-
     }
-
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
 
 class NewEViewModel(var event_type: String, var event_name : String, var event_place : String, var event_date : String) : ViewModel() {
 }

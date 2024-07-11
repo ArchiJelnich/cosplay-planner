@@ -18,6 +18,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import com.archi.cosplay_planner.databinding.MaterialEditNewBinding
+import com.archi.cosplay_planner.infra.checkTheme
 import com.archi.cosplay_planner.infra.intCheckerNum
 import com.archi.cosplay_planner.roomDatabase.AppDatabase
 import com.archi.cosplay_planner.roomDatabase.MaterialsPlanned
@@ -30,18 +31,14 @@ import com.archi.cosplay_planner.infra.loadTheme
 
 class MaterialPlanned : AppCompatActivity() {
 
-
-
     private lateinit var db: AppDatabase
     private val handlers = Handlers(this)
     class Handlers  (private val context: Context) {
         fun onClickAdd(view: View) {
-
             val nm_unit = (view.rootView as View).findViewById<View>(R.id.nm_unit) as EditText
             val c_id = (view.rootView as View).findViewById<View>(R.id.c_id) as TextView
             val d_id = (view.rootView as View).findViewById<View>(R.id.d_id) as TextView
             val mp_id = (view.rootView as View).findViewById<View>(R.id.mp_id) as TextView
-
 
             if (nm_unit.text.isEmpty()) {
                 nm_unit.setText("0")
@@ -53,17 +50,11 @@ class MaterialPlanned : AppCompatActivity() {
                 nm_unit.setText("0")
             }
 
-
             val db: AppDatabase = AppDatabase.getInstance(context)
             val MaterialsPlannedDao = db.MaterialsPlannedDao()
 
-
-
-
             if (mp_id.text.toString().toInt()==-1)
             {
-
-
 
             GlobalScope.launch {
 
@@ -74,11 +65,6 @@ class MaterialPlanned : AppCompatActivity() {
 
 
                     val q = checkedMaterial[0].quantity?.plus((nm_unit.text.toString().toInt()))
-                    Log.d("MyLog", "checkedMaterial " + checkedMaterial[0] )
-                    Log.d("MyLog", "q " + q )
-                    Log.d("MyLog", "checkedMaterial[0].quantity " + checkedMaterial[0].quantity )
-                    Log.d("MyLog", "nm_unit.text.toString().toInt() " + nm_unit.text.toString().toInt() )
-
                     val materialPtoadd = MaterialsPlanned(
                         materialPlannedID = checkedMaterial[0].materialPlannedID,
                         materialID = c_id.text.toString().toInt(),
@@ -100,19 +86,14 @@ class MaterialPlanned : AppCompatActivity() {
 
                 }
 
-                Log.d("MyLog","Q " + nm_unit.text.toString())
-
                 val detailDao = db.DetailDao()
                 val detail = detailDao.getByID(d_id.text.toString().toInt())
-
-
 
                 val intent = Intent(context, DetailEditNew::class.java)
                 intent.putExtra("costume_id", detail[0].costumeID)
                 intent.putExtra("detail", detail[0])
                 intent.putExtra("edit_flag", 1)
                 context.startActivity(intent)
-
 
 
             }}
@@ -126,13 +107,8 @@ class MaterialPlanned : AppCompatActivity() {
                         detailID = d_id.text.toString().toInt()
                     )
                     MaterialsPlannedDao.update(materialPtoadd)
-
-                    Log.d("MyLog","Q " + nm_unit.text.toString())
-
-
                     val DetailDao = db.DetailDao()
                     val detail = DetailDao.getByID(d_id.text.toString().toInt())
-
                     val intent = Intent(context, DetailEditNew::class.java)
                     intent.putExtra("costume_id", detail[0].costumeID)
                     intent.putExtra("detail", detail[0])
@@ -158,14 +134,7 @@ class MaterialPlanned : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("CutPasteId")
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (loadTheme(this)=="blue")
-        {
-            setTheme(R.style.Theme_CosplayPlannerBlue)
-        }
-        else {
-            setTheme(R.style.Theme_CosplayPlannerPink)
-        }
-
+        checkTheme(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.material_edit_new)
         val detailID = intent.extras?.get("detail_id") as Int
@@ -189,8 +158,6 @@ class MaterialPlanned : AppCompatActivity() {
         val c_id: TextView = findViewById(R.id.c_id)
         val text_unit_number: TextView = findViewById(R.id.nm_unit)
 
-
-
         for (material in repos.allMaterial) {
             material.material?.let { materials_names.add(it) }
             material.unit?.let { material_unit.add(it) }
@@ -205,13 +172,11 @@ class MaterialPlanned : AppCompatActivity() {
             spinner_name.isEnabled = false
 
 
-
             if (current_material.materialID!=null)
             {
                 text_unit.text = materialDao.getUnitByID(current_material.materialID)[0]
                 material_name = materialDao.getNameByID(current_material.materialID)
             }
-
 
             c_id.text = current_material.materialID.toString()
             d_id.text = current_material.detailID.toString()
@@ -229,7 +194,6 @@ class MaterialPlanned : AppCompatActivity() {
                 {
                     adapter_name = ArrayAdapter(this, android.R.layout.simple_spinner_item, material_name )
                 }
-
 
 
             adapter_name.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -253,14 +217,6 @@ class MaterialPlanned : AppCompatActivity() {
 
             }
         }
-
-
-
-
-
-
-
-
 
 
     }

@@ -18,6 +18,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import com.archi.cosplay_planner.databinding.EventEditBinding
+import com.archi.cosplay_planner.infra.checkTheme
 import com.archi.cosplay_planner.infra.inputCheckerText
 import com.archi.cosplay_planner.infra.sortValueFromDate
 import com.archi.cosplay_planner.infra.stringToData
@@ -40,7 +41,6 @@ class EditEventActivity : AppCompatActivity() {
     private val handlers = Handlers(this)
     class Handlers  (private val context: Context) {
         fun onClickAdd(view: View) {
-
             val e_n = (view.rootView as View).findViewById<View>(R.id.e_n) as EditText
             val e_p = (view.rootView as View).findViewById<View>(R.id.e_p) as EditText
             val e_t = (view.rootView as View).findViewById<View>(R.id.e_t) as Spinner
@@ -55,8 +55,6 @@ class EditEventActivity : AppCompatActivity() {
                 types[1] ->  type = 1
                 types[2] ->  type = 2
             }
-
-
 
             if (e_n.text.isEmpty()) {
                 e_n.setText(R.string.str_Event_name)
@@ -88,7 +86,6 @@ class EditEventActivity : AppCompatActivity() {
                 val event_id = e_id.text.toString()
 
 
-
                 GlobalScope.launch {
 
                     db = AppDatabase.getInstance(context)
@@ -97,10 +94,6 @@ class EditEventActivity : AppCompatActivity() {
                     var names = repos.allCosplay.map { it.character to it.costumeID}.toMap()
                     names = names + Pair(context.getString(R.string.str_no), -1)
                     cosplay_id = names.getValue(cosplay_id).toString()
-
-
-
-                    Log.v("MYDEBUG", "In corut")
 
                     val EventToUpdate = Events(
                         eventID = event_id.toInt(),
@@ -118,47 +111,33 @@ class EditEventActivity : AppCompatActivity() {
 
 
                 }}
-
-
-
-
-
-
-                }
+}
 
         @SuppressLint("SimpleDateFormat")
         @RequiresApi(Build.VERSION_CODES.O)
         fun onClickCalendar(view: View) {
 
-
             val e_d = (view.rootView as View).findViewById<View>(R.id.datePicker1) as DatePicker
             val date = e_d.dayOfMonth.toString()+"."+(e_d.month +1).toString()+"."+e_d.year.toString()
             val e_n = (view.rootView as View).findViewById<View>(R.id.e_n) as EditText
             val e_p = (view.rootView as View).findViewById<View>(R.id.e_p) as EditText
-
             val sdf = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
             val parsedDate = sdf.parse(date)
             val calendar = Calendar.getInstance()
             calendar.time = parsedDate ?: Date()
             val fullEvent = e_n.text.toString() + " [" + e_p.text.toString() + "]"
-
-
             val intent = Intent(Intent.ACTION_EDIT)
             intent.type = "vnd.android.cursor.item/event"
             intent.putExtra("beginTime", calendar.timeInMillis)
             intent.putExtra("allDay", true)
-            //intent.putExtra("rule", "FREQ=YEARLY")
             intent.putExtra("endTime", calendar.timeInMillis + 60 * 60 * 1000)
             intent.putExtra("title", fullEvent)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
             context.startActivity(intent)
 
-
-
         }
 
         fun onClickMap(view: View) {
-
 
             val e_p = (view.rootView as View).findViewById<View>(R.id.e_p) as EditText
             val uriString = "geo:0,0?q="+e_p.text.toString()
@@ -167,9 +146,6 @@ class EditEventActivity : AppCompatActivity() {
             intent.setPackage("com.google.android.apps.maps")
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
             context.startActivity(intent)
-
-
-
         }
 
 
@@ -183,13 +159,7 @@ class EditEventActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        if (loadTheme(this)=="blue")
-        {
-            setTheme(R.style.Theme_CosplayPlannerBlue)
-        }
-        else {
-            setTheme(R.style.Theme_CosplayPlannerPink)
-        }
+        checkTheme(this)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.event_edit)
@@ -203,8 +173,6 @@ class EditEventActivity : AppCompatActivity() {
         val event_place = event.place!!
         val event_costume = event.costumeID!!
 
-        Log.v("MyLogSpinner", "string event_costume" + event_costume)
-
         val binding = EventEditBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -212,9 +180,6 @@ class EditEventActivity : AppCompatActivity() {
 
         binding.viewModel = current_vm
         binding.eeHandlers = handlers
-
-
-
 
         val spinner: Spinner = findViewById(R.id.e_t)
         val spinner_costume: Spinner = findViewById(R.id.e_c)
@@ -237,7 +202,6 @@ class EditEventActivity : AppCompatActivity() {
             names = names + Pair(getString(R.string.str_no), -1)
             val names_list = names.keys.toList()
 
-
             val adapter_sp = ArrayAdapter(
                 this@EditEventActivity,
                 android.R.layout.simple_spinner_item,
@@ -247,43 +211,23 @@ class EditEventActivity : AppCompatActivity() {
             adapter_sp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner_costume.adapter = adapter_sp
 
-
             if (event_costume==-1)
             {
                 spinner_costume.setSelection(names_list.size-1)
             }
             else {
-                val founded_key = names.filterValues { it == event_costume }.keys
-                val founded_key_arr = founded_key.toTypedArray()
+               val founded_key = names.filterValues { it == event_costume }.keys
+               val founded_key_arr = founded_key.toTypedArray()
                val founded_name = names_list.indexOf(founded_key_arr[0])
                 spinner_costume.setSelection(founded_name)
             }
 
-
-
-
-
-
-
-        }
-
-
-
-
-
+ }
 
 
         val datePicker: DatePicker = findViewById(R.id.datePicker1)
         val event_date_obj = stringToData(event_date)
         datePicker.updateDate(event_date_obj.year, event_date_obj.month, event_date_obj.day)
-
-
-
-
-
-
-
-
 
     }
 
@@ -291,13 +235,6 @@ class EditEventActivity : AppCompatActivity() {
 
 
 }
-
-
-
-
-
-
-
 
 
 

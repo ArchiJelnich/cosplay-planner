@@ -20,8 +20,6 @@ class MaterialBaseRV(private val materials: List<Materials>): RecyclerView.Adapt
 
     }
 
-
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BMaterialViewHolder {
 
         val itemView =

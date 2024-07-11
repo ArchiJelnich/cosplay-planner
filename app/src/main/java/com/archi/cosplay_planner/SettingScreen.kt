@@ -14,8 +14,13 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import com.archi.cosplay_planner.databinding.SettingScreenBinding
+import com.archi.cosplay_planner.infra.checkTheme
+import com.archi.cosplay_planner.infra.loadLanguage
 import java.util.Locale
 import com.archi.cosplay_planner.infra.loadTheme
+import com.archi.cosplay_planner.infra.saveLanguage
+import com.archi.cosplay_planner.infra.saveTheme
+import com.archi.cosplay_planner.infra.setAppLocale
 
 class SettingScreen : AppCompatActivity() {
 
@@ -42,13 +47,7 @@ class SettingScreen : AppCompatActivity() {
     @SuppressLint("CommitPrefEdits")
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        if (loadTheme(this)=="blue")
-        {
-            setTheme(R.style.Theme_CosplayPlannerBlue)
-        }
-        else {
-            setTheme(R.style.Theme_CosplayPlannerPink)
-        }
+        checkTheme(this)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.setting_screen)
@@ -103,7 +102,7 @@ class SettingScreen : AppCompatActivity() {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("Not yet implemented")
+
             }
         }
 
@@ -151,12 +150,9 @@ class SettingScreen : AppCompatActivity() {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("Not yet implemented")
+                //
             }
         }
-
-
-
 
 
 
@@ -169,32 +165,3 @@ class SettingScreen : AppCompatActivity() {
 
 class SettingsViewModel() : ViewModel() {
 }
-
-
-fun saveLanguage(context: Context, languageCode: String) {
-    val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-    preferences.edit().putString("language", languageCode).apply()
-}
-
-fun loadLanguage(context: Context): String? {
-    val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-    return preferences.getString("language", "eng")
-}
-
-fun setAppLocale(context: Context, myLocate: String) {
-    val locale = Locale(myLocate)
-    Locale.setDefault(locale)
-    val resources = context.resources
-    val configuration = resources.configuration
-    configuration.locale = locale
-    configuration.setLayoutDirection(locale)
-    resources.updateConfiguration(configuration, resources.displayMetrics)
-
-}
-
-
-fun saveTheme(context: Context, themecode: String) {
-    val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-    preferences.edit().putString("themecode", themecode).apply()
-}
-

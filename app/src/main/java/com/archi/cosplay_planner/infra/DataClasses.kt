@@ -25,13 +25,13 @@ fun fullDateToString(date: DateClass.FullDate): String {
     var monthResult = month.toString()
 
     if (monthResult.length == 1) {
-        monthResult = "0" + monthResult
+        monthResult = "0$monthResult"
     }
 
     var dayResult = date.day.toString()
 
     if (dayResult.length == 1) {
-        dayResult = "0" + dayResult
+        dayResult = "0$dayResult"
     }
 
     return dayResult + "." + monthResult + "." + date.year.toString()

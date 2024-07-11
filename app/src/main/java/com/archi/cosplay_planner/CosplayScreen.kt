@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.archi.cosplay_planner.databinding.CosplayScreenBinding
+import com.archi.cosplay_planner.infra.checkTheme
 import com.archi.cosplay_planner.roomDatabase.AppDatabase
 import com.archi.cosplay_planner.roomDatabase.Costume
 import com.archi.cosplay_planner.roomDatabase.CostumeDao
@@ -26,7 +27,7 @@ import com.archi.cosplay_planner.roomDatabase.PhotoDAO
 import com.archi.cosplay_planner.roomDatabase.Repos
 import com.archi.cosplay_planner.roomDatabase.ReposEvent
 import kotlinx.coroutines.launch
-import com.archi.cosplay_planner.infra.loadTheme
+import com.archi.cosplay_planner.infra.localeChecker
 
 
 class CosplayScreen : AppCompatActivity()  {
@@ -35,27 +36,9 @@ class CosplayScreen : AppCompatActivity()  {
     private lateinit var db: AppDatabase
     private val handlers = CosplayScreen.Handler(this)
 
-
-
-
-
-    //val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-    //val navController = navHostFragment.navController
-
-    //val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-    //val navController = navHostFragment.navController
-    //val navInflater = navController.navInflater
-    //val navGraph = navInflater.inflate(R.navigation.nav_graf)
-    //navController.graph = navGraph
-
-
-
     class Handler (private val context: Context) {
 
-
-
         fun onClickFilterIcon(view: View) {
-            Log.v("MYDEBUG", "Clicked")
             val t_p = (view.rootView as View).findViewById<View>(R.id.text_p)
             val t_h = (view.rootView as View).findViewById<View>(R.id.text_h)
             val t_f = (view.rootView as View).findViewById<View>(R.id.text_f)
@@ -65,14 +48,8 @@ class CosplayScreen : AppCompatActivity()  {
         }
 
         fun onClickNewCosplay(view: View) {
-
-
-
-            // val navController = findNavController(Activity(), R.id.nav_graf)
-           // navController.navigate(
             val intent = Intent(context, CosplayNewActivity::class.java)
             context.startActivity(intent)
-
         }
 
         fun onClickToEvents(view: View) {
@@ -97,17 +74,10 @@ class CosplayScreen : AppCompatActivity()  {
                 PreferenceManager.getDefaultSharedPreferences(context)
             val editor = sharedPreferences.edit()
 
-
-
-
-           // var sharedPref = getPreferences(Context.MODE_PRIVATE)
-           // var editor = sharedPref.edit()
             var filter = sharedPreferences.getInt("filter", -1)
             val t_p = (view.rootView as View).findViewById<View>(R.id.text_p)
             val t_f = (view.rootView as View).findViewById<View>(R.id.text_f)
             val t_h = (view.rootView as View).findViewById<View>(R.id.text_h)
-
-
 
             when (view.id) {
 
@@ -142,15 +112,8 @@ class CosplayScreen : AppCompatActivity()  {
                     t_f.setBackgroundResource(0)
                 }
 
-                else -> { // Note the block
-                    Log.v("MyDebug", "Hm")
-                }
-
-
             }
             editor.apply()
-          //  Log.v("MyDebug", "Hm " + sharedPreferences.getInt("filter", -1))
-           // com.archi.cosplay_planner.MainActivity.rv()
             filter = sharedPreferences.getInt("filter", -1)
             val db = AppDatabase.getInstance(context)
             val CostumeDao = db.CostumeDao()
@@ -162,8 +125,6 @@ class CosplayScreen : AppCompatActivity()  {
             val repos = Repos(CostumeDao)
             val recycler_view_late = (view.rootView as View).findViewById<RecyclerView>(R.id.recyclerView)
             val adapter = CosplayRV(repos.allCosplay, repos.filteredCosplayFinished, repos.filteredCosplayProgress, repos.filteredCosplayOnHold, filter)
-
-
             recycler_view_late.adapter = adapter
 
             adapter.onEventClickListener = { position, costume ->
@@ -176,152 +137,25 @@ class CosplayScreen : AppCompatActivity()  {
             }
 
 
-
-
-
         }
 
     }
 
     @SuppressLint("CommitPrefEdits")
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (loadTheme(this)=="blue")
-        {
-            setTheme(R.style.Theme_CosplayPlannerBlue)
-        }
-        else {
-            setTheme(R.style.Theme_CosplayPlannerPink)
-        }
-
-
-        val language = loadLanguage(this)
-        if (language!=null)
-        {
-            setAppLocale(this, language)
-        }
-
-
-
+        checkTheme(this)
+        localeChecker(this)
         super.onCreate(savedInstanceState)
         db = AppDatabase.getInstance(applicationContext)
-
-
-
-        //setContentView(R.layout.l_main_screen)
-
-
-       //val binding: LMainScreenBinding = DataBindingUtil.setContentView(this, R.layout.l_main_screen)
-
-        //val binding: LMainScreenBinding = LMainScreenBinding.bind(R.layout.l_main_screen)
-
-
         val binding = CosplayScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-
         val currentVm = MyViewModel(getString(R.string.str_My_Cosplays), getString(R.string.str_text_p), getString(R.string.str_text_f), getString(R.string.str_text_h))
-
-
-
-
-
         binding.viewModel = currentVm
         binding.handlers = handlers
-
-
-
-
-       // val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-       // val navController = navHostFragment.navController
-
-
-
-        rv()
-
-
-           // val binding: MyViewModel = MyViewModel.bind(R.layout.l_main_screen)
-       //
-
-       //
-
-      // val binding: MyLayoutBinding = MyLayoutBinding.inflate(layoutInflater)
-    //val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.l_main_screen)
-
-      // val binding: LMainScreenBinding = LMainScreenBinding.inflate(getLayoutInflater())
-
-
-       // binding.ViewModel = MyViewModel("Hi!")
-        //
-        //
-        /* val EventDao = db.EventsDao()
-        val eventToAdd = Events(
-            eventID = 0,
-            event = "Название мероприятия",
-            type = 0,
-            place = "Место проведения",
-            date = "Дата",
-            costumeID = 123,
-            steps = "Шаг 1"
-        )
-
-
-        lifecycleScope.launch {
-            val events = withContext(Dispatchers.IO) {
-                EventDao.insertAll(eventToAdd)
-                Log.v("MYDEBUG", "DB:" + EventDao.getAll());
-            }
-
-        }
-
-
-
-
-
-
-
-*/
-/*
-    val CostumeDao = db.CostumeDao()
-    val costumeToAdd = Costume(
-        costumeID = 0,
-        fandom = "HH",
-        character = "AngelDust",
-        status = 1,
-        progress = 75
-)
-
-
-lifecycleScope.launch {
-    val costumes = withContext(Dispatchers.IO) {
-        CostumeDao.insertAll(costumeToAdd)
-        Log.v("MYDEBUG", "DB:" + CostumeDao.getAll());
-    }
-
-}*/
-
-
-
-
-
-
-
-
-}
-
-   // override fun onSupportNavigateUp(): Boolean {
-   //     return navController.navigateUp() || super.onSupportNavigateUp()
-  //  }
-
-
-
-
-    fun rv () {
-
         val CostumeDao = db.CostumeDao()
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
         val sharedPref = getPreferences(Context.MODE_PRIVATE)
-       // var editor = sharedPref.edit()
         val filter = sharedPref.getInt("filter", -1)
         Log.v("MYDEBUG", "Filter in main" + filter)
         val db = AppDatabase.getInstance(applicationContext)
@@ -342,7 +176,7 @@ lifecycleScope.launch {
 
             recyclerView.adapter = adapter
 
-           adapter.onEventClickListener = { position, costume ->
+            adapter.onEventClickListener = { position, costume ->
                 onCostume(this@CosplayScreen, costume)
             }
 
@@ -351,36 +185,9 @@ lifecycleScope.launch {
                 true
             }
 
-            }
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-//val users: List<Events> = userDao.getAll()
-
-
-//val users: List<User> = userDao.getAll()
-
-
-// val userDao = getDatabase.userDao()
-// val users: List<User> = userDao.getAll()
-
-
-
-
-
-
+}
 
 
 class MyViewModel(var header: String, var progress: String, var finished: String, var hold: String) : ViewModel() {
@@ -398,7 +205,6 @@ fun onCostumeLong(context: Context, eventDao : EventsDao, costume: Costume, cost
     builder.setTitle(R.string.str_delete_event)
     val message = context.getString(R.string.str_delete_costume_message)
     val repos_e = ReposEvent(eventDao, costume.costumeID)
-
 
     if (repos_e.filteredEvents.size == 0)
     {
@@ -511,7 +317,6 @@ fun onCostumeLong(context: Context, eventDao : EventsDao, costume: Costume, cost
     }
 
     builder.setNegativeButton(R.string.str_no) { dialog, which ->
-        Log.v("MyLog", "No")
     }
 
     builder.show()

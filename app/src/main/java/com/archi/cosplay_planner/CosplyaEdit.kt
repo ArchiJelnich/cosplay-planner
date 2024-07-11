@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.archi.cosplay_planner.databinding.CosplayEditBinding
+import com.archi.cosplay_planner.infra.checkTheme
 import com.archi.cosplay_planner.infra.inputCheckerText
 import com.archi.cosplay_planner.roomDatabase.AppDatabase
 import com.archi.cosplay_planner.roomDatabase.CosplayPhoto
@@ -45,8 +46,6 @@ import kotlinx.coroutines.withContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 import com.archi.cosplay_planner.infra.loadTheme
-
-
 
 class CosplayEditActivity : AppCompatActivity() {
 companion object{
@@ -109,18 +108,6 @@ companion object{
 
                 withContext(Dispatchers.Main){
                 if (repos.costumeProgress == 100 && status == 0) {
-                    //val builder = AlertDialog.Builder(context)
-                    //builder.setTitle(R.string.str_change_status)
-                    //builder.setCancelable(false)
-                    //builder.setMessage(R.string.str_change_all_finished)
-                    //builder.setPositiveButton(R.string.str_yes) { dialog, which ->
-                    //        status = 1
-
-                    //}
-                    //builder.setNegativeButton(R.string.str_no) { dialog, which ->
-                        //Log.v("MyLog", "No")
-                    //}
-                    //builder.show()
                     val d_result = showAlertDialog(context, context.getString(R.string.str_change_status), context.getString(R.string.str_change_all_finished))
                     if (d_result)
                     {
@@ -139,18 +126,15 @@ companion object{
 
 
 
-
                     if (costumeDao.getCostumeIDByCharacter(character).size!=0 && !costumeDao.getCostumeIDByCharacter(character).contains(c_id.text.toString().toInt()))
                     {
                         withContext(Dispatchers.Main) {
                             Toast.makeText(context, "Character name is not unique", Toast.LENGTH_SHORT).show()
                         }
-                       // Toast.makeText(context, "Character name is not unique", Toast.LENGTH_SHORT).show()
                         return@launch
                     }
 
                     Log.v("MYDEBUG", "In corut")
-
 
 
                     val CostumeToUpdate = Costume(
@@ -245,7 +229,6 @@ companion object{
                         withContext(Dispatchers.Main) {
                             Toast.makeText(context, "Character name is not unique", Toast.LENGTH_SHORT).show()
                         }
-                        // Toast.makeText(context, "Character name is not unique", Toast.LENGTH_SHORT).show()
                         return@launch
                     }
 
@@ -278,13 +261,7 @@ companion object{
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        if (loadTheme(this)=="blue")
-        {
-            setTheme(R.style.Theme_CosplayPlannerBlue)
-        }
-        else {
-            setTheme(R.style.Theme_CosplayPlannerPink)
-        }
+        checkTheme(this)
 
         selectImageLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
@@ -327,13 +304,6 @@ companion object{
         val costume_status = costume.status!!
         val costume_progress = costume.progress!!
 
-
-
-
-
-
-
-
         val binding = CosplayEditBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -350,9 +320,7 @@ companion object{
             R.array.C_status,
             android.R.layout.simple_spinner_item
         ).also { adapter ->
-            // Specify the layout to use when the list of choices appears.
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner.
             spinner.adapter = adapter
         }
         spinner.setSelection(costume_status)
@@ -365,43 +333,28 @@ companion object{
 
 
         lifecycleScope.launch {
-            //Log.v("MYDEBUG", "Corrrr")
 
             val repos = ReposEvent(eventDao, costume_id)
-            //recyclerView.adapter = EventRV(repos.allEvents, 0)
             val adapter = EventRV(repos.filteredEvents, costume_id)
             val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
             recyclerView.layoutManager = LinearLayoutManager(this@CosplayEditActivity)
             val divider = DividerItemDecoration(this@CosplayEditActivity,DividerItemDecoration.VERTICAL)
             divider.setDrawable(ContextCompat.getDrawable(this@CosplayEditActivity,R.drawable.divider)!!)
             recyclerView.addItemDecoration(divider)
-
             recyclerView.adapter = adapter
-
-            //adapter.onEventClickListener = { position, event ->
-            //    EventsonEventClickListener( event, this@EditMainActivity)
-            //}
-
 
         }
 
         lifecycleScope.launch {
-            //Log.v("MYDEBUG", "Corrrr")
 
             val repos = ReposDetail(detailDao, costume_id)
-            //recyclerView.adapter = EventRV(repos.allEvents, 0)
             val adapter = DetailRV(repos.filteredDetails)
             val recyclerView: RecyclerView = findViewById(R.id.recyclerViewD)
             recyclerView.layoutManager = LinearLayoutManager(this@CosplayEditActivity)
-            //recyclerView.addItemDecoration(DividerItemDecoration(this@EditMainActivity, LinearLayoutManager.VERTICAL))
-
             val divider = DividerItemDecoration(this@CosplayEditActivity,DividerItemDecoration.VERTICAL)
             divider.setDrawable(ContextCompat.getDrawable(this@CosplayEditActivity,R.drawable.divider)!!)
             recyclerView.addItemDecoration(divider)
-
             recyclerView.adapter = adapter
-
-
 
             adapter.onDetailClickListener = { position, detail ->
                 omnCostume(this@CosplayEditActivity, detail, costume_id)
@@ -412,39 +365,20 @@ companion object{
                 true
             }
 
-
         }
-
-
 
         val PhotoDAO = db.PhotoDAO()
 
-
-      if (PhotoDAO.getByID(costume_id).size!=0 && hasStoragePermission(this))
+      if (PhotoDAO.getByID(costume_id).isNotEmpty() && hasStoragePermission(this))
         {
             val avatar = findViewById<ImageView>(R.id.image_avatar)
             val uri = PhotoDAO.getByID(costume_id)[0].photo?.toUri()
             avatar.setImageURI(uri)
-            //Log.d("MyLogs", "There are saved photo..." + PhotoDAO.getByID(costume_id)[0].photo)
-            //Log.d("MyLogs", "There are saved photo..." + uri)
-
         }
-
-
-
-
-
 
     }
 
-
-
-
 }
-
-
-
-
 
 
 
@@ -466,7 +400,6 @@ suspend fun showAlertDialog(context: Context, mess : String, title : String): Bo
             continuation.resume(false)
         }
         builder.show()
-        Log.v("MYDEBUG", "Corrrr")
     }
 }
 

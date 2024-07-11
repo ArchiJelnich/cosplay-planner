@@ -36,9 +36,6 @@ class MaterialPlannedRV(private val materials: List<MaterialsPlanned>, var mater
 
     override fun onBindViewHolder(holder: BMaterialPlannedViewHolder, position: Int) {
 
-        Log.d("MyLog", "materials[position] " + materials[position])
-        Log.d("MyLog", "materialsDao " + materialDao.getAll())
-
         holder.material_unit.text = materials[position].quantity.toString()
         holder.material_name.text =
                 materials[position].materialID?.let { materialDao.getNameByID(it)[0].toString() }

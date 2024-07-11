@@ -1,6 +1,5 @@
 package com.archi.cosplay_planner
 
-
 import android.annotation.SuppressLint
 import android.os.Build
 import android.view.LayoutInflater
@@ -15,7 +14,6 @@ import com.archi.cosplay_planner.roomDatabase.Events
 import com.archi.cosplay_planner.infra.fullDateToString
 import com.archi.cosplay_planner.infra.stringToData
 
-
 class EventRV(private val events: List<Events>, val filter: Int): RecyclerView.Adapter<EventRV.EventViewHolder>() {
 
     var onEventClickListener: ((position: Int, event : Events) -> Unit)? = null
@@ -27,8 +25,6 @@ class EventRV(private val events: List<Events>, val filter: Int): RecyclerView.A
         val date: TextView = itemView.findViewById(R.id.event_date)
 
     }
-
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
 
@@ -61,8 +57,6 @@ class EventRV(private val events: List<Events>, val filter: Int): RecyclerView.A
             1 -> holder.name.setBackgroundResource(R.drawable.rounded_red)
 
         }
-
-
 
         holder.itemView.setOnClickListener {
                 onEventClickListener?.invoke(holder.adapterPosition, events[position])

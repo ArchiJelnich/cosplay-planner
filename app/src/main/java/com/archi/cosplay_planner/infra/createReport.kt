@@ -2,7 +2,7 @@ package com.archi.cosplay_planner.infra
 
 import com.archi.cosplay_planner.roomDatabase.AppDatabase
 
-fun CreateReport(db : AppDatabase): String {
+fun createReport(db : AppDatabase): String {
 
         val materialsPlannedDao = db.MaterialsPlannedDao()
         val costumeDao = db.CostumeDao()
@@ -12,8 +12,8 @@ fun CreateReport(db : AppDatabase): String {
         val costumesInProgress = costumeDao.getCostumeIDByInProgress()
         val detailOfProgress = ArrayList<Int>()
 
-        for (ID in costumesInProgress) {
-            detailOfProgress.addAll(detailDao.getIDByCostume(ID))
+        for (CreateReport in costumesInProgress) {
+            detailOfProgress.addAll(detailDao.getIDByCostume(CreateReport))
         }
 
         val resourcesForReport = materialsPlannedDao.getAllForReport(detailOfProgress)

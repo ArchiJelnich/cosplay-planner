@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.archi.cosplay_planner.databinding.MaterialBaseScreenBinding
-import com.archi.cosplay_planner.infra.CreateReport
+import com.archi.cosplay_planner.infra.createReport
 import com.archi.cosplay_planner.infra.inputCheckerText
 import com.archi.cosplay_planner.roomDatabase.AppDatabase
 import com.archi.cosplay_planner.roomDatabase.Materials
@@ -66,7 +66,7 @@ class MaterialBase : AppCompatActivity() {
             val builder = AlertDialog.Builder(context)
             builder.setTitle(R.string.str_material_planned)
             val db = AppDatabase.getInstance(context)
-            val message = CreateReport(db)
+            val message = createReport(db)
 
 
 

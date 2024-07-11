@@ -8,12 +8,12 @@ package com.archi.cosplay_planner.infra
         newString = newString.replace("*", "")
 
 
-        if (newString.length>20) {
+        if (newString.length>25) {
             status = 1
             newString = "Too long name!"
         }
 
-        if (newString.length==0) {
+        if (newString.isEmpty()) {
             status = 1
             newString = "Wrong string!"
         }

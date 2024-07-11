@@ -18,3 +18,8 @@ fun checkTheme(context: Context){
         context.setTheme(R.style.Theme_CosplayPlannerPink)
     }
 }
+
+fun saveTheme(context: Context, themecode: String) {
+    val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+    preferences.edit().putString("themecode", themecode).apply()
+}
