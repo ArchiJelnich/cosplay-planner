@@ -18,6 +18,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import com.archi.cosplay_planner.databinding.MaterialEditNewBinding
+import com.archi.cosplay_planner.infra.DecimalDigitsInputFilter
 import com.archi.cosplay_planner.infra.checkTheme
 import com.archi.cosplay_planner.infra.intCheckerNum
 import com.archi.cosplay_planner.roomDatabase.AppDatabase
@@ -26,7 +27,7 @@ import com.archi.cosplay_planner.roomDatabase.ReposBMaterial
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import com.archi.cosplay_planner.infra.loadTheme
-
+import java.math.RoundingMode
 
 
 class MaterialPlanned : AppCompatActivity() {
@@ -64,7 +65,12 @@ class MaterialPlanned : AppCompatActivity() {
                 {
 
 
-                    val q = checkedMaterial[0].quantity?.plus((nm_unit.text.toString().toInt()))
+                    val q = checkedMaterial[0].quantity?.plus((nm_unit.text.toString().toBigDecimal()))
+
+                    if (q != null) {
+                        q.setScale(2, RoundingMode.HALF_UP)
+                    }
+
                     val materialPtoadd = MaterialsPlanned(
                         materialPlannedID = checkedMaterial[0].materialPlannedID,
                         materialID = c_id.text.toString().toInt(),
@@ -79,7 +85,7 @@ class MaterialPlanned : AppCompatActivity() {
                     val materialPtoadd = MaterialsPlanned(
                         materialPlannedID = 0,
                         materialID = c_id.text.toString().toInt(),
-                        quantity = nm_unit.text.toString().toInt(),
+                        quantity = nm_unit.text.toString().toBigDecimal(),
                         detailID = d_id.text.toString().toInt()
                     )
                     MaterialsPlannedDao.insertAll(materialPtoadd)
@@ -103,7 +109,7 @@ class MaterialPlanned : AppCompatActivity() {
                     val materialPtoadd = MaterialsPlanned(
                         materialPlannedID = mp_id.text.toString().toInt(),
                         materialID = c_id.text.toString().toInt(),
-                        quantity = nm_unit.text.toString().toInt(),
+                        quantity = nm_unit.text.toString().toBigDecimal(),
                         detailID = d_id.text.toString().toInt()
                     )
                     MaterialsPlannedDao.update(materialPtoadd)
@@ -154,6 +160,8 @@ class MaterialPlanned : AppCompatActivity() {
         val text_unit: TextView = findViewById(R.id.nm_unit_t)
         val c_id: TextView = findViewById(R.id.c_id)
         val text_unit_number: TextView = findViewById(R.id.nm_unit)
+        val nm_unit:EditText = findViewById(R.id.nm_unit)
+        nm_unit.filters = arrayOf(DecimalDigitsInputFilter(2))
 
         for (material in repos.allMaterial) {
             material.material?.let { materials_names.add(it) }
@@ -229,6 +237,8 @@ class MaterialPlanned : AppCompatActivity() {
 
             }
         }
+
+
 
 
     }

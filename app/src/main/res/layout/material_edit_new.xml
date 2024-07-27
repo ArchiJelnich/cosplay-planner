@@ -65,7 +65,7 @@
             <EditText
                 android:id="@+id/nm_unit"
                 android:background="@color/tran"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:paddingLeft="10sp"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"

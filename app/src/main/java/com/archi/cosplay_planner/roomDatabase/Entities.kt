@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
+import java.math.BigDecimal
 
 
 @Entity
@@ -59,13 +60,13 @@ data class Materials(
 data class MaterialsPlanned(
     @PrimaryKey(autoGenerate = true) val materialPlannedID: Int,
     @ColumnInfo(name = "materialID", defaultValue = "0") val materialID: Int?,
-    @ColumnInfo(name = "quantity", defaultValue = "0") val quantity: Int?,
+    @ColumnInfo(name = "quantity", defaultValue = "0") val quantity: BigDecimal?,
     @ColumnInfo(name = "detailID", defaultValue = "0") val detailID: Int?,
 ) : Serializable
 
 data class MaterialQuanPair (
     val M: Int,
-    val Q : Int
+    val Q : BigDecimal
 )
 
 @Entity

@@ -3,6 +3,7 @@ package com.archi.cosplay_planner.infra
 import android.util.Log
 import com.archi.cosplay_planner.roomDatabase.AppDatabase
 import com.archi.cosplay_planner.roomDatabase.MaterialQuanPair
+import java.math.BigDecimal
 
 fun createReport(db : AppDatabase): String {
 
@@ -14,7 +15,7 @@ fun createReport(db : AppDatabase): String {
         val costumesInProgress = costumeDao.getCostumeIDByInProgress()
         val detailOfProgress = ArrayList<Int>()
         var resourcesForReport = ArrayList<List<MaterialQuanPair>>()
-        var materialsPrepared:MutableMap<String, Int> = mutableMapOf()
+        var materialsPrepared:MutableMap<String, BigDecimal> = mutableMapOf()
         var pairArray = ArrayList<MaterialQuanPair>()
 
         for (CreateReport in costumesInProgress) {
@@ -40,7 +41,7 @@ fun createReport(db : AppDatabase): String {
 
                if (materialsPrepared.containsKey(material.M.toString()))
                {
-                   var new_value = 0
+                   var new_value: BigDecimal = BigDecimal("0.0")
                    new_value = new_value + materialsPrepared[material.M.toString()]!! + material.Q
                    materialsPrepared.replace(material.M.toString(), new_value)
                }
@@ -62,7 +63,7 @@ fun createReport(db : AppDatabase): String {
     for (material in pairArray)
     {
               resultString =
-                  resultString + materialsDao.getNameByID(material.M)[0] + " " + materialsDao.getUnitByID(
+                  resultString + materialsDao.getNameByID(material.M)[0] + "      " + materialsDao.getUnitByID(
                       material.M
                  )[0] + " " + material.Q + "\n"
     }
