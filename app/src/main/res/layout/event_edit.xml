@@ -162,8 +162,8 @@
                 android:text="@{String.valueOf(ViewModel.event_id)}"/>
 
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_gravity="end"
                 android:src="@drawable/plus"
                 android:onClick="@{ee_handlers::onClickAdd}"/>

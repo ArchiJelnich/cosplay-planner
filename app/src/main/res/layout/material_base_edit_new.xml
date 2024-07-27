@@ -27,13 +27,14 @@
             android:paddingLeft="50dp"
             android:background="@color/tran"
             android:paddingBottom="10dp"
-            android:gravity="center"
+            android:gravity="left"
             android:paddingRight="50dp"
-            android:orientation="vertical">
+            android:orientation="horizontal">
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:gravity="center"
+                android:paddingEnd="10sp"
                 android:background="@color/tran"
                 android:text="@string/str_material_name" />
             <EditText
@@ -54,14 +55,15 @@
             android:paddingLeft="50dp"
             android:background="@color/tran"
             android:paddingBottom="10dp"
-            android:gravity="center"
+            android:gravity="left"
             android:paddingRight="50dp"
-            android:orientation="vertical">
+            android:orientation="horizontal">
             <TextView
                 android:layout_height="wrap_content"
                 android:background="@color/tran"
                 android:layout_width="wrap_content"
                 android:gravity="center"
+                android:paddingEnd="10sp"
                 android:text="@string/str_material_unit" />
             <EditText
                 android:id="@+id/m_u"
@@ -99,12 +101,11 @@
                 android:text="@{String.valueOf(ViewModel.material_id)}"/>
 
             <ImageView
-                android:paddingTop="20sp"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_marginTop="20sp"
+                android:layout_width="30sp"
+                android:layout_height="30sp"
                 android:src="@drawable/plus"
                 android:background="@color/tran"
-                android:layout_weight="1"
                 android:onClick="@{nbm_handlers::onClickAdd}"/>
         </LinearLayout>
 

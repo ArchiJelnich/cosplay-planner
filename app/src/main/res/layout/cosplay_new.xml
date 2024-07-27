@@ -16,7 +16,6 @@
         android:orientation="vertical"
         android:id="@+id/l_main"
         android:background="@color/tran"
-        android:paddingTop="75sp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:onClick="@{nc_handlers::hideKeyboard}">
@@ -27,6 +26,7 @@
             android:background="@color/tran"
             android:paddingLeft="50dp"
             android:paddingBottom="10dp"
+            android:paddingTop="40sp"
             android:paddingRight="50dp"
             android:orientation="vertical">
                 <TextView
@@ -97,13 +97,14 @@
             android:orientation="horizontal"
             android:background="@color/tran"
             android:layout_weight="1"
+            android:paddingTop="20sp"
             android:layout_gravity="bottom"
             android:layout_height="0dp"
             android:gravity="center">
 
             <ImageView
-                android:layout_width="40sp"
-                android:layout_height="40sp"
+                android:layout_width="30sp"
+                android:layout_height="30sp"
                 android:layout_gravity="end"
                 android:background="@color/tran"
                 android:src="@drawable/plus"

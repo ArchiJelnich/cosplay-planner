@@ -14,6 +14,12 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:baselineAligned="false"
+        android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/tran"
         android:orientation="vertical">
@@ -92,10 +98,10 @@
 
 
             <ImageView
-                android:layout_width="20sp"
-                android:layout_height="20sp"
+                android:layout_width="30sp"
+                android:layout_height="30sp"
                 android:layout_gravity="end"
-                android:paddingTop="20dp"
+                android:layout_marginTop="20dp"
                 android:background="@color/tran"
                 android:layout_weight="1"
                 android:src="@drawable/plus"
@@ -104,17 +110,16 @@
 
             <ImageView
                 android:layout_gravity="center"
-                android:layout_width="50sp"
-                android:paddingBottom="10sp"
-                android:layout_height="50sp"
+                android:layout_width="40sp"
+                android:layout_height="40sp"
                 android:contentDescription="@string/app_name"
                 android:onClick="@{mb_handlers::onClickLoad}"
-                android:paddingEnd="10dp"
+                android:layout_marginBottom="20dp"
                 android:src="@drawable/report" />
 
 
         </LinearLayout>
-
+    </LinearLayout>
 
 
 
@@ -123,11 +128,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="horizontal"
-            android:layout_gravity="bottom"
-            android:layout_height="0dp"
+            android:gravity="bottom|center"
             android:layout_weight="1"
-            android:background="@color/tran"
-            android:gravity="center">
+            android:layout_marginBottom="30sp"
+            android:layout_height="0dp"
+            android:background="@color/tran">
 
             <ImageView
                 android:layout_width="50sp"

@@ -105,7 +105,7 @@
             android:paddingBottom="10dp"
             android:paddingRight="50dp"
             android:background="@color/tran"
-            android:orientation="horizontal">
+            android:orientation="vertical">
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
@@ -116,6 +116,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="10sp"
                 android:background="@color/tran"
                 android:orientation="vertical">
 
@@ -172,10 +173,10 @@
                 android:text="@string/str_m_one"/>
 
             <ImageView
-                android:paddingTop="20sp"
-                android:layout_width="40sp"
+                android:layout_marginTop="20sp"
+                android:layout_width="30sp"
                 android:background="@color/tran"
-                android:layout_height="40sp"
+                android:layout_height="30sp"
                 android:src="@drawable/plus"
                 android:onClick="@{d_handlers::onClickAdd}"/>
         </LinearLayout>

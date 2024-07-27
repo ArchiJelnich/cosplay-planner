@@ -27,7 +27,7 @@
             android:paddingLeft="50dp"
             android:background="@color/tran"
             android:paddingBottom="10dp"
-            android:gravity="center"
+            android:gravity="left"
             android:paddingRight="50dp"
             android:orientation="horizontal">
             <TextView
@@ -52,7 +52,7 @@
             android:background="@color/tran"
             android:paddingLeft="50dp"
             android:paddingTop="50dp"
-            android:gravity="center"
+            android:gravity="left"
             android:paddingBottom="10dp"
             android:paddingRight="50dp"
             android:orientation="horizontal">
@@ -113,15 +113,14 @@
                 android:text="@string/str_m_one"/>
 
             <ImageView
-                android:paddingTop="20sp"
-                android:layout_width="40dp"
+                android:layout_marginTop="20sp"
+                android:layout_width="30dp"
                 android:background="@color/tran"
-                android:layout_height="40dp"
+                android:layout_height="30dp"
                 android:src="@drawable/plus"
                 android:layout_gravity="end"
                 android:onClick="@{nm_handlers::onClickAdd}"/>
         </LinearLayout>
-
 
     </LinearLayout>
 
