@@ -107,8 +107,8 @@ interface MaterialsPlannedDao {
     fun deleteByMaterialPlannedID(materialPlannedID: Int)
     @Update
     fun update(materials: MaterialsPlanned)
-    @Query("SELECT materialID as M, quantity as Q FROM MaterialsPlanned WHERE detailID IN (:detailIDList) GROUP BY materialID")
-    fun getAllForReport(detailIDList: List<Int>): List<MaterialQuanPair>
+    @Query("SELECT materialID as M, quantity as Q FROM MaterialsPlanned WHERE detailID = :detailIDList GROUP BY materialID")
+    fun getAllForReport(detailIDList: Int): List<MaterialQuanPair>
 }
 
 @Dao

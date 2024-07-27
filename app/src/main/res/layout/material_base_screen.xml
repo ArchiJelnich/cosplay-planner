@@ -90,9 +90,9 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewEvent"
-                android:paddingTop="50dp"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="500sp"
+                android:paddingTop="20dp"
                 android:background="@drawable/rounded"
                 android:layout_weight="3"/>
 
@@ -110,8 +110,8 @@
 
             <ImageView
                 android:layout_gravity="center"
-                android:layout_width="40sp"
-                android:layout_height="40sp"
+                android:layout_width="30sp"
+                android:layout_height="30sp"
                 android:contentDescription="@string/app_name"
                 android:onClick="@{mb_handlers::onClickLoad}"
                 android:layout_marginBottom="20dp"

@@ -1,0 +1,98 @@
+#1
+Cosplay screen: Delete costume, not used in events
+
+#2
+Cosplay screen: Delete costume, used in events
+
+#3
+Cosplay screen: Delete costume, used in events and events
+
+#4
+Cosplay screen: Add new cosplay with uniq character
+
+#5
+Cosplay screen: Add new cosplay with non-uniq character
+
+#5
+Cosplay screen: Add new cosplay with character more than 20 symbols
+
+#6
+Cosplay screen: Add new cosplay with character with special character
+
+#7
+Cosplay screen: Change filter
+
+#8
+Cosplay edit screen: Set photo without permissions
+
+#9
+Cosplay edit screen: Set photo with permissions
+
+#10
+Cosplay edit screen: Change fandom
+
+#9
+Cosplay edit screen: Change character
+
+#9
+Cosplay edit screen: Set "in progress" for costume with all finished detail
+
+#10
+Cosplay edit screen: Set "finished" for costume with not all finished detail
+
+#11
+Setting screen: Change locale
+
+#12
+Setting screen: Change theme
+
+#13
+Event screen: Create event with today date
+
+#14
+Event screen: Create event with yesterday date
+
+#15
+Event screen: Create event with tomorrow date
+
+#16
+Event screen: Select costume for event
+
+#17
+Event screen: Open date in calendar
+
+#18
+Event screen: Open locale in maps
+
+#19
+Event screen: Delete event
+
+#20
+Material base screen: Create material with uniq name
+
+#21
+Material base screen: Create material with non-uniq name
+
+#22
+Material base screen: Material rename
+
+#23
+Costume screen: Add new detail
+
+#24
+Costume screen: Delete detail
+
+#25
+Costume screen: Edit detail
+
+#26
+Detail screen: Add new material
+
+#27
+Detail screen: Add the same material
+
+#28
+Detail screen: Delete material
+
+#29
+Material base screen: Create report

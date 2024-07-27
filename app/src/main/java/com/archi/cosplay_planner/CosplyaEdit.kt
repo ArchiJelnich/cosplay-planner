@@ -108,7 +108,7 @@ companion object{
 
                 withContext(Dispatchers.Main){
                 if (repos.costumeProgress == 100 && status == 0) {
-                    val d_result = showAlertDialog(context, context.getString(R.string.str_change_status), context.getString(R.string.str_change_all_finished))
+                    val d_result = showAlertDialog(context, context.getString(R.string.str_change_all_finished), context.getString(R.string.str_change_status) )
                     if (d_result)
                     {
                         status = 1
@@ -117,7 +117,7 @@ companion object{
                 }
 
                 if (repos.costumeProgress != 100 && status == 1) {
-                    val d_result = showAlertDialog(context, context.getString(R.string.str_change_status), context.getString(R.string.str_change_not_all_finished))
+                    val d_result = showAlertDialog(context,  context.getString(R.string.str_change_not_all_finished), context.getString(R.string.str_change_status), )
                     if (d_result)
                     {
                         status = 0

@@ -112,7 +112,7 @@
                 android:divider="@null"
                 android:paddingTop="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="250sp"
+                android:layout_height="500sp"
                 android:background="@drawable/rounded"
                 android:layout_weight="3"/>
 

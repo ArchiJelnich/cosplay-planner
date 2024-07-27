@@ -37,9 +37,7 @@ class MaterialPlannedRV(private val materials: List<MaterialsPlanned>, var mater
     override fun onBindViewHolder(holder: BMaterialPlannedViewHolder, position: Int) {
 
         holder.material_unit.text = materials[position].quantity.toString()
-        holder.material_name.text =
-                materials[position].materialID?.let { materialDao.getNameByID(it)[0].toString() }
-
+        holder.material_name.text = materials[position].materialID?.let { materialDao.getNameByID(it)[0].toString() }
 
         holder.itemView.setOnClickListener {
             onBMaterialPClickListener?.invoke(holder.adapterPosition, materials[position])

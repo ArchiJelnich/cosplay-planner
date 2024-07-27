@@ -140,10 +140,7 @@ class MaterialPlanned : AppCompatActivity() {
         val detailID = intent.extras?.get("detail_id") as Int
         val binding = MaterialEditNewBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val material_id = 0
-        val current_vm = NewMaterialViewModel(material_id)
-        binding.viewModel = current_vm
-        binding.nmHandlers = handlers
+
         val edit_flag =  intent.extras?.get("edit_flag") as Int
         db = AppDatabase.getInstance(applicationContext)
         val materialDao = db.MaterialsDao()
@@ -167,7 +164,15 @@ class MaterialPlanned : AppCompatActivity() {
 
         if (edit_flag==1)
         {
+
+
+
             val current_material = intent.extras?.get("material") as MaterialsPlanned
+
+            val material_id = current_material.materialID
+            val current_vm = material_id?.let { NewMaterialViewModel(it) }
+            binding.viewModel = current_vm
+            binding.nmHandlers = handlers
 
             spinner_name.isEnabled = false
 
@@ -200,6 +205,13 @@ class MaterialPlanned : AppCompatActivity() {
             spinner_name.adapter = adapter_name
 
         if (edit_flag ==0) {
+
+            val material_id = 0
+            val current_vm = NewMaterialViewModel(material_id)
+            binding.viewModel = current_vm
+            binding.nmHandlers = handlers
+
+
             spinner_name.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                 }

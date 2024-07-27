@@ -56,7 +56,7 @@
             android:paddingTop="20dp"
             android:layout_width="match_parent"
             android:background="@drawable/rounded"
-            android:layout_height="0dp"
+            android:layout_height="500sp"
             android:layout_weight="3"/>
 
             <ImageView
