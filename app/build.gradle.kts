@@ -4,6 +4,8 @@ plugins {
     id("org.jetbrains.kotlin.kapt")
     id ("kotlin-kapt")
     id ("kotlin-parcelize")
+    id ("org.jlleitschuh.gradle.ktlint") version "10.2.0"
+    id("io.gitlab.arturbosch.detekt") version "1.23.1"
 
 }
 
@@ -62,6 +64,7 @@ android {
 
 dependencies {
 
+
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.3")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.3")
@@ -115,4 +118,26 @@ dependencies {
     implementation ("androidx.navigation:navigation-fragment-ktx:$nav_version")
     implementation ("androidx.navigation:navigation-ui-ktx:$nav_version")
 
+
+}
+
+ktlint {
+    android.set(true)
+    ignoreFailures.set(false)
+}
+
+detekt {
+
+    toolVersion = "1.23.7"
+
+    config = files("$rootDir/config/detekt/detekt.yml")
+    buildUponDefaultConfig = true
+    allRules = false
+
+
+    reports {
+        html.required.set(true)
+        xml.required.set(true)
+        txt.required.set(true)
+    }
 }
